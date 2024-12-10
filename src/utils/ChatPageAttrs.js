@@ -41,12 +41,12 @@ const ChatPageAttrs = {
 
 const HeaderButtons = [
     {
-        src: '../../../public/addUser.svg',
+        src: '/addUser.svg',
         text: 'Добавить пользователя',
         id: 'add_user'
     },
     {
-        src: '../../../public/deleteUser.svg',
+        src: '/deleteUser.svg',
         text: 'Удалить пользователя',
         id: 'delete_user',
     }
@@ -54,17 +54,17 @@ const HeaderButtons = [
 
 const FooterButtons = [
     {
-        src: '../../../public/photo.svg',
+        src: '/photo.svg',
         text: 'Фото или видео',
         id: 'add_photo',
     },
     {
-        src: '../../../public/file.svg',
+        src: '/file.svg',
         text: 'Файл',
         id: 'add_file'
     },
     {
-        src: '../../../public/location.svg',
+        src: '/location.svg',
         text: 'Локация',
         id: 'add_location'
     }
