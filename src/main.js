@@ -1,10 +1,15 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import './components/button.pcss'
+import './components/form.pcss'
+import './components/formInput.pcss'
+import './components/chat.pcss'
+import './components/profileInput.pcss'
+import './pages/chatPage/chatPage.pcss'
+import './pages/profilePage/profilePage.pcss'
+import './pages/errorPage/errorPage.pcss'
+import './style.pcss'
+import App from './App.js';
 
-document.querySelector('#app').innerHTML = `
- jhfjfjfjf
-`
-
-setupCounter(document.querySelector('#counter'))
+document.addEventListener('DOMContentLoaded', () => {
+    const app = new App();
+    app.onRenderFunc();
+});

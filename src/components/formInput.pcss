@@ -1,0 +1,31 @@
+.form__field {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.form__label {
+    position: absolute;
+    top: -10px;
+    left: 0;
+    font-size: 9px;
+    color: #3369F3;
+    transition: all 0.2s ease;
+    display: none;
+}
+
+.form__input:focus-visible {
+    border: none;
+    border-bottom: #3369F3 1px solid;
+    outline: none;
+}
+
+.form__input {
+    width: 280px;
+    height: 37px;
+    border: none;
+    border-bottom: #3369F3 1px solid;
+}
+
+.form__input:not(:placeholder-shown) + .form__label {
+    display: block;
+}

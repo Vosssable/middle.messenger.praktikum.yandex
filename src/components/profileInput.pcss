@@ -1,0 +1,40 @@
+.profile-input {
+    width: 510px;
+    display: flex;
+    justify-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+.profile-input.profile-button + .profile-input.profile-button,
+.profile-input + .profile-input {
+    margin-top: 0;
+    border-top: 1px solid #EAEAEA;
+}
+
+.profile-input + .profile-input.profile-button {
+    margin-top: 25px;
+    border-top: none;
+}
+
+.profile-input__value,
+.profile-input__label {
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.profile-input__label {
+    color: #1E1E1E;
+}
+
+.profile-input__value {
+    color: #999999;
+    background-color: transparent;
+    border: none;
+    text-align: right;
+}
+
+.profile-input__value:focus-visible {
+    border: none;
+    outline: none;
+}

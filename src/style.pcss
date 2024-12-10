@@ -1,0 +1,69 @@
+:root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    justify-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.form__field + button {
+    margin-top: 150px;
+}
+
+input#second_password + button {
+    margin-top: 10vh;
+}
+
+.primary {
+    color: #3369F3 !important;
+}
+
+.primary:hover {
+    cursor: pointer;
+    color: rgba(51, 105, 243, 0.72);
+}
+
+.primary:active {
+    transform: scale(0.95);
+    color: rgb(24, 85, 241)
+}
+
+.danger {
+    color: #FF0000 !important;
+}
+
+.danger:hover {
+    cursor: pointer;
+    color: rgba(255, 0, 0, 0.7);
+}
+
+.danger:active {
+    transform: scale(0.95);
+    color: #d62121
+}
+
+.width-auto {
+    width: auto;
+}
+
+.temp-custom-route {
+    width: 100px;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    justify-items: center;
+    display: flow;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgb(255, 255, 255);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+}

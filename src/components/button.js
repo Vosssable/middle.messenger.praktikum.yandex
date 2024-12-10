@@ -1,5 +1,7 @@
-<template>
+const Button = `
   <button class="{{ class }}" id="{{ id }}">
     {{ text }}
   </button>
-</template>
+`
+
+export default Button
