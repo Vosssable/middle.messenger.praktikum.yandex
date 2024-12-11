@@ -16,8 +16,4 @@
 
 ### На веб-приложение:
 
-Netlify: https://questionnaire-njkadsfh.netlify.app
-
-### На сверстанные макеты:
-
-Страница создания опросника: https://questionnaire-njkadsfh.netlify.app
+Netlify: [Ссылочка](https://chat-ya7878.netlify.app/)
