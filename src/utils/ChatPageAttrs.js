@@ -43,12 +43,14 @@ const HeaderButtons = [
     {
         src: '/addUser.svg',
         text: 'Добавить пользователя',
-        id: 'add_user'
+        id: 'add_user',
+        alt: 'Добавить пользователя'
     },
     {
         src: '/deleteUser.svg',
         text: 'Удалить пользователя',
         id: 'delete_user',
+        alt: 'Удалить пользователя'
     }
 ]
 
@@ -57,16 +59,19 @@ const FooterButtons = [
         src: '/photo.svg',
         text: 'Фото или видео',
         id: 'add_photo',
+        alt: 'Добавить медиа'
     },
     {
         src: '/file.svg',
         text: 'Файл',
-        id: 'add_file'
+        id: 'add_file',
+        alt: 'Добавить файл'
     },
     {
         src: '/location.svg',
         text: 'Локация',
-        id: 'add_location'
+        id: 'add_location',
+        alt: 'Добавить локацию'
     }
 ]
 

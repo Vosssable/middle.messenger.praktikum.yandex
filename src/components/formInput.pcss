@@ -8,14 +8,14 @@
     top: -10px;
     left: 0;
     font-size: 9px;
-    color: #3369F3;
+    color: var(--primary);
     transition: all 0.2s ease;
     display: none;
 }
 
 .form__input:focus-visible {
     border: none;
-    border-bottom: #3369F3 1px solid;
+    border-bottom: var(--primary) 1px solid;
     outline: none;
 }
 
@@ -23,9 +23,32 @@
     width: 280px;
     height: 37px;
     border: none;
-    border-bottom: #3369F3 1px solid;
+    border-bottom: var(--primary) 1px solid;
 }
 
 .form__input:not(:placeholder-shown) + .form__label {
     display: block;
+}
+
+.upload_file {
+    font-size: 12px;
+    text-decoration: underline;
+    color: var(--primary);
+    width: 120px;
+    text-align: center;
+}
+
+.upload_file:hover {
+    cursor: pointer;
+    color: var(--primary-hover);
+}
+
+.upload_file:active {
+    transform: scale(0.95);
+    color: var(--primary-active);
+}
+
+.uploaded_file {
+    font-size: 14px;
+    color: var(--background-form);
 }

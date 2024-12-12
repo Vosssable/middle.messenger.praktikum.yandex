@@ -12,10 +12,10 @@ import PropertyButton from "./components/propertyButton.js";
 import ProfileInput from "./components/profileInput.js";
 import {CustomRoute} from "./components/customRoute.js";
 
-import {createUserForm, loginForm} from "./utils/FormsAttrs.js";
+import {createUserForm, loadFileForm, loginForm} from "./utils/FormsAttrs.js";
 import {ChatPageAttrs, FooterButtons, HeaderButtons} from "./utils/ChatPageAttrs.js";
 import {profilePage} from "./pages/index.js";
-import {ProfileAttrs, ProfileBtns} from "./utils/ProfileAttrs.js";
+import {ProfileAttrs, ProfileBtns, ProfileEditBtn, ProfileEditPasswordAttrs} from "./utils/ProfileAttrs.js";
 import {routes} from "./components/customRoute.js";
 import {Error404Attrs, Error500Attrs} from "./utils/ErrorPageAttrs.js";
 
@@ -62,7 +62,7 @@ export default class App {
         } else if (this.currentPage === 'profilePage') {
             let tmplProfile = HandleBars.compile(Pages.profilePage)
             this.mainApp.innerHTML = tmplProfile({
-                name: ProfileAttrs.name, inputs: ProfileAttrs.inputs, buttons: ProfileBtns
+                name: ProfileAttrs.name, inputs: ProfileAttrs.inputs, buttons: ProfileBtns, disabled: 'true'
             }) + this.routeTmpl
         } else if (this.currentPage === 'error404Page') {
             let tmplError = HandleBars.compile(Pages.errorPage)
@@ -95,7 +95,45 @@ export default class App {
                 this.onRenderFunc()
             })
         } else if (this.currentPage === 'profilePage') {
-            const goBackBtn = document.getElementsByClassName('profile-back')[0]
+            let tmplProfile = HandleBars.compile(Pages.profilePage)
+            const goBackBtn = document.getElementsByClassName('profile-back')[0],
+                changeProfile = document.getElementById('change_user_data'),
+                changePassword = document.getElementById('change_password'),
+                changeAvatar = document.getElementById('change_avatar')
+            changeProfile.addEventListener('click', (event) => {
+                event.preventDefault()
+                this.mainApp.innerHTML = tmplProfile({
+                    inputs: ProfileAttrs.inputs, change: ProfileEditBtn
+                }) + this.routeTmpl
+                this.routesEventListeners()
+            })
+            changePassword.addEventListener('click', (event) => {
+                event.preventDefault()
+                this.mainApp.innerHTML = tmplProfile({
+                    inputs: ProfileEditPasswordAttrs.inputs, change: ProfileEditBtn, password: true
+                }) + this.routeTmpl
+                this.routesEventListeners()
+            })
+            changeAvatar.addEventListener('click', (event) => {
+                event.preventDefault()
+                this.mainApp.innerHTML = tmplProfile({
+                    name: ProfileAttrs.name,
+                    inputs: ProfileAttrs.inputs,
+                    buttons: ProfileBtns,
+                    disabled: 'true',
+                    avatar: true,
+                    title: loadFileForm.title,
+                    labels: loadFileForm.labels
+                }) + this.routeTmpl
+                let profile = document.getElementById('profile')
+                document.getElementsByClassName('profile-container')[0].classList.add('no-cursor')
+                profile.classList.add('overlay')
+                profile.addEventListener('click', (event) => {
+                    event.preventDefault()
+                    this.currentPage = 'profilePage'
+                    this.onRenderFunc()
+                })
+            })
             goBackBtn.addEventListener('click', (event) => {
                 event.preventDefault()
                 this.currentPage = 'chatPage'
@@ -112,8 +150,8 @@ export default class App {
     }
 
     routesEventListeners() {
-       const login = document.getElementById('go_to_login_page')
-           login.addEventListener('click', (event) => {
+        const login = document.getElementById('go_to_login_page')
+        login.addEventListener('click', (event) => {
             event.preventDefault()
             this.currentPage = 'loginPage'
             this.onRenderFunc()

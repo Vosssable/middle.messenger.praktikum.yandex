@@ -2,16 +2,48 @@
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
+
+    --primary: #3369F3;
+    --primary-hover: rgba(51, 105, 243, 0.72);
+    --primary-active: rgb(24, 85, 241);
+
+    --danger: #FF0000;
+    --danger-hover: rgba(255, 0, 0, 0.7);
+    --danger-active: #D62121;
+
+    --gray: #999999;
+    --border: #EAEAEA;
+    --background: #F5F5F5;
+    --background-dark: #E4EDFD;
+    --background-light: #F8F8F8;
+    --background-form: #8D8D8D;
+    --background-white: #EFEFEF;
+    --background-white-2: #FBFBFB;
 }
 
-body {
+body main {
+    height: 98vh;
+    width: 100%;
     margin: 0;
-    height: 100vh;
-    width: 100vw;
     justify-items: center;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: .4;
+}
+
+.no-cursor {
+    pointer-events: none;
 }
 
 div.form__field + button {
@@ -23,35 +55,39 @@ input#second_password + button {
 }
 
 .primary {
-    color: #3369F3 !important;
+    color: var(--primary) !important;
 }
 
 .primary:hover {
     cursor: pointer;
-    color: rgba(51, 105, 243, 0.72);
+    color: var(--primary-hover);
 }
 
 .primary:active {
     transform: scale(0.95);
-    color: rgb(24, 85, 241)
+    color: var(--primary-active);
 }
 
 .danger {
-    color: #FF0000 !important;
+    color: var(--danger) !important;
 }
 
 .danger:hover {
     cursor: pointer;
-    color: rgba(255, 0, 0, 0.7);
+    color: var(--danger-hover);
 }
 
 .danger:active {
     transform: scale(0.95);
-    color: #d62121
+    color: var(--danger-active);
 }
 
 .width-auto {
     width: auto;
+}
+
+.width-250 {
+    width: 250px;
 }
 
 .temp-custom-route {
@@ -66,4 +102,19 @@ input#second_password + button {
     background: rgb(255, 255, 255);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(6px);
+    padding: 0
+}
+
+.temp-custom-route li {
+    display: block;
+    cursor: pointer;
+}
+
+.temp-custom-route li:hover {
+    opacity: 0.7;
+}
+
+.temp-custom-route li:active {
+    opacity: 1;
+    scale: 0.95;
 }

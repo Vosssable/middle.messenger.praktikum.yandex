@@ -11,8 +11,8 @@
 
 .sidebar {
     width: 310px;
-    border-right: 1px solid #EAEAEA;
-    background-color: #FBFBFB;
+    border-right: 1px solid var(--border);
+    background-color: var(--background-white-2);
     padding: 10px;
 }
 
@@ -21,7 +21,7 @@
     margin-bottom: 20px;
     margin-top: 15px;
     justify-content: flex-end;
-    color: #999999;
+    color: var(--gray);
     cursor: pointer;
 }
 
@@ -36,8 +36,8 @@
 .search-chat input {
     width: 280px;
     padding: 0 10px;
-    background-color: #EFEFEF;
-    border: 1px solid #EAEAEA;
+    background-color: var(--background-white);
+    border: 1px solid var(--border);
     border-radius: 5px;
     height: 32px;
 }
@@ -70,14 +70,14 @@
 }
 
 .current-select {
-    background-color: #E4EDFD;
+    background-color: var(--background-dark);
 }
 
 .chat-header__avatar {
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    background-color: #EFEFEF;
+    background-color: var();
 }
 
 .chat-header__avatar:hover {
@@ -91,7 +91,7 @@
 }
 
 .chat__last-message {
-    color: #999999;
+    color: var(--gray);
     font-size: 12px;
     font-weight: 500;
     overflow: hidden;
@@ -121,7 +121,7 @@
 .messages_date {
     font-size: 12px;
     font-weight: 500;
-    color: #999999;
+    color: var(--gray);
     align-self: center;
     margin: 20px 0;
 }
@@ -139,11 +139,11 @@
     justify-content: end;
     padding: 0 0 0 2px;
     margin-top: 5px;
-    color: #999999;
+    color: var(--gray);
 }
 
 .message_time.sent {
-    color: #3369F3;
+    color: var(--primary);
     display: flex;
 }
 
@@ -152,7 +152,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #EAEAEA;
+    border-bottom: 1px solid var(--border);
 }
 
 .chat-header__info {
@@ -173,7 +173,7 @@
     border: none;
     width: 28px;
     height: 28px;
-    background-color: #F5F5F5;
+    background-color: var(--background);
     align-items: center;
     display: grid;
     justify-content: center;
@@ -193,7 +193,7 @@
 
 .chat-footer__properties:focus,
 .chat-header__properties:focus {
-    border: #3369F3 1px solid;
+    border: var(--primary) 1px solid;
 }
 
 .chat-footer__properties:focus ~ .chat-footer__properties__active,
@@ -236,7 +236,7 @@
 }
 
 .dropdown__properties-element:hover {
-    background-color: #E4EDFD;
+    background-color: var(--background-dark);
     border-radius: 12px;
 }
 
@@ -244,7 +244,7 @@
     border-radius: 50%;
     width: 22px;
     height: 22px;
-    border: 1.5px solid #3369F3;
+    border: 1.5px solid var(--primary);
     justify-content: center;
     display: grid;
     align-items: center;
@@ -252,13 +252,13 @@
 }
 
 .sent {
-    background-color: #E4EDFD;
+    background-color: var(--background-dark);
     margin-left: auto;
     border-radius: 10px 10px 0 10px;
 }
 
 .received {
-    background-color: #F8F8F8;
+    background-color: var(--background-light);
     margin-right: auto;
     border-radius: 10px 10px 10px 0;
 }
@@ -267,7 +267,7 @@
     display: flex;
     margin-top: 10px;
     align-items: center;
-    border-top: 1px solid #EAEAEA;
+    border-top: 1px solid var(--border);
 }
 
 .chat-footer img.file-properties {
@@ -279,7 +279,7 @@
     flex-grow: 1;
     height: 32px;
     padding: 0 10px;
-    background-color: #EFEFEF;
+    background-color: var(--background-white);
     border-radius: 32px;
     border: none;
 }

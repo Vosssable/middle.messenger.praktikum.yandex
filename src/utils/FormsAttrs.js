@@ -100,7 +100,8 @@ const loadFileForm = {
             button: true,
             class: 'primary_button',
             id: 'change_file',
-            text: 'Поменять'
+            text: 'Поменять',
+            value: 'avatar'
         }
     ]
 }

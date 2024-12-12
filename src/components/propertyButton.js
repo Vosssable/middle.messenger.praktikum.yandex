@@ -5,7 +5,6 @@ export const PropertyButton = `
                 <img src="{{ src }}" alt="{{ text }}"/>
             </span>
         {{/if}}
-
         {{ text }}
     </div>
 `

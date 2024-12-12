@@ -1,9 +1,11 @@
 const CustomRoute = `
- <div class="temp-custom-route">
- {{#each routes}}
-     {{>PropertyButton text=label id=id}}
- {{/each}}
-</div>
+ <nav>
+    <ul class="temp-custom-route">
+        {{#each routes}}
+            <li id="{{ id }}">{{label}}</li>
+        {{/each}}
+    </ul>
+</nav>
 `
 
 const routes = [

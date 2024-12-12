@@ -1,13 +1,13 @@
-<div class="app">
+<div>
     <div class="chat_container">
         <div class="sidebar">
             <div class="sidebar__profile">
                 Профиль ›
             </div>
             <div class="search-chat">
-                <input id="search-chat__input" type="text" placeholder="Поиск">
+                <input id="search-chat__input" type="text" placeholder="Поиск" name="chat">
                 <label for="search-chat__input">
-                    {{>IconButton src='/search.svg'}}
+                    {{>IconButton src='/search.svg' alt='Поиск чата'}}
                     Поиск
                 </label>
             </div>
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <button class="chat-header__properties">
-                    {{>IconButton src='/userProperties.svg' class=''}}
+                    {{>IconButton src='/userProperties.svg' alt='Настройки пользователя' class=''}}
                 </button>
                 {{>Dropdown class="chat-header__properties__active" buttons=headerButtons}}
             </div>
@@ -45,15 +45,15 @@
                 </div>
                 <div class="message sent">Круто!
                     <span class="message_time sent">
-                    <img src="/received.svg" alt=""> 12:00</span></div>
+                    <img src="/received.svg" alt="Сообщение просмотрено"> 12:00</span></div>
             </div>
             <div class="chat-footer">
                 <button class="chat-footer__properties">
-                    {{>IconButton src='/fileProperties.svg' class='file-properties'}}
+                    {{>IconButton src='/fileProperties.svg' alt='Добавить к сообщению' class='file-properties'}}
                 </button>
                 {{>Dropdown class="chat-footer__properties__active" buttons=footerButtons}}
-                <input type="text" placeholder="Напишите сообщение..." id="message">
-                {{>IconButton src='/arrowRight.svg' class='send-message'}}
+                <input type="text" placeholder="Напишите сообщение..." id="message" name="message">
+                {{>IconButton src='/arrowRight.svg' alt='Отправить сообщение' class='send-message'}}
             </div>
         </div>
     </div>
