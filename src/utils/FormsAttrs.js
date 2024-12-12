@@ -95,13 +95,13 @@ const loadFileForm = {
             text: 'Выбрать файл на компьютере',
             class: 'upload_file',
             id: 'upload_file',
+            value: 'avatar'
         },
         {
             button: true,
             class: 'primary_button',
             id: 'change_file',
             text: 'Поменять',
-            value: 'avatar'
         }
     ]
 }
