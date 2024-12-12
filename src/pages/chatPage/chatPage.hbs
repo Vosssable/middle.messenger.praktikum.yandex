@@ -1,0 +1,60 @@
+<div>
+    <div class="chat_container">
+        <div class="sidebar">
+            <div class="sidebar__profile">
+                Профиль ›
+            </div>
+            <div class="search-chat">
+                <input id="search-chat__input" type="text" placeholder="Поиск" name="chat">
+                <label for="search-chat__input">
+                    {{>IconButton src='/search.svg' alt='Поиск чата'}}
+                    Поиск
+                </label>
+            </div>
+            <div class="chats">
+                {{#each chats}}
+                    {{>Chat avatar=avatar chatName=chatName lastMessage=lastMessage lastMessageDatetime=lastMessageDatetime newMessageCount=newMessageCount class=class}}
+                {{/each}}
+            </div>
+        </div>
+        <div class="chat-window">
+            <div class="chat-header">
+                <div class="chat-header__info">
+                    <div class="chat-header__avatar">
+                        {{ currentAvatar }}
+                    </div>
+                    <div class="chat-header__name">
+                        {{ currentChatName }}
+                    </div>
+                </div>
+                <button class="chat-header__properties">
+                    {{>IconButton src='/userProperties.svg' alt='Настройки пользователя' class=''}}
+                </button>
+                {{>Dropdown class="chat-header__properties__active" buttons=headerButtons}}
+            </div>
+            <div class="messages">
+                <div class="messages_date"> 19 июня</div>
+                <div class="message received">Привет! Смотри, тут всплыл интересный кусок лунной космической истории — НАСА
+                    в какой-то момент попросила Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все
+                    знаем что астронавты летали с моделью 500 EL — и к слову говоря, все тушки этих камер все еще
+                    находятся на поверхности Луны, так как астронавты с собой забрали только кассеты с пленкой.
+
+                    Хассельблад в итоге адаптировал SWC для космоса, но что-то пошло не так и на ракету они так никогда
+                    и не попали. Всего их было произведено 25 штук, одну из них недавно продали на аукционе за 45000
+                    евро.<span class="message_time received">12:20</span>
+                </div>
+                <div class="message sent">Круто!
+                    <span class="message_time sent">
+                    <img src="/received.svg" alt="Сообщение просмотрено"> 12:00</span></div>
+            </div>
+            <div class="chat-footer">
+                <button class="chat-footer__properties">
+                    {{>IconButton src='/fileProperties.svg' alt='Добавить к сообщению' class='file-properties'}}
+                </button>
+                {{>Dropdown class="chat-footer__properties__active" buttons=footerButtons}}
+                <input type="text" placeholder="Напишите сообщение..." id="message" name="message">
+                {{>IconButton src='/arrowRight.svg' alt='Отправить сообщение' class='send-message'}}
+            </div>
+        </div>
+    </div>
+</div>
