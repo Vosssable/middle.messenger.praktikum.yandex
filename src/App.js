@@ -100,12 +100,19 @@ export default class App {
                 changeProfile = document.getElementById('change_user_data'),
                 changePassword = document.getElementById('change_password'),
                 changeAvatar = document.getElementById('change_avatar')
+            goBackBtn.addEventListener('click', (event) => {
+                event.preventDefault()
+                this.currentPage = 'chatPage'
+                this.onRenderFunc()
+            })
             changeProfile.addEventListener('click', (event) => {
                 event.preventDefault()
                 this.mainApp.innerHTML = tmplProfile({
                     inputs: ProfileAttrs.inputs, change: ProfileEditBtn
                 }) + this.routeTmpl
                 this.routesEventListeners()
+                changeAvatar.removeEventListener('click', (event) => {})
+                document.getElementsByClassName('profile-avatar__change')[0].classList.add('display-none')
             })
             changePassword.addEventListener('click', (event) => {
                 event.preventDefault()
@@ -113,6 +120,8 @@ export default class App {
                     inputs: ProfileEditPasswordAttrs.inputs, change: ProfileEditBtn, password: true
                 }) + this.routeTmpl
                 this.routesEventListeners()
+                changeAvatar.removeEventListener('click', (event) => {})
+                document.getElementsByClassName('profile-avatar__change')[0].classList.add('display-none')
             })
             changeAvatar.addEventListener('click', (event) => {
                 event.preventDefault()
@@ -133,11 +142,6 @@ export default class App {
                     this.currentPage = 'profilePage'
                     this.onRenderFunc()
                 })
-            })
-            goBackBtn.addEventListener('click', (event) => {
-                event.preventDefault()
-                this.currentPage = 'chatPage'
-                this.onRenderFunc()
             })
         } else if (this.currentPage === 'error404Page' || this.currentPage === 'error500Page') {
             const goBackBtn = document.getElementById('error_back')
