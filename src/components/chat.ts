@@ -1,3 +1,4 @@
+//language="hbs"
 const Chat = `
 <div class="chat {{ class }}">
     <div class="chat__avatar">{{ avatar }}</div>

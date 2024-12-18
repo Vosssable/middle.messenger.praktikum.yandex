@@ -1,3 +1,4 @@
+//language="hbs"
 const Dropdown = `
 <div class="{{ class }}">
     {{#each buttons}}

@@ -7,7 +7,7 @@ import './pages/chatPage/chatPage.pcss'
 import './pages/profilePage/profilePage.pcss'
 import './pages/errorPage/errorPage.pcss'
 import './style.pcss'
-import App from './App.js';
+import App from './App';
 
 document.addEventListener('DOMContentLoaded', () => {
     const app = new App();

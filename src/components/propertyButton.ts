@@ -1,4 +1,5 @@
-export const PropertyButton = `
+//language="hbs"
+const PropertyButton = `
     <div class="dropdown__properties-element" id="{{ id }}">
         {{#if src}}
             <span>

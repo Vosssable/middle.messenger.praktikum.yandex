@@ -1,4 +1,6 @@
-const ChatPageAttrs = {
+import {buttonsInterface, ChatPageAttrsInterface} from "./attrsInterfaces";
+
+const ChatPageAttrs: ChatPageAttrsInterface = {
     chats: [
         {
             avatar: '',
@@ -39,7 +41,7 @@ const ChatPageAttrs = {
     currentChatName: 'Вадим'
 }
 
-const HeaderButtons = [
+const HeaderButtons: buttonsInterface[] = [
     {
         src: '/addUser.svg',
         text: 'Добавить пользователя',
@@ -54,7 +56,7 @@ const HeaderButtons = [
     }
 ]
 
-const FooterButtons = [
+const FooterButtons: buttonsInterface[] = [
     {
         src: '/photo.svg',
         text: 'Фото или видео',

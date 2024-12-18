@@ -1,3 +1,4 @@
+//language="hbs"
 const CustomRoute = `
  <nav>
     <ul class="temp-custom-route">

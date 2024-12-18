@@ -1,3 +1,4 @@
+//language="hbs"
 const Button = `
   <button class="{{ class }}" id="{{ id }}">
     {{ text }}

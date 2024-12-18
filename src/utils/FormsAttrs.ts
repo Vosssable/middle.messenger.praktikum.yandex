@@ -1,4 +1,6 @@
-const loginForm = {
+import {formsInterface} from "./attrsInterfaces";
+
+const loginForm: formsInterface = {
     title: 'Вход',
     labels: [
         {
@@ -27,7 +29,7 @@ const loginForm = {
         }]
 }
 
-const createUserForm = {
+const createUserForm: formsInterface = {
     title: 'Регистрация',
     labels: [
         {
@@ -87,7 +89,7 @@ const createUserForm = {
     ]
 }
 
-const loadFileForm = {
+const loadFileForm: formsInterface = {
     title: 'Загрузите файл',
     labels: [
         {
@@ -106,7 +108,7 @@ const loadFileForm = {
     ]
 }
 
-const addUserForm = {
+const addUserForm: formsInterface = {
     title: 'Добавить пользователя',
     labels: [
         {
@@ -124,7 +126,7 @@ const addUserForm = {
     ]
 }
 
-const deleteUserForm = {
+const deleteUserForm: formsInterface = {
     title: 'Удалить пользователя',
     labels: [
         {

@@ -1,1 +1,0 @@
-export {default as createUserPage} from './createUserPage.hbs?raw';

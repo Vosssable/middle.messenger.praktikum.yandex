@@ -1,4 +1,11 @@
-const ProfileAttrs = {
+import {
+    profileAttrsInterface,
+    ProfileBtnsInterface,
+    ProfileEditBtnInterface,
+    ProfileEditPasswordAttrsInterface
+} from "./attrsInterfaces";
+
+const ProfileAttrs: profileAttrsInterface = {
     name: 'Иван',
     inputs: [
         {
@@ -33,7 +40,7 @@ const ProfileAttrs = {
         }]
 }
 
-const ProfileBtns = [
+const ProfileBtns: ProfileBtnsInterface[] = [
     {
         label: 'Изменить данные',
         id: 'change_user_data',
@@ -54,12 +61,12 @@ const ProfileBtns = [
     }
 ]
 
-const ProfileEditBtn = {
+const ProfileEditBtn: ProfileEditBtnInterface = {
     id: 'change',
     text: 'Сохранить'
 }
 
-const ProfileEditPasswordAttrs = {
+const ProfileEditPasswordAttrs: ProfileEditPasswordAttrsInterface = {
     inputs: [
         {
             label: 'Старый пароль',
