@@ -1,4 +1,4 @@
-import {formsInterface} from "./attrsInterfaces";
+import {formsInterface} from "./interfaces/attrsInterfaces";
 
 const loginForm: formsInterface = {
     title: 'Вход',
@@ -7,19 +7,22 @@ const loginForm: formsInterface = {
             input: true,
             id: 'login',
             type: 'text',
-            placeholder: 'Логин'
+            placeholder: 'Логин',
+            validateText: 'Неверный логин'
         },
         {
             input: true,
             id: 'password',
             type: 'password',
-            placeholder: 'Пароль'
+            placeholder: 'Пароль',
+            validateText: 'Неверный пароль'
         },
         {
             button: true,
             class: 'primary_button',
             id: 'submit_login',
-            text: 'Авторизироваться'
+            text: 'Авторизироваться',
+            type: 'submit'
         },
         {
             button: true,
@@ -37,42 +40,49 @@ const createUserForm: formsInterface = {
             id: 'email',
             placeholder: 'Почта',
             type: 'email',
+            validateText: 'Неверный почтовый адрес'
         },
         {
             input: true,
             id: 'login',
             placeholder: 'Логин',
             type: 'text',
+            validateText: 'Неверный формат логина'
         },
         {
             input: true,
             id: 'first_name',
             placeholder: 'Имя',
             type: 'text',
+            validateText: 'Неверный формат имени'
         },
         {
             input: true,
             id: 'second_name',
             placeholder: 'Фамилия',
             type: 'text',
+            validateText: 'Неверный формат фамилии'
         },
         {
             input: true,
             id: 'phone',
             placeholder: 'Телефон',
-            type: 'email',
+            type: 'phone',
+            validateText: 'Неверный формат номера телефона'
         },
         {
             input: true,
             id: 'password',
             placeholder: 'Пароль',
             type: 'password',
+            validateText: 'Пароль не соответствует стандартным требованиям'
         },
         {
             input: true,
             id: 'second_password',
             placeholder: 'Пароль (ещё раз)',
             type: 'password',
+            validateText: 'Пароли не совпадают'
         },
         {
             button: true,

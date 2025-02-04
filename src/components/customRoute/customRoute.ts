@@ -26,7 +26,7 @@ const routes = [
         label: 'Профиль',
         id: 'go_to_profile_page'
     },
-    {
+    {   
         label: '404',
         id: 'go_to_404_page'
     },

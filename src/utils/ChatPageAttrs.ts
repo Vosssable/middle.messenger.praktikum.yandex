@@ -1,4 +1,4 @@
-import {buttonsInterface, ChatPageAttrsInterface} from "./attrsInterfaces";
+import {buttonsInterface, ChatPageAttrsInterface} from "./interfaces/attrsInterfaces";
 
 const ChatPageAttrs: ChatPageAttrsInterface = {
     chats: [

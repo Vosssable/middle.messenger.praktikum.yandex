@@ -1,1 +1,4 @@
-export { default as profilePage } from './profilePage.hbs';
+export { ProfilePage } from './profilePage';
+
+export class profilePage {
+}

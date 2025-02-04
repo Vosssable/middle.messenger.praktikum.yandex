@@ -20,7 +20,8 @@ export interface buttonsInterface {
 
 export interface errorsInterface {
     code: string,
-    text: string
+    text: string,
+    label: string
 }
 
 export interface formsInterface {
@@ -35,6 +36,7 @@ export interface formsInterface {
         id: string,
         text?: string,
         value?: string
+        validateText?: string
     }[]
 }
 

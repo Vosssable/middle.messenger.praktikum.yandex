@@ -3,7 +3,7 @@ import {
     ProfileBtnsInterface,
     ProfileEditBtnInterface,
     ProfileEditPasswordAttrsInterface
-} from "./attrsInterfaces";
+} from "./interfaces/attrsInterfaces";
 
 const ProfileAttrs: profileAttrsInterface = {
     name: 'Иван',
