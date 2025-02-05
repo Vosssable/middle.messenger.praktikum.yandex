@@ -24,7 +24,6 @@ export class ProfilePage extends Block {
             inputs = this.lists['inputs'],
             buttons = this.lists['buttons']
 
-        console.log(this)
         this.props['avatar'] ? avatarFormHtml += new Form({
             title: this.props['title'],
             labels: this.lists['labels'],
@@ -32,7 +31,6 @@ export class ProfilePage extends Block {
         }) : ''
 
         for (let raw of inputs) {
-            console.log(raw)
             inputsHtml += new ProfileInput({
                 label: raw['label'],
                 placeholder: raw['placeholder'],

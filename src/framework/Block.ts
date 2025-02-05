@@ -37,9 +37,9 @@ export default class Block {
         eventBus.emit(Block.EVENTS.INIT);
     }
 
-    private _addEvents(): void {
+    protected addEvents(): void {
         const { events = {} } = this.props;
-        console.log('events', events);
+        console.log('events', events, this._element);
         Object.keys(events).forEach(eventName => {
             if (this._element) {
                 this._element.addEventListener(eventName, events[eventName]);
@@ -108,7 +108,7 @@ export default class Block {
         const { attr = {} } = this.props;
 
         Object.entries(attr).forEach(([key, value]) => {
-            if (this._element) {
+            if (this._element && value) {
                 this._element.setAttribute(key, value as string);
             }
         });
@@ -143,7 +143,6 @@ export default class Block {
     }
 
     private _render(): void {
-        console.log('Render', this);
         const propsAndStubs = { ...this.props };
         const tmpId =  Math.floor(100000 + Math.random() * 900000);
         Object.entries(this.children).forEach(([key, child]) => {
@@ -184,7 +183,7 @@ export default class Block {
             this._element.replaceWith(newElement);
         }
         this._element = newElement;
-        this._addEvents();
+        this.addEvents();
         this.addAttributes();
     }
 

@@ -45,7 +45,6 @@ export class ChatPage extends Block {
         let chatsHtml = ``
 
         for (let raw in chats) {
-            console.log(chats[raw])
             chatsHtml += new Chat({
                 avatar: chats[raw]['avatar'],
                 chatName: chats[raw]['chatName'],

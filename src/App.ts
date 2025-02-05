@@ -67,20 +67,14 @@ export default class App {
             error500 = document.getElementById('go_to_500_page')
         if (login && register && chat && profile && error404 && error500) {
             login.addEventListener('click', (event) => {
-                console.log('login clicked', this.currentPage)
                 event.preventDefault()
                 this.currentPage = 'loginPage'
-                console.log('login clicked', this.currentPage)
                 this.onRenderFunc()
-                console.log('login clicked', this.currentPage)
             })
             register.addEventListener('click', (event) => {
-                console.log('register clicked', this.currentPage)
                 event.preventDefault()
                 this.currentPage = 'registerPage'
-                console.log('register clicked', this.currentPage)
                 this.onRenderFunc()
-                console.log('register clicked', this.currentPage)
             })
             chat.addEventListener('click', (event) => {
                 event.preventDefault()

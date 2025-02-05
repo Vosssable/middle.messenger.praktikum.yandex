@@ -9,6 +9,9 @@ export class FormInput extends Block {
                     console.log('blur input', event)
                     event.stopPropagation()
                     event.preventDefault()
+                },
+                click: (event: SubmitEvent) => {
+                    console.log('click click', event)
                 }
             },
             attrs: {
@@ -16,6 +19,21 @@ export class FormInput extends Block {
                 formInputClass: 'form__input',
                 formLabelClass: 'form__label',
                 formLabelValidate: 'form__input-validate'
+            }
+        })
+    }
+
+    override addEvents(): void {
+        const {events = {}} = this.props
+
+        console.log('OVER events', this._element, this.props, events)
+
+        // super.addEvents()
+        Object.keys(events).forEach(eventName => {
+            if (this._element) {
+                console.log('OVER events exist')
+
+                this._element.addEventListener(eventName, events[eventName])
             }
         })
     }

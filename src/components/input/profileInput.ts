@@ -2,7 +2,6 @@ import Block from '../../framework/Block'
 
 export class ProfileInput extends Block {
     constructor(props: any) {
-        console.log('PROFILE input')
         super({
             ...props,
             attrs: {

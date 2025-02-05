@@ -5,15 +5,12 @@ import {FormInput} from "../formInput/formInput";
 export class Form extends Block {
 
     constructor(props: any) {
-        console.log('PROFILE input click')
-
         super({
             ...props,
             events: {
-                blur: (event: Event) => {
-                    console.log('form-blur', event)
-                    event.stopPropagation()
+                click: (event: SubmitEvent) => {
                     event.preventDefault()
+                    console.log('click click', event)
                 }
             },
             attrs: {
@@ -23,9 +20,23 @@ export class Form extends Block {
         })
     }
 
+    override addEvents(): void {
+        const {events = {}} = this.props
+
+        console.log('OVERRIDE events', this._element, this.props, events)
+
+        // super.addEvents()
+        Object.keys(events).forEach(eventName => {
+            if (this._element) {
+                console.log('OVERRIDE events')
+
+                this._element.addEventListener(eventName, events[eventName])
+            }
+        })
+    }
+
     override render() {
         let bodyHtml: string = ''
-        console.log(this)
 
         for (let label of this.lists['labels']) {
             if (label['input']) {
