@@ -3,12 +3,30 @@ import {Button} from "../../buttons/button/button";
 import {FormInput} from "../formInput/formInput";
 
 export class Form extends Block {
-
     constructor(props: any) {
+        console.log(props.labels)
+        for (let label of props.labels) {
+            if (label['input']) {
+                props[label['id']] = new FormInput({
+                    id: label['id'],
+                    type: label['type'],
+                    value: label['value'],
+                    placeholder: label['placeholder'],
+                    validateText: label['validateText']
+                })
+            } else if (label['button']) {
+                props[label['id']] = new Button({
+                    id: label['id'],
+                    class: label['class'],
+                    text: label['text']
+                })
+            }
+        }
+        console.log(props)
         super({
             ...props,
             events: {
-                click: (event: SubmitEvent) => {
+                submit: (event: SubmitEvent) => {
                     event.preventDefault()
                     console.log('click click', event)
                 }
@@ -35,32 +53,17 @@ export class Form extends Block {
         })
     }
 
-    override render() {
-        let bodyHtml: string = ''
 
-        for (let label of this.lists['labels']) {
-            if (label['input']) {
-                bodyHtml += new FormInput({
-                    id: label['id'],
-                    type: label['type'],
-                    value: label['value'],
-                    placeholder: label['placeholder'],
-                    validateText: label['validateText']
-                }).getContent().outerHTML
-            } else if (label['button']) {
-                bodyHtml += new Button({
-                    id: label['id'],
-                    class: label['class'],
-                    text: label['text']
-                }).getContent().outerHTML
-            }
-        }
+    override render() {
         return `
             <form class="{{attrs.formClass}} {{ class }}">
                 <h1 class="{{attrs.headerClass}}">
                     {{ title }}
                 </h1>
-                ${bodyHtml}
+                {{{ login }}}
+                {{{ password }}}
+                {{{ submit_login }}}
+                {{{ no_account_button }}}
             </form>
         `
     }
