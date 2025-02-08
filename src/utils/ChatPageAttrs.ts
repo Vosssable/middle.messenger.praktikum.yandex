@@ -4,8 +4,8 @@ const ChatPageAttrs: ChatPageAttrsInterface = {
     chats: [
         {
             avatar: '',
-            chatName: 'Вадим',
-            lastMessage: 'Круто!',
+            chatName: 'Пасхалка',
+            lastMessage: 'Почему роверы ездят зиг-загом?',
             lastMessageDatetime: '12:00',
             class: 'current-select'
         },

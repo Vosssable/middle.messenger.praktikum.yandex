@@ -39,7 +39,6 @@ export default class Block {
 
     protected addEvents(): void {
         const { events = {} } = this.props;
-        console.log('events', events, this._element);
         Object.keys(events).forEach(eventName => {
             if (this._element) {
                 this._element.addEventListener(eventName, events[eventName]);

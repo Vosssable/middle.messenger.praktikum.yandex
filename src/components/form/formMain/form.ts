@@ -4,7 +4,8 @@ import {FormInput} from "../formInput/formInput";
 
 export class Form extends Block {
     constructor(props: any) {
-        console.log(props.labels)
+        let inputs = [],
+            buttons = []
         for (let label of props.labels) {
             if (label['input']) {
                 props[label['id']] = new FormInput({
@@ -14,20 +15,32 @@ export class Form extends Block {
                     placeholder: label['placeholder'],
                     validateText: label['validateText']
                 })
+                inputs.push(label['id'])
             } else if (label['button']) {
                 props[label['id']] = new Button({
                     id: label['id'],
                     class: label['class'],
                     text: label['text']
                 })
+                buttons.push(label['id'])
             }
         }
-        console.log(props)
+        props.inputs = inputs
+        props.buttons = buttons
+
+        console.log('FORM', props)
         super({
             ...props,
             events: {
                 submit: (event: SubmitEvent) => {
                     event.preventDefault()
+                    for (let label of props.labels) {
+                        if (label['input']) {
+                            if (document.getElementById(label['id'])) {
+                                console.log(document.getElementById(label['id'])['value'])
+                            }
+                        }
+                    }
                     console.log('click click', event)
                 }
             },
@@ -38,32 +51,21 @@ export class Form extends Block {
         })
     }
 
-    override addEvents(): void {
-        const {events = {}} = this.props
-
-        console.log('OVERRIDE events', this._element, this.props, events)
-
-        // super.addEvents()
-        Object.keys(events).forEach(eventName => {
-            if (this._element) {
-                console.log('OVERRIDE events')
-
-                this._element.addEventListener(eventName, events[eventName])
-            }
-        })
-    }
-
-
     override render() {
+        const inputsHTML = this.lists.inputs.map((input: string) => {
+            return `<div class='form__field'>{{{ ${input} }}}</div>`;
+        }).join(''),
+            buttonsHTML = this.lists.buttons.map((button: string) => {
+                return `{{{ ${button} }}}`;
+            }).join('')
+        console.log(inputsHTML)
         return `
             <form class="{{attrs.formClass}} {{ class }}">
                 <h1 class="{{attrs.headerClass}}">
                     {{ title }}
                 </h1>
-                {{{ login }}}
-                {{{ password }}}
-                {{{ submit_login }}}
-                {{{ no_account_button }}}
+                ${inputsHTML}
+                ${buttonsHTML}
             </form>
         `
     }

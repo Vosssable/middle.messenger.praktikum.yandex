@@ -4,8 +4,20 @@ import {DropDown} from "../../components/dropdown/dropdown";
 import {FooterButtons, HeaderButtons} from "../../utils/ChatPageAttrs";
 import {Chat} from "../../components/chat/chat";
 
+
 export class ChatPage extends Block {
     constructor(props: any) {
+        const chats = props.chats;
+        for (let chat of chats) {
+                props[chat['chatName']] = new Chat({
+                    avatar: chat['avatar'],
+                    chatName: chat['chatName'],
+                    lastMessage: chat['lastMessage'],
+                    lastMessageDatetime: chat['lastMessageDatetime'],
+                    newMessageCount: chat['newMessageCount'],
+                    class: chat['class']
+                })
+        }
         super({
             ...props,
             searchIconBtn: new IconButton({src:'/search.svg', alt:'Поиск чата', class:''}),
@@ -41,20 +53,12 @@ export class ChatPage extends Block {
 
     override render() {
         const chats = this.lists['chats']
+        let chatsHTML = ``
 
-        let chatsHtml = ``
-
-        for (let raw in chats) {
-            chatsHtml += new Chat({
-                avatar: chats[raw]['avatar'],
-                chatName: chats[raw]['chatName'],
-                lastMessage: chats[raw]['lastMessage'],
-                lastMessageDatetime: chats[raw]['lastMessageDatetime'],
-                newMessageCount: chats[raw]['newMessageCount'],
-                class: chats[raw]['class']
-            }).getContent().outerHTML
+        for (let chat in chats) {
+            chatsHTML += `{{{ ${chats[chat]['chatName']} }}}`
         }
-
+        console.log(chatsHTML)
         return `
         <main id="app">
             <div>
@@ -71,7 +75,7 @@ export class ChatPage extends Block {
                             </label>
                         </div>
                         <div class="{{ attrs.chatsClass }}">
-                            ${chatsHtml}
+                            ${chatsHTML}
                         </div>
                     </div>
                     <div class="{{ attrs.chatWindowClass }}">

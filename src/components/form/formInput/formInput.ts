@@ -15,7 +15,6 @@ export class FormInput extends Block {
                 }
             },
             attrs: {
-                formFieldClass: 'form__field',
                 formInputClass: 'form__input',
                 formLabelClass: 'form__label',
                 formLabelValidate: 'form__input-validate'
@@ -23,24 +22,23 @@ export class FormInput extends Block {
         })
     }
 
-    override addEvents(): void {
-        const {events = {}} = this.props
-
-        console.log('OVER events', this._element, this.props, events)
-
-        // super.addEvents()
-        Object.keys(events).forEach(eventName => {
-            if (this._element) {
-                console.log('OVER events exist')
-
-                this._element.addEventListener(eventName, events[eventName])
-            }
-        })
-    }
+    // override addEvents(): void {
+    //     const {events = {}} = this.props
+    //
+    //     console.log('OVER events', this._element, this.props, events)
+    //
+    //     // super.addEvents()
+    //     Object.keys(events).forEach(eventName => {
+    //         if (this._element) {
+    //             console.log('OVER events exist')
+    //
+    //             this._element.addEventListener(eventName, events[eventName])
+    //         }
+    //     })
+    // }
 
     override render() {
         return `
-            <div class="{{ attrs.formFieldClass }}">
                 <input id="{{ id }}" 
                        name="{{ id }}"
                        class="{{ attrs.formInputClass }}" 
@@ -49,7 +47,7 @@ export class FormInput extends Block {
                        placeholder="{{ placeholder }}">
                 <div class="{{ attrs.formLabelClass }}"> {{ placeholder }}</div>
                 <span class="{{ attrs.formLabelValidate }}">{{ validateText }}</span>
-            </div>
+
         `
     }
 }

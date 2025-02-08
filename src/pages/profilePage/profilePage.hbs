@@ -15,19 +15,19 @@
                 <h2 class="profile-name">{{ name }}</h2>
                 {{#if disabled}}
                     {{#each inputs}}
-                        {{>ProfileInput label=label id=id value=value disabled=true}}
+                        {{>ProfileInputLabel label=label id=id value=value disabled=true}}
                     {{/each}}
                 {{ else if password }}
                     {{#each inputs}}
-                        {{>ProfileInput label=label id=id type='password' placeholder=label}}
+                        {{>ProfileInputLabel label=label id=id type='password' placeholder=label}}
                     {{/each}}
                 {{ else }}
                     {{#each inputs}}
-                        {{>ProfileInput label=label id=id value=value}}
+                        {{>ProfileInputLabel label=label id=id value=value}}
                     {{/each}}
                 {{/if}}
                 {{#each buttons}}
-                    {{>ProfileInput label=label inputClass=inputClass labelClass=labelClass idButton=id}}
+                    {{>ProfileInputLabel label=label inputClass=inputClass labelClass=labelClass idButton=id}}
                 {{/each}}
                 {{#if change}}
                     {{>Button class='primary_button' id=change.id text=change.text}}
