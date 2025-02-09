@@ -58,7 +58,6 @@ export class ChatPage extends Block {
         for (let chat in chats) {
             chatsHTML += `{{{ ${chats[chat]['chatName']} }}}`
         }
-        console.log(chatsHTML)
         return `
         <main id="app">
             <div>

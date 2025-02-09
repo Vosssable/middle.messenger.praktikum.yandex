@@ -28,7 +28,6 @@ export class ProfilePage extends Block {
                 label: button['label']
             })
         }
-        console.log(props)
         super({
             ...props,
             attrs: {
@@ -53,14 +52,6 @@ export class ProfilePage extends Block {
         for (let button in buttons) {
             buttonsHTML += `{{{ ${buttons[button]['id']} }}}`
         }
-        // if (this.props['change']) {
-        //     inputsHtml += new Button({
-        //         class: 'primary_button',
-        //         id: this.props['change']['id'],
-        //         text: this.props['change']['text'],
-        //     }).getContent().outerHTML
-        // }
-        console.log(this)
         return `
         <main id="app">
             <div>

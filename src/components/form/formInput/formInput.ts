@@ -1,4 +1,5 @@
 import Block from '../../../framework/Block'
+import inputsValidation from "../../../utils/helpers/inputsValidation";
 
 export class FormInput extends Block {
     constructor(props: any) {
@@ -6,48 +7,29 @@ export class FormInput extends Block {
             ...props,
             events: {
                 blur: (event: Event) => {
-                    console.log('blur input', event)
-                    event.stopPropagation()
                     event.preventDefault()
-                },
-                click: (event: SubmitEvent) => {
-                    console.log('click click', event)
+                    const elemTarget = <HTMLInputElement>event.target,
+                        validationClassList = elemTarget.parentElement?.children[elemTarget.parentElement?.children.length - 1].classList
+                    if (inputsValidation(elemTarget['id'], elemTarget['value'])) {
+                        validationClassList?.contains('display-block') ? validationClassList?.remove('display-block') : ''
+                        return
+                    } else {
+                        !validationClassList?.contains('display-block') ? validationClassList?.add('display-block') : ''
+                        return
+                    }
                 }
-            },
-            attrs: {
-                formInputClass: 'form__input',
-                formLabelClass: 'form__label',
-                formLabelValidate: 'form__input-validate'
             }
         })
     }
-
-    // override addEvents(): void {
-    //     const {events = {}} = this.props
-    //
-    //     console.log('OVER events', this._element, this.props, events)
-    //
-    //     // super.addEvents()
-    //     Object.keys(events).forEach(eventName => {
-    //         if (this._element) {
-    //             console.log('OVER events exist')
-    //
-    //             this._element.addEventListener(eventName, events[eventName])
-    //         }
-    //     })
-    // }
 
     override render() {
         return `
                 <input id="{{ id }}" 
                        name="{{ id }}"
-                       class="{{ attrs.formInputClass }}" 
+                       class="form__input" 
                        type="{{ type }}" 
                        value="{{ value }}" 
                        placeholder="{{ placeholder }}">
-                <div class="{{ attrs.formLabelClass }}"> {{ placeholder }}</div>
-                <span class="{{ attrs.formLabelValidate }}">{{ validateText }}</span>
-
         `
     }
 }

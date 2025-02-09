@@ -4,7 +4,6 @@ export class PropertyButton extends Block {
     constructor(props: any) {
         super({
             ...props,
-
             attrs: {
                 rowClass: 'dropdown__properties-element'
             }

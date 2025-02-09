@@ -1,6 +1,7 @@
 import Block from '../../../framework/Block'
 import {Button} from "../../buttons/button/button";
 import {FormInput} from "../formInput/formInput";
+import inputsValidation from "../../../utils/helpers/inputsValidation";
 
 export class Form extends Block {
     constructor(props: any) {
@@ -12,8 +13,7 @@ export class Form extends Block {
                     id: label['id'],
                     type: label['type'],
                     value: label['value'],
-                    placeholder: label['placeholder'],
-                    validateText: label['validateText']
+                    placeholder: label['placeholder']
                 })
                 inputs.push(label['id'])
             } else if (label['button']) {
@@ -28,7 +28,6 @@ export class Form extends Block {
         props.inputs = inputs
         props.buttons = buttons
 
-        console.log('FORM', props)
         super({
             ...props,
             events: {
@@ -36,12 +35,15 @@ export class Form extends Block {
                     event.preventDefault()
                     for (let label of props.labels) {
                         if (label['input']) {
-                            if (document.getElementById(label['id'])) {
-                                console.log(document.getElementById(label['id'])['value'])
+                            const tempElement: HTMLInputElement = <HTMLInputElement>document.getElementById(label['id'])
+                                console.log(`Проверяем по сабмиту ${label['id']}`)
+                            if (tempElement && tempElement['value']) {
+                                console.log(`${inputsValidation(label['id'], tempElement['value']) ? 'Bалидацию проходит' : 'Bалидацию не проходит'}`)
+                            } else {
+                                console.log(`Не заполнено поле`)
                             }
                         }
                     }
-                    console.log('click click', event)
                 }
             },
             attrs: {
@@ -53,12 +55,19 @@ export class Form extends Block {
 
     override render() {
         const inputsHTML = this.lists.inputs.map((input: string) => {
-            return `<div class='form__field'>{{{ ${input} }}}</div>`;
-        }).join(''),
+                const currentInput = this.lists['labels'].find(field => field.id === input),
+                    placeholder = currentInput.placeholder,
+                    validateText = currentInput.validateText
+                return `
+                    <div class="form__field">
+                        {{{ ${input} }}}                
+                        <div class="form__label"> ${placeholder} </div>
+                        <span class="form__input-validate"> ${validateText} </span>
+                    </div>`;
+            }).join(''),
             buttonsHTML = this.lists.buttons.map((button: string) => {
                 return `{{{ ${button} }}}`;
             }).join('')
-        console.log(inputsHTML)
         return `
             <form class="{{attrs.formClass}} {{ class }}">
                 <h1 class="{{attrs.headerClass}}">
