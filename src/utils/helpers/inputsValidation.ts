@@ -9,7 +9,7 @@ function validatePhone(inputValue: string): boolean {
 }
 
 function validateName(inputValue: string): boolean {
-    const regex = /^[A-ZА-Я][a-zа-яA-ZА-ЯёЁ-]*$/;
+    const regex = /^[A-ZА-ЯЁ][a-zа-яA-ZА-ЯёЁ-]*$/;
     return regex.test(inputValue);
 }
 
