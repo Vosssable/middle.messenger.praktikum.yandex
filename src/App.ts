@@ -13,7 +13,7 @@ import {ChatPageAttrs} from "./utils/ChatPageAttrs";
 export default class App {
     public currentPage: string;
     public mainApp: HTMLElement | null;
-    public routeTmpl = HTMLElement
+    public routeTmpl: string|HTMLElement = '';
 
     constructor() {
         this.currentPage = 'loginPage'
@@ -101,7 +101,7 @@ export default class App {
     reloadPage() {
         this.mainApp = document.getElementById('app')
         let tmpl = document.createElement('template')
-        tmpl.innerHTML = this.routeTmpl
+        tmpl.innerHTML = <string>this.routeTmpl
         this.mainApp?.children[0].after(tmpl.content)
     }
 }
