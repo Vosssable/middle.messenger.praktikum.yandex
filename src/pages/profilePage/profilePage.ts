@@ -10,7 +10,7 @@ export class ProfilePage extends Block {
             labels: props['labels'],
             avatarClass: 'change-avatar'
         }) : ''
-        for (let input of props.inputs) {
+        for (const input of props.inputs) {
             props[input['id']] = new ProfileInputLabel({
                 label: input['label'],
                 placeholder: input['placeholder'],
@@ -20,7 +20,7 @@ export class ProfilePage extends Block {
                 type: props['password'] ? 'password' : ''
             })
         }
-        for (let button of props.buttons) {
+        for (const button of props.buttons) {
             props[button['id']] = new ProfileInputLabel({
                 inputClass: button['inputClass'],
                 idButton: button['id'],
@@ -46,10 +46,10 @@ export class ProfilePage extends Block {
             buttons = this.lists['buttons']
         let inputsHTML = ``,
             buttonsHTML = ``
-        for (let input in inputs) {
+        for (const input in inputs) {
             inputsHTML += `{{{ ${inputs[input]['id']} }}}`
         }
-        for (let button in buttons) {
+        for (const button in buttons) {
             buttonsHTML += `{{{ ${buttons[button]['id']} }}}`
         }
         return `

@@ -100,7 +100,7 @@ export default class App {
     }
     reloadPage() {
         this.mainApp = document.getElementById('app')
-        let tmpl = document.createElement('template')
+        const tmpl = document.createElement('template')
         tmpl.innerHTML = <string>this.routeTmpl
         this.mainApp?.children[0].after(tmpl.content)
     }

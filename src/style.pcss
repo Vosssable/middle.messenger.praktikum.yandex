@@ -4,13 +4,11 @@
     font-weight: 400;
 
     --primary: #3369F3;
-    --primary-hover: rgba(51, 105, 243, 0.72);
-    --primary-active: rgb(24, 85, 241);
-
+    --primary-hover: rgb(51 105 243 / 72%);
+    --primary-active: rgb(24 85 241);
     --danger: #F00;
-    --danger-hover: rgba(255, 0, 0, 0.7);
+    --danger-hover: rgb(255 0 0 / 70%);
     --danger-active: #D62121;
-
     --gray: #999;
     --border: #EAEAEA;
     --background: #F5F5F5;
@@ -25,9 +23,8 @@ body main {
     height: 98vh;
     width: 100%;
     margin: 0;
-    justify-items: center;
+    place-items: center center;
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 
@@ -35,10 +32,7 @@ body main {
     position: fixed;
     width: 100%;
     height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     opacity: .4;
 }
 
@@ -106,9 +100,9 @@ input#second_password + button {
     justify-items: center;
     display: flow;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    background: rgb(255, 255, 255);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgb(255 255 255 / 50%);
+    background: rgb(255 255 255);
+    box-shadow: 0 0 5px rgb(0 0 0 / 50%);
     backdrop-filter: blur(6px);
     padding: 0
 }

@@ -7,8 +7,7 @@
 
 .profile {
     display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
+    flex-flow: column nowrap;
     align-items: center;
     width: 100%;
     justify-content: center;
@@ -26,11 +25,11 @@
 }
 
 .profile-back:focus {
-    background-color: rgba(172, 160, 160, 0.38);
+    background-color: rgb(172 160 160 / 38%);
 }
 
 .profile-back:active {
-    background-color: rgba(172, 160, 160, 0.23);
+    background-color: rgb(172 160 160 / 23%);
 }
 
 .profile-back:active img{
@@ -43,8 +42,7 @@
     border-radius: 50%;
     background-color: var(--background-white);
     display: grid;
-    align-content: center;
-    justify-content: center;
+    place-content: center center;
     margin: 15px;
     top: 50px;
     position: fixed;
@@ -61,7 +59,7 @@
         position: absolute;
         align-self: center;
         text-align: center;
-        background-color: #000000;
+        background-color: #000;
         color: white;
         opacity: .5;
         height: 120px;
@@ -69,6 +67,7 @@
         align-content: center;
         cursor: pointer;
     }
+
     .profile-avatar__change:active {
         opacity: .4;
         scale: .95;

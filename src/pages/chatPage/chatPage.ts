@@ -8,7 +8,7 @@ import {Chat} from "../../components/chat/chat";
 export class ChatPage extends Block {
     constructor(props: any) {
         const chats = props.chats;
-        for (let chat of chats) {
+        for (const chat of chats) {
                 props[chat['chatName']] = new Chat({
                     avatar: chat['avatar'],
                     chatName: chat['chatName'],

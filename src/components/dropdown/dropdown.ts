@@ -10,7 +10,7 @@ export class DropDown extends Block {
 
     override render() {
         let bodyHtml: string = ``
-        for (let el of this.lists['buttons']) {
+        for (const el of this.lists['buttons']) {
             bodyHtml += new PropertyButton({
                 src: el['src'],
                 text: el['text'],

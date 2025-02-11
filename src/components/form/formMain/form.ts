@@ -5,9 +5,9 @@ import inputsValidation from "../../../utils/helpers/inputsValidation";
 
 export class Form extends Block {
     constructor(props: any) {
-        let inputs = [],
+        const inputs = [],
             buttons = []
-        for (let label of props.labels) {
+        for (const label of props.labels) {
             if (label['input']) {
                 props[label['id']] = new FormInput({
                     id: label['id'],
@@ -33,7 +33,7 @@ export class Form extends Block {
             events: {
                 submit: (event: SubmitEvent) => {
                     event.preventDefault()
-                    for (let label of props.labels) {
+                    for (const label of props.labels) {
                         if (label['input']) {
                             const tempElement: HTMLInputElement = <HTMLInputElement>document.getElementById(label['id'])
                                 console.log(`Проверяем по сабмиту ${label['id']}`)

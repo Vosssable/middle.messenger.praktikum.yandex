@@ -2,8 +2,8 @@ import inputsValidation from "./inputsValidation";
 import {KeyValueReactiveInterface} from "../interfaces/formsInterfaces";
 
 export default function inputAttrsEvents(attrs: KeyValueReactiveInterface) {
-    for (let el in attrs) {
-        let element = document.getElementById(el) as HTMLInputElement | null
+    for (const el in attrs) {
+        const element = document.getElementById(el) as HTMLInputElement | null
         element ? element.onblur = (event) => {
             event.preventDefault()
             if (inputsValidation(el, element.value)) {

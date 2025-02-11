@@ -148,7 +148,7 @@
 }
 
 .chat-header {
-    padding: 10px 0 10px 0;
+    padding: 10px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -176,8 +176,7 @@
     background-color: var(--background);
     align-items: center;
     display: grid;
-    justify-content: center;
-    align-content: center
+    place-content: center center
 }
 
 .chat-footer__properties {
@@ -211,9 +210,9 @@
     width: 210px;
     display: none;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    background: rgb(255, 255, 255);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgb(255 255 255 / 50%);
+    background: rgb(255 255 255);
+    box-shadow: 0 0 5px rgb(0 0 0 / 50%);
     backdrop-filter: blur(6px);
     position: absolute;
 }
@@ -254,7 +253,7 @@
 .sent {
     background-color: var(--background-dark);
     margin-left: auto;
-    border-radius: 10px 10px 0 10px;
+    border-radius: 10px 10px 0;
 }
 
 .received {
