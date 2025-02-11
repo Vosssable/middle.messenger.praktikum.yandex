@@ -1,4 +1,12 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "ignorePatterns": "node_modules/",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "google"
+  ],
   "rules": {
     "no-unused-vars": 2,
     "max-len": [
@@ -11,3 +19,4 @@
     ]
   }
 }
+
