@@ -1,8 +1,9 @@
-import EventBus, { EventCallback } from './EventBus';
+
+import EventBus, { EventCallback } from './EventBus'
 import Handlebars from 'handlebars';
 
 interface BlockProps {
-    [key: string]: unknown
+    [key: string]: any;
 }
 
 export default class Block {
@@ -14,10 +15,15 @@ export default class Block {
     };
 
     protected _element: HTMLElement | null = null;
+
     protected _id: number = Math.floor(100000 + Math.random() * 900000);
+
     protected props: BlockProps;
+
     protected children: Record<string, Block>;
-    protected lists: Record<string, unknown[]>
+
+    protected lists: Record<string, any[]>;
+
     protected eventBus: () => EventBus;
 
     constructor(propsWithChildren: BlockProps = {}) {
@@ -32,7 +38,7 @@ export default class Block {
     }
 
     protected addEvents(): void {
-        const { events = {} } = this.props as { events: Record<string, EventListener> };
+        const { events = {} } = this.props;
         Object.keys(events).forEach(eventName => {
             if (this._element) {
                 this._element.addEventListener(eventName, events[eventName]);
@@ -41,12 +47,12 @@ export default class Block {
     }
 
     protected removeEvents(): void {
-        const { events = {} } = this.props as { events: Record<string, EventListener> };
+        const { events = {} } = this.props;
         Object.keys(events).forEach(eventName => {
             if (this._element) {
                 this._element.removeEventListener(eventName, events[eventName]);
             }
-        });
+        })
     }
 
     private _registerEvents(eventBus: EventBus): void {
@@ -62,9 +68,7 @@ export default class Block {
 
     private _componentDidMount(): void {
         this.componentDidMount();
-        Object.values(this.children).forEach(child => {
-            child.dispatchComponentDidMount();
-        });
+        Object.values(this.children).forEach(child => {child.dispatchComponentDidMount();});
     }
 
     protected componentDidMount(): void {}
@@ -89,11 +93,11 @@ export default class Block {
     private _getChildrenPropsAndProps(propsAndChildren: BlockProps): {
         children: Record<string, Block>,
         props: BlockProps,
-        lists: Record<string, unknown[]>
+        lists: Record<string, any[]>
     } {
         const children: Record<string, Block> = {};
         const props: BlockProps = {};
-        const lists: Record<string, unknown[]> = {};
+        const lists: Record<string, any[]> = {};
 
         Object.entries(propsAndChildren).forEach(([key, value]) => {
             if (value instanceof Block) {
@@ -109,18 +113,19 @@ export default class Block {
     }
 
     protected addAttributes(): void {
-        const { attr = {} } = this.props as { attr: Record<string, string> };
+        const { attr = {} } = this.props;
+
         Object.entries(attr).forEach(([key, value]) => {
             if (this._element && value) {
-                this._element.setAttribute(key, value);
+                this._element.setAttribute(key, value as string);
             }
         });
     }
 
-    protected setAttributes(attr: Record<string, string>): void {
+    protected setAttributes(attr: any): void {
         Object.entries(attr).forEach(([key, value]) => {
             if (this._element) {
-                this._element.setAttribute(key, value);
+                this._element.setAttribute(key, value as string);
             }
         });
     }
@@ -129,13 +134,15 @@ export default class Block {
         if (!nextProps) {
             return;
         }
+
         Object.assign(this.props, nextProps);
     };
 
-    public setLists = (nextList: Record<string, unknown[]>): void => {
+    public setLists = (nextList: Record<string, any[]>): void => {
         if (!nextList) {
             return;
         }
+
         Object.assign(this.lists, nextList);
     };
 
@@ -144,8 +151,8 @@ export default class Block {
     }
 
     private _render(): void {
-        const propsAndStubs: Record<string, unknown> = { ...this.props };
-        const tmpId = Math.floor(100000 + Math.random() * 900000);
+        const propsAndStubs = { ...this.props };
+        const tmpId =  Math.floor(100000 + Math.random() * 900000);
         Object.entries(this.children).forEach(([key, child]) => {
             propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
         });
@@ -178,7 +185,6 @@ export default class Block {
                 stub.replaceWith(listCont.content);
             }
         });
-
         this.removeEvents();
         const newElement = fragment.content.firstElementChild as HTMLElement;
         if (this._element && newElement) {
@@ -200,15 +206,15 @@ export default class Block {
         return this._element;
     }
 
-    private _makePropsProxy<T extends object>(props: T): T {
+    private _makePropsProxy(props: any): any {
         return new Proxy(props, {
-            get(target: T, prop: string) {
-                const value = (target as Record<string, unknown>)[prop];
+            get(target: any, prop: string) {
+                const value = target[prop];
                 return typeof value === 'function' ? value.bind(target) : value;
             },
-            set(target: T, prop: string, value: unknown) {
+            set(target: any, prop: string, value: any) {
                 const oldTarget = { ...target };
-                (target as Record<string, unknown>)[prop] = value;
+                target[prop] = value;
                 this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
                 return true;
             },
