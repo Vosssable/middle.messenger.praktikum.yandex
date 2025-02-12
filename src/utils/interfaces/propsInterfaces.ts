@@ -31,15 +31,15 @@ export interface FormInputPropsInterface {
     placeholder?: string,
 }
 
-export interface ProfilePagePropsInterface extends KeyValueInterface{
+export interface ProfilePagePropsInterface extends KeyValueInterface {
     name: string
     inputs: InputsInterface[]
     buttons: ProfileBtnsInterface[]
-    labels: []
-    password: boolean
-    title: string
-    disabled: string
-    avatar: string
+    labels?: []
+    password?: boolean
+    title?: string
+    disabled?: string
+    avatar?: string
 }
 
 export interface ProfileInputLabelInterface {

@@ -1,22 +1,24 @@
 import {KeyValueInterface} from "./requestInterfaces";
 
-export interface ChatPageAttrsInterface {
-    chats: {
+export interface ChatsInterface {
         avatar: string
         chatName: string
         lastMessage?: string
         lastMessageDatetime?: string
         class?: string
         newMessageCount?: number
-    }[],
-    currentAvatar?: string
-    currentChatName?: string
+}
+
+export interface ChatPageAttrsInterface extends KeyValueInterface {
+    chats: ChatsInterface[]
+    currentAvatar: string
+    currentChatName: string
 }
 
 export interface ButtonsInterface {
     src?: string
     text?: string
-    id: string
+    id?: string
     alt?: string
     class?: string
 }
@@ -27,20 +29,22 @@ export interface ErrorsInterface {
     label: string
 }
 
+export interface FormLabelsInterface {
+    upload?: boolean
+    input?: boolean
+    button?: boolean
+    type?: string
+    placeholder?: string
+    class?: string
+    id: string
+    text?: string
+    value?: string
+    validateText?: string
+}
+
 export interface FormsInterface extends KeyValueInterface {
     title: string,
-    labels: {
-        upload?: boolean
-        input?: boolean
-        button?: boolean
-        type?: string
-        placeholder?: string
-        class?: string
-        id: string
-        text?: string
-        value?: string
-        validateText?: string
-    }[]
+    labels?: FormLabelsInterface[]
 }
 
 export interface InputsInterface {

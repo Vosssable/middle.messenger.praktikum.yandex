@@ -1,9 +1,24 @@
-
 import EventBus, { EventCallback } from './EventBus'
-import Handlebars from 'handlebars';
+import Handlebars from 'handlebars'
+import {
+    ButtonsInterface,
+    FormLabelsInterface,
+    InputsInterface,
+    ProfileBtnsInterface
+} from "../utils/interfaces/attrsInterfaces"
+
+interface EventPropsInterface {
+    [key: string]: (event: Event, element?: HTMLElement | HTMLInputElement | HTMLFormElement) => void
+}
 
 interface BlockProps {
-    [key: string]: any;
+    elements?: Block[];
+    events?: EventPropsInterface;
+    [key: string]: unknown;
+}
+
+interface BlockListInterface {
+    [key: string]: ProfileBtnsInterface[] | InputsInterface[] | ButtonsInterface[] | FormLabelsInterface[];
 }
 
 export default class Block {
@@ -22,7 +37,7 @@ export default class Block {
 
     protected children: Record<string, Block>;
 
-    protected lists: Record<string, any[]>;
+    protected lists: BlockListInterface;
 
     protected eventBus: () => EventBus;
 
@@ -31,7 +46,7 @@ export default class Block {
         const { props, children, lists } = this._getChildrenPropsAndProps(propsWithChildren);
         this.props = this._makePropsProxy({ ...props });
         this.children = children;
-        this.lists = this._makePropsProxy({ ...lists });
+        this.lists = <BlockListInterface>this._makePropsProxy({ ...lists });
         this.eventBus = () => eventBus;
         this._registerEvents(eventBus);
         eventBus.emit(Block.EVENTS.INIT);
@@ -93,11 +108,11 @@ export default class Block {
     private _getChildrenPropsAndProps(propsAndChildren: BlockProps): {
         children: Record<string, Block>,
         props: BlockProps,
-        lists: Record<string, any[]>
+        lists: BlockListInterface
     } {
         const children: Record<string, Block> = {};
         const props: BlockProps = {};
-        const lists: Record<string, any[]> = {};
+        const lists: BlockListInterface = {};
 
         Object.entries(propsAndChildren).forEach(([key, value]) => {
             if (value instanceof Block) {
@@ -113,7 +128,7 @@ export default class Block {
     }
 
     protected addAttributes(): void {
-        const { attr = {} } = this.props;
+        const { attr = {} } = <Record<string, string>>this.props;
 
         Object.entries(attr).forEach(([key, value]) => {
             if (this._element && value) {
@@ -122,7 +137,7 @@ export default class Block {
         });
     }
 
-    protected setAttributes(attr: any): void {
+    protected setAttributes(attr: BlockProps): void {
         Object.entries(attr).forEach(([key, value]) => {
             if (this._element) {
                 this._element.setAttribute(key, value as string);
@@ -138,7 +153,7 @@ export default class Block {
         Object.assign(this.props, nextProps);
     };
 
-    public setLists = (nextList: Record<string, any[]>): void => {
+    public setLists = (nextList: BlockListInterface): void => {
         if (!nextList) {
             return;
         }
@@ -206,13 +221,13 @@ export default class Block {
         return this._element;
     }
 
-    private _makePropsProxy(props: any): any {
+    private _makePropsProxy(props: BlockProps): BlockProps {
         return new Proxy(props, {
-            get(target: any, prop: string) {
+            get(target: BlockProps, prop: string) {
                 const value = target[prop];
                 return typeof value === 'function' ? value.bind(target) : value;
             },
-            set(target: any, prop: string, value: any) {
+            set(target: BlockProps, prop: string, value: BlockProps) {
                 const oldTarget = { ...target };
                 target[prop] = value;
                 this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);

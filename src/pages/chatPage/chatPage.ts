@@ -3,12 +3,12 @@ import {IconButton} from "../../components/buttons/iconButton/iconButton";
 import {DropDown} from "../../components/dropdown/dropdown";
 import {FooterButtons, HeaderButtons} from "../../utils/ChatPageAttrs";
 import {Chat} from "../../components/chat/chat";
-import {ChatPageAttrsInterface} from "../../utils/interfaces/attrsInterfaces";
+import {ChatPageAttrsInterface, ChatsInterface} from "../../utils/interfaces/attrsInterfaces";
 
 
 export class ChatPage extends Block {
     constructor(props: ChatPageAttrsInterface) {
-        const chats = props.chats;
+        const chats: ChatsInterface[] = props.chats;
         for (const chat of chats) {
                 props[chat.chatName] = new Chat({
                     avatar: chat['avatar'],
@@ -53,7 +53,7 @@ export class ChatPage extends Block {
     }
 
     override render() {
-        const chats = this.lists['chats']
+        const chats: ChatsInterface[] = <ChatsInterface[]>this.lists['chats']
         let chatsHTML = ``
 
         for (const chat in chats) {

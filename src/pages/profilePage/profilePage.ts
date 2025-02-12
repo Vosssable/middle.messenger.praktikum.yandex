@@ -7,11 +7,13 @@ export class ProfilePage extends Block {
     constructor(props: ProfilePagePropsInterface) {
 
         if (props['avatar']) {
-            props['title'] += new Form({
-                title: props['title'],
-                labels: props['labels'],
-                avatarClass: 'change-avatar'
-            })
+            if (props['title']) {
+                props['title'] += new Form({
+                    title: props['title'] ? props['title'] : '',
+                    labels: props['labels'],
+                    avatarClass: 'change-avatar'
+                })
+            }
         }
 
         for (const input of props.inputs) {
@@ -46,6 +48,7 @@ export class ProfilePage extends Block {
     }
 
     override render() {
+        console.log(this.lists)
         const inputs = this.lists['inputs'],
             buttons = this.lists['buttons']
         let inputsHTML = ``,
