@@ -1,7 +1,8 @@
 import Block from '../../framework/Block'
+import {ProfileInputLabelInterface} from "../../utils/interfaces/propsInterfaces";
 
 export class ProfileInputMain extends Block {
-    constructor(props: any) {
+    constructor(props: ProfileInputLabelInterface) {
         super({
             ...props,
             attr: {

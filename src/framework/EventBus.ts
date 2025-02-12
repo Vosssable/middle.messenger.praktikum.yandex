@@ -1,4 +1,4 @@
-export type EventCallback = (...args: any[]) => void;
+export type EventCallback = (...args: []) => void;
 
 export default class EventBus {
     private listeners: Record<string, EventCallback[]>;
@@ -26,7 +26,7 @@ export default class EventBus {
         );
     }
 
-    public emit(event: string, ...args: any[]): void {
+    public emit(event: string, ...args: []): void {
         if (!this.listeners[event]) {
             alert(`No event: ${event}`)
             throw new Error(`No event: ${event}`);

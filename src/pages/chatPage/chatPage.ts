@@ -3,13 +3,14 @@ import {IconButton} from "../../components/buttons/iconButton/iconButton";
 import {DropDown} from "../../components/dropdown/dropdown";
 import {FooterButtons, HeaderButtons} from "../../utils/ChatPageAttrs";
 import {Chat} from "../../components/chat/chat";
+import {ChatPageAttrsInterface} from "../../utils/interfaces/attrsInterfaces";
 
 
 export class ChatPage extends Block {
-    constructor(props: any) {
+    constructor(props: ChatPageAttrsInterface) {
         const chats = props.chats;
         for (const chat of chats) {
-                props[chat['chatName']] = new Chat({
+                props[chat.chatName] = new Chat({
                     avatar: chat['avatar'],
                     chatName: chat['chatName'],
                     lastMessage: chat['lastMessage'],
@@ -55,7 +56,7 @@ export class ChatPage extends Block {
         const chats = this.lists['chats']
         let chatsHTML = ``
 
-        for (let chat in chats) {
+        for (const chat in chats) {
             chatsHTML += `{{{ ${chats[chat]['chatName']} }}}`
         }
         return `

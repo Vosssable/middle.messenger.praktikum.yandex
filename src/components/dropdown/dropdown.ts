@@ -1,8 +1,9 @@
 import Block from '../../framework/Block'
 import {PropertyButton} from "../buttons/propertyButton/propertyButton";
+import {DropDownPropsInterface} from "../../utils/interfaces/propsInterfaces";
 
 export class DropDown extends Block {
-    constructor(props: any) {
+    constructor(props: DropDownPropsInterface) {
         super({
             ...props
         })

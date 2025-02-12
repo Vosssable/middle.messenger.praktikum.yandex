@@ -1,7 +1,8 @@
 import Block from '../../../framework/Block'
+import {ButtonsInterface} from "../../../utils/interfaces/attrsInterfaces";
 
 export class Button extends Block {
-    constructor(props: any) {
+    constructor(props: ButtonsInterface) {
         super({
             ...props
         })

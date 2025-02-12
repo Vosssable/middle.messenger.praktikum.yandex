@@ -11,7 +11,7 @@ const METHODS = {
 type Options = {
     method?: string
     headers?: KeyValueInterface
-    data?: any
+    data?: unknown
     timeout?: number
 }
 
@@ -57,12 +57,12 @@ class HTTPTransport {
             xhr.open(
                 method,
                 isGet && !!data
-                    ? `${url}${queryStringify(data)}`
+                    ? `${url}${queryStringify(<KeyValueInterface>data)}`
                     : url,
             );
 
             Object.keys(headers).forEach(key => {
-                xhr.setRequestHeader(key, headers[key]);
+                xhr.setRequestHeader(key, <string>headers[key]);
             });
 
             xhr.onload = function() {
@@ -78,7 +78,7 @@ class HTTPTransport {
             if (isGet || !data) {
                 xhr.send();
             } else {
-                xhr.send(data);
+                xhr.send(<XMLHttpRequestBodyInit>data);
             }
         });
     };

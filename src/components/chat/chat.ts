@@ -1,7 +1,8 @@
 import Block from '../../framework/Block'
+import {ChatPageAttrsInterface} from "../../utils/interfaces/attrsInterfaces";
 
 export class Chat extends Block {
-    constructor(props: any) {
+    constructor(props: ChatPageAttrsInterface) {
         super({
             ...props,
             attrs: {

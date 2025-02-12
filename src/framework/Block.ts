@@ -207,8 +207,6 @@ export default class Block {
     }
 
     private _makePropsProxy(props: any): any {
-        const self = this;
-
         return new Proxy(props, {
             get(target: any, prop: string) {
                 const value = target[prop];
@@ -217,7 +215,7 @@ export default class Block {
             set(target: any, prop: string, value: any) {
                 const oldTarget = { ...target };
                 target[prop] = value;
-                self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
+                this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
                 return true;
             },
             deleteProperty() {

@@ -1,11 +1,11 @@
 import {
-    profileAttrsInterface,
+    ProfileAttrsInterface,
     ProfileBtnsInterface,
     ProfileEditBtnInterface,
     ProfileEditPasswordAttrsInterface
 } from "./interfaces/attrsInterfaces";
 
-const ProfileAttrs: profileAttrsInterface = {
+const ProfileAttrs: ProfileAttrsInterface = {
     name: 'Иван',
     inputs: [
         {

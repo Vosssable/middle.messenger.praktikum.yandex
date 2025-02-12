@@ -1,12 +1,12 @@
-import {errorsInterface} from "./interfaces/attrsInterfaces";
+import {ErrorsInterface} from "./interfaces/attrsInterfaces";
 
-const Error404Attrs: errorsInterface = {
+const Error404Attrs: ErrorsInterface = {
     code: '404',
     text: 'Такой страницы нет',
     label: 'Назад к чатам'
 }
 
-const Error500Attrs: errorsInterface = {
+const Error500Attrs: ErrorsInterface = {
     code: '500',
     text: 'Мы уже фиксим',
     label: 'Назад к чатам'

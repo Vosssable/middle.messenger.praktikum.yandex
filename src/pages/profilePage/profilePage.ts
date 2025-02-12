@@ -1,15 +1,19 @@
 import Block from '../../framework/Block'
 import {Form} from "../../components/form/formMain/form";
 import {ProfileInputLabel} from "../../components/input/profileInputLabel";
+import {ProfilePagePropsInterface} from "../../utils/interfaces/propsInterfaces";
 
 export class ProfilePage extends Block {
-    constructor(props: any) {
+    constructor(props: ProfilePagePropsInterface) {
 
-        props['avatar'] ? props['title'] += new Form({
-            title: props['title'],
-            labels: props['labels'],
-            avatarClass: 'change-avatar'
-        }) : ''
+        if (props['avatar']) {
+            props['title'] += new Form({
+                title: props['title'],
+                labels: props['labels'],
+                avatarClass: 'change-avatar'
+            })
+        }
+
         for (const input of props.inputs) {
             props[input['id']] = new ProfileInputLabel({
                 label: input['label'],

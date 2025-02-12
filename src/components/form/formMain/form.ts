@@ -2,9 +2,10 @@ import Block from '../../../framework/Block'
 import {Button} from "../../buttons/button/button";
 import {FormInput} from "../formInput/formInput";
 import inputsValidation from "../../../utils/helpers/inputsValidation";
+import {FormsInterface} from "../../../utils/interfaces/attrsInterfaces";
 
 export class Form extends Block {
-    constructor(props: any) {
+    constructor(props: FormsInterface) {
         const inputs = [],
             buttons = []
         for (const label of props.labels) {
