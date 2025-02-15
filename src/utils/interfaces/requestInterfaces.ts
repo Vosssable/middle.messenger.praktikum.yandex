@@ -5,4 +5,3 @@ export interface KeyValueInterface {
 export interface ReqDataValueInterface {
     [key: string]: string | number | [] | boolean | object
 }
-

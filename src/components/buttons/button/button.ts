@@ -14,4 +14,3 @@ export class Button extends Block {
             </button>`
     }
 }
-

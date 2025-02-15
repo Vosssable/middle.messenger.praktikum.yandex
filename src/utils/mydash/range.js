@@ -28,4 +28,3 @@ export function range(start, end, step, isRight) {
         return result.reverse()
     } else return result
 }
-

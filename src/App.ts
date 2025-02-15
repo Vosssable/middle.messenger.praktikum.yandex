@@ -142,6 +142,3 @@ export default class App {
         this.onRenderFunc()
     }
 }
-
-
-

@@ -48,5 +48,4 @@ export default function inputsValidation(key: string, value: string) {
         case 'message':
             return validateMessage(value)
     }
-
 }
