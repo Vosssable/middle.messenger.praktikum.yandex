@@ -17,7 +17,7 @@ export default class App {
     public routeTmpl: string|HTMLElement = '';
 
     constructor() {
-        this.currentPage = 'profileChangeAvatar'
+        this.currentPage = 'loginPage'
         this.mainApp = document.getElementById('app')
         this.routeTmpl = HandleBars.compile(CustomRoute)({
             routes: routes,

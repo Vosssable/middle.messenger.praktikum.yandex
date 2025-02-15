@@ -56,7 +56,7 @@ export class Form extends Block {
             events: {
                 submit: (event: SubmitEvent) => {
                     event.preventDefault()
-                    if (props.labels) {
+                    if (props.labels && inputs.length > 0) {
                         const formData: FormDataInterface  = {}
                         for (const label of props.labels) {
                             if (label['input']) {
