@@ -49,8 +49,9 @@ export interface FormsInterface extends KeyValueInterface {
 
 export interface InputsInterface {
     label: string
-    value: string
+    value?: string
     id: string
+    type?: string
     placeholder?: string
 }
 
@@ -69,12 +70,4 @@ export interface ProfileBtnsInterface {
 export interface ProfileEditBtnInterface {
     id: string
     text: string
-}
-
-export interface ProfileEditPasswordAttrsInterface {
-    inputs: {
-        label: string
-        id: string
-        type: string
-    }[]
 }

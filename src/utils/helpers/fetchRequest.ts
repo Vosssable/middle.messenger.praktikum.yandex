@@ -1,4 +1,4 @@
-import {KeyValueInterface} from "../interfaces/requestInterfaces";
+import {KeyValueInterface, ReqDataValueInterface} from "../interfaces/requestInterfaces";
 
 const METHODS = {
     GET: 'GET',
@@ -15,10 +15,15 @@ type Options = {
     timeout?: number
 }
 
-function queryStringify(data: KeyValueInterface) {
-    return Object.keys(data).reduce((result, key, index) => {
-        return `${result}${key}=${data[key]}${index < Object.keys(data).length - 1 ? '&' : ''}`;
-    }, '?');
+function queryStringify(data: ReqDataValueInterface) {
+    return (
+        '?' +
+        Object.keys(data)
+            .map((key) => {
+                return `${encodeURIComponent(key)}=${encodeURIComponent(data[key].toString())}`;
+            })
+            .join('&')
+    );
 }
 
 class HTTPTransport {
@@ -57,7 +62,7 @@ class HTTPTransport {
             xhr.open(
                 method,
                 isGet && !!data
-                    ? `${url}${queryStringify(<KeyValueInterface>data)}`
+                    ? `${url}${queryStringify(<ReqDataValueInterface>data)}`
                     : url,
             );
 

@@ -1,8 +1,8 @@
 import Block from '../../framework/Block'
 import {loginForm} from "../../utils/FormsAttrs"
-import {Form} from "../../components/form/formMain/form"
+import {Form} from "../../components/form/form"
 
-export class LoginPage extends Block {
+export default class LoginPage extends Block {
     constructor() {
         super({
             loginForm: new Form(loginForm)

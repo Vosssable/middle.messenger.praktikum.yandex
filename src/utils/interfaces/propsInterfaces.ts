@@ -1,4 +1,10 @@
-import {ButtonsInterface, InputsInterface, ProfileBtnsInterface} from "./attrsInterfaces";
+import {
+    ButtonsInterface,
+    FormLabelsInterface,
+    InputsInterface,
+    ProfileBtnsInterface,
+    ProfileEditBtnInterface
+} from "./attrsInterfaces";
 import {KeyValueInterface} from "./requestInterfaces";
 
 export interface BtnPropsInterface {
@@ -32,14 +38,16 @@ export interface FormInputPropsInterface {
 }
 
 export interface ProfilePagePropsInterface extends KeyValueInterface {
-    name: string
+    name?: string
     inputs: InputsInterface[]
-    buttons: ProfileBtnsInterface[]
-    labels?: []
+    buttons?: ProfileBtnsInterface[]
+    change?: ProfileEditBtnInterface
+    labels?: FormLabelsInterface[]
     password?: boolean
     title?: string
-    disabled?: string
-    avatar?: string
+    disabled?: boolean
+    avatar?: boolean
+    onClick?: (event: Event, action: string) => void
 }
 
 export interface ProfileInputLabelInterface {

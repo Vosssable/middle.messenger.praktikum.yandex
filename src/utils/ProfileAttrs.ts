@@ -1,8 +1,8 @@
 import {
+    InputsInterface,
     ProfileAttrsInterface,
     ProfileBtnsInterface,
     ProfileEditBtnInterface,
-    ProfileEditPasswordAttrsInterface
 } from "./interfaces/attrsInterfaces";
 
 const ProfileAttrs: ProfileAttrsInterface = {
@@ -66,25 +66,23 @@ const ProfileEditBtn: ProfileEditBtnInterface = {
     text: 'Сохранить'
 }
 
-const ProfileEditPasswordAttrs: ProfileEditPasswordAttrsInterface = {
-    inputs: [
+const ProfileEditPasswordAttrs: InputsInterface[] = [
         {
             label: 'Старый пароль',
-            id: 'oldPassword',
+            id: 'old_password',
             type: 'password'
         },
         {
             label: 'Новый пароль',
-            id: 'newPassword',
+            id: 'new_password',
             type: 'password'
         },
         {
             label: 'Повторите новый пароль',
-            id: 'newPasswordConfirm',
+            id: 'new_password_confirm',
             type: 'password'
         }
     ]
-}
 
 
 export {ProfileAttrs, ProfileBtns, ProfileEditBtn, ProfileEditPasswordAttrs}

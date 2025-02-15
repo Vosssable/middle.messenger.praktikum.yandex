@@ -1,17 +1,17 @@
-import Block from '../../framework/Block'
+import Block from '../../../framework/Block'
 import {ProfileInputMain} from "./profileInputMain";
-import {ProfileInputLabelInterface} from "../../utils/interfaces/propsInterfaces";
+import {ProfileInputLabelInterface} from "../../../utils/interfaces/propsInterfaces";
 
 export class ProfileInputLabel extends Block {
     constructor(props: ProfileInputLabelInterface) {
         super({
             ...props,
             profileInputMain: !props.idButton || props.idButton.length <= 0 ? new ProfileInputMain({
-                placeholder: props.placeholder,
+                placeholder: props.placeholder ? props.placeholder : props.label,
                 value: props.value,
                 name: props.id,
                 id: props.id,
-                disabled: true,
+                disabled: props.disabled,
                 type: props.type
             }) : '',
             attrs: {

@@ -1,14 +1,15 @@
 import './style.pcss'
-import {ProfilePage} from "./pages";
-import {ProfileAttrs, ProfileBtns} from "./utils/ProfileAttrs";
-import {LoginPage} from "./pages";
+import {ProfileAttrs, ProfileBtns, ProfileEditBtn, ProfileEditPasswordAttrs} from "./utils/ProfileAttrs";
 import * as HandleBars from "handlebars";
 import {CustomRoute, routes} from "./components/customRoute/customRoute";
-import {RegisterPage} from "./pages";
-import {ErrorPage} from "./pages";
 import {Error404Attrs, Error500Attrs} from "./utils/ErrorPageAttrs";
-import {ChatPage} from "./pages/chatPage/chatPage";
 import {ChatPageAttrs} from "./utils/ChatPageAttrs";
+import ProfilePage from "./pages/profilePage/profilePage";
+import LoginPage from "./pages/loginPage/loginPage";
+import RegisterPage from "./pages/registerPage/registerPage";
+import ErrorPage from "./pages/errorPage/errorPage";
+import ChatPage from "./pages/chatPage/chatPage";
+import {loadFileForm} from "./utils/FormsAttrs";
 
 export default class App {
     public currentPage: string;
@@ -16,7 +17,7 @@ export default class App {
     public routeTmpl: string|HTMLElement = '';
 
     constructor() {
-        this.currentPage = 'loginPage'
+        this.currentPage = 'profileChangeAvatar'
         this.mainApp = document.getElementById('app')
         this.routeTmpl = HandleBars.compile(CustomRoute)({
             routes: routes,
@@ -31,9 +32,41 @@ export default class App {
                 this.reloadPage()
             } else if (this.currentPage === 'profilePage') {
                 const profilePage = new ProfilePage({
-                    name: ProfileAttrs.name, inputs: ProfileAttrs.inputs, buttons: ProfileBtns, disabled: 'true'
+                    name: ProfileAttrs.name, inputs: ProfileAttrs.inputs, buttons: ProfileBtns, disabled: true,
+                    onClick: (event: Event, action: string): void => {
+                        event.preventDefault()
+                        this.profilePageEvent(action)
+                    }
                 })
                 this.mainApp.replaceWith(profilePage.getContent())
+                this.reloadPage()
+            } else if (this.currentPage === 'profileChangeUserData') {
+                const profilePage = new ProfilePage({
+                    inputs: ProfileAttrs.inputs, change: ProfileEditBtn
+                })
+                this.mainApp.replaceWith(profilePage.getContent())
+                document.getElementsByClassName('profile-avatar__change')[0].classList.add('display-none')
+                this.reloadPage()
+            } else if (this.currentPage === 'profileChangeAvatar') {
+                const profilePage = new ProfilePage({
+                    name: ProfileAttrs.name,
+                    inputs: ProfileAttrs.inputs,
+                    buttons: ProfileBtns,
+                    disabled: true,
+                    avatar: true,
+                    title: loadFileForm.title,
+                    labels: loadFileForm.labels
+                })
+                this.mainApp.replaceWith(profilePage.getContent())
+                document.getElementsByClassName('profile-container')[0].classList.add('no-cursor')
+                document.getElementById('profile')?.classList.add('overlay')
+                this.reloadPage()
+            } else if (this.currentPage === 'profileChangePassword') {
+                const profilePage = new ProfilePage({
+                    inputs: ProfileEditPasswordAttrs, change: ProfileEditBtn, password: true
+                })
+                this.mainApp.replaceWith(profilePage.getContent())
+                document.getElementsByClassName('profile-avatar__change')[0].classList.add('display-none')
                 this.reloadPage()
             } else if (this.currentPage === 'registerPage') {
                 const registerPage = new RegisterPage()
@@ -103,6 +136,10 @@ export default class App {
         const tmpl = document.createElement('template')
         tmpl.innerHTML = <string>this.routeTmpl
         this.mainApp?.children[0].after(tmpl.content)
+    }
+    profilePageEvent(action: string) {
+        this.currentPage = action
+        this.onRenderFunc()
     }
 }
 

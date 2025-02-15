@@ -6,7 +6,7 @@ import {Chat} from "../../components/chat/chat";
 import {ChatPageAttrsInterface, ChatsInterface} from "../../utils/interfaces/attrsInterfaces";
 
 
-export class ChatPage extends Block {
+export default class ChatPage extends Block {
     constructor(props: ChatPageAttrsInterface) {
         const chats: ChatsInterface[] = props.chats;
         for (const chat of chats) {

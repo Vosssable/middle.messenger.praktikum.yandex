@@ -1,8 +1,8 @@
 import Block from '../../framework/Block'
-import {ProfileInputLabel} from "../../components/input/profileInputLabel";
+import {ProfileInputLabel} from "../../components/inputs/profileInput/profileInputLabel";
 import {ErrorsInterface} from "../../utils/interfaces/attrsInterfaces";
 
-export class ErrorPage extends Block {
+export default class ErrorPage extends Block {
     constructor(props: ErrorsInterface) {
         super({
             ...props,
