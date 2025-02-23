@@ -1,0 +1,37 @@
+.primary_button {
+    border-radius: 8px;
+    background-color: var(--primary);
+    color: #FFF;
+}
+
+.special_button {
+    background-color: transparent;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.primary_button:hover {
+    background-color: var(--primary-hover);
+}
+
+.primary_button:active {
+    transform: scale(0.95);
+    background-color: var(--primary-active);
+}
+
+.special_button:hover {
+    color: var(--primary-hover);
+}
+
+.special_button:active {
+    transform: scale(0.95);
+    color: var(--primary-active);
+}
+
+.primary_button,
+.special_button {
+    width: 280px;
+    height: 37px;
+    cursor: pointer;
+    border: none;
+}

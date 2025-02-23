@@ -1,0 +1,38 @@
+<div>
+    {{#if avatar}}
+        {{>Form title=title form_elements=labels class="change-avatar"}}
+    {{/if}}
+    <div id="profile">
+        <div class="profile-container">
+            <div class="profile-back">
+                <img src="/arrowLeft.svg" alt="Стрелочка влево">
+            </div>
+            <div class="profile">
+                <div class="profile-avatar" id="change_avatar">
+                    <img src="/avatarNoPhoto.svg" alt="Безаватарочный">
+                    <label class="profile-avatar__change">Поменять аватар</label>
+                </div>
+                <h2 class="profile-name">{{ name }}</h2>
+                {{#if disabled}}
+                    {{#each inputs}}
+                        {{>ProfileInputLabel label=label id=id value=value disabled=true}}
+                    {{/each}}
+                {{ else if password }}
+                    {{#each inputs}}
+                        {{>ProfileInputLabel label=label id=id type='password' placeholder=label}}
+                    {{/each}}
+                {{ else }}
+                    {{#each inputs}}
+                        {{>ProfileInputLabel label=label id=id value=value}}
+                    {{/each}}
+                {{/if}}
+                {{#each buttons}}
+                    {{>ProfileInputLabel label=label inputClass=inputClass labelClass=labelClass idButton=id}}
+                {{/each}}
+                {{#if change}}
+                    {{>Button class='primary_button' id=change.id text=change.text}}
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>

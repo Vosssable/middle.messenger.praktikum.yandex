@@ -1,0 +1,54 @@
+.form__field {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.form__label {
+    position: absolute;
+    top: -10px;
+    left: 0;
+    font-size: 9px;
+    color: var(--primary);
+    transition: all 0.2s ease;
+    display: none;
+}
+
+.form__input:focus-visible {
+    border: none;
+    border-bottom: var(--primary) 1px solid;
+    outline: none;
+}
+
+.form__input {
+    width: 280px;
+    height: 37px;
+    border: none;
+    border-bottom: var(--primary) 1px solid;
+}
+
+.form__input:not(:placeholder-shown) + .form__label {
+    display: block;
+}
+
+.upload_file {
+    font-size: 12px;
+    text-decoration: underline;
+    color: var(--primary);
+    width: 120px;
+    text-align: center;
+}
+
+.upload_file:hover {
+    cursor: pointer;
+    color: var(--primary-hover);
+}
+
+.upload_file:active {
+    transform: scale(0.95);
+    color: var(--primary-active);
+}
+
+.uploaded_file {
+    font-size: 14px;
+    color: var(--background-form);
+}
