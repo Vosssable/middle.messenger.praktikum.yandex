@@ -3,6 +3,9 @@ import {Button} from "../buttons/button/button";
 import {FormInput} from "../inputs/formInput/formInput";
 import inputsValidation from "../../utils/helpers/inputsValidation";
 import {FormLabelsInterface, FormsInterface} from "../../utils/interfaces/attrsInterfaces";
+import doSignIn from "../../utils/controllers/auth/doSignIn"
+import doSignUp from "../../utils/controllers/auth/doSignUp"
+import { SignUpBodyInterface } from "../../utils/interfaces/apiInterfaces"
 
 interface FormDataInterface {
     [key: string]: unknown;
@@ -58,7 +61,7 @@ export class Form extends Block {
                     event.preventDefault()
                     if (props.labels) {
                         const formData: FormDataInterface  = {}
-                        for (const label of props.labels) {
+                        for (const label of props.labels.filter(item => item.id !== 'second_password')) {
                             if (label['input']) {
                                 const tempElement: HTMLInputElement = <HTMLInputElement>document.getElementById(label['id'])
                                 if (tempElement && tempElement['value']) {
@@ -71,7 +74,14 @@ export class Form extends Block {
                                 }
                             }
                         }
-                        console.log(formData)
+                        switch (window.location.pathname) {
+                            case '/':
+                                doSignIn(formData.login as string, formData.password as string)
+                            break
+                            case '/auth':
+                                doSignUp(formData as SignUpBodyInterface)
+                            break
+                        }
                     }
                 }
             },

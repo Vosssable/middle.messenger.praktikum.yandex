@@ -4,6 +4,7 @@ import {ProfileInputLabel} from "../../components/inputs/profileInput/profileInp
 import {ProfilePagePropsInterface} from "../../utils/interfaces/propsInterfaces";
 import {Button} from "../../components/buttons/button/button";
 import inputsValidation from "../../utils/helpers/inputsValidation";
+import { ProfileAttrs, ProfileBtns } from "../../utils/ProfileAttrs"
 
 interface ProfileFormDataInterface {
     [key: string]: unknown;
@@ -21,7 +22,10 @@ interface ProfileFormDataInterface {
 }
 
 export default class ProfilePage extends Block {
-    constructor(props: ProfilePagePropsInterface) {
+    constructor() {
+        const props: ProfilePagePropsInterface = {
+            name: ProfileAttrs.name, inputs: ProfileAttrs.inputs, buttons: ProfileBtns, disabled: true
+        }
         if (props['avatar']) {
             if (props['title']) {
                 props['avatarForm'] = new Form({
