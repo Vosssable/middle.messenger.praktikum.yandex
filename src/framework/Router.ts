@@ -134,6 +134,7 @@ class Router {
           if (res) {
             store.set('user', res)
             console.log(store.getState())
+            // зачем нам логин или ауф если мы уже вошли
             if (['/', '/auth'].includes(pathname)) {
               this.history.pushState({}, "", '/chat')
               this._onRoute('/chat')
