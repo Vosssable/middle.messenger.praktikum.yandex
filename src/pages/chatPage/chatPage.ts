@@ -73,9 +73,11 @@ export default class ChatPage extends Block {
             <div>
                 <div class="{{ attrs.chatContainerClass }}">
                     <div class="{{ attrs.sidebarClass }}">
+                    <a href="/profile">
                         <div class="{{ attrs.sidebarProfileClass }}">
                             Профиль ›
                         </div>
+                        </a>
                         <div class="{{ attrs.searchChatClass }}">
                             <input id="search-chat__input" type="text" placeholder="Поиск" name="chat">
                             <label for="search-chat__input">

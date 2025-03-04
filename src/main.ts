@@ -12,6 +12,7 @@ import { getUser, logOut, signIn, signUp } from "./utils/api/auth"
 import doGetUser from "./utils/controllers/auth/doGetUser"
 
 document.addEventListener("DOMContentLoaded", () => {
+  doGetUser()
   const app = new App()
   app.onRenderFunc()
   window.test = signIn

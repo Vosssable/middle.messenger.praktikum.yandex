@@ -13,6 +13,10 @@ export default class Store extends EventBus {
     return this.state
   }
 
+  public isEmpty(): boolean {
+    return Object.keys(this.state).length === 0
+  }
+
   public set(path: string, value: unknown) {
     set(this.state, path, value)
 

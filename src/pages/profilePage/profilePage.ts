@@ -162,9 +162,9 @@ export default class ProfilePage extends Block {
             ${avatarHTML}
                 <form id="profile">
                     <div class="{{ attrs.profileContainerClass }}">
-                        <div class="{{ attrs.profileBackClass }}">
+                    <a href="/chat" class="{{ attrs.profileBackClass }}">
                             <img src="/arrowLeft.svg" alt="Назад">
-                        </div>
+                        </a>
                         <div class="{{ attrs.profileClass }}">
                             <div class="{{ attrs.profileAvatarClass }}" >
                                 <img src="/avatarNoPhoto.svg" alt="Безаватарочный">

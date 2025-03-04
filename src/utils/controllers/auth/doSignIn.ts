@@ -12,7 +12,7 @@ function doSignIn(login: string, password: string) {
       alert('Ошибка! Смотри логи!')
     }
   }).catch(err => {
-    console.log('Ошибка', err)
+    console.error('Ошибка', err)
     alert('Что-то ввели неправильно')
   })
 }

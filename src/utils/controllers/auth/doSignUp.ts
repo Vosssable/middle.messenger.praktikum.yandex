@@ -12,7 +12,7 @@ function doSignUp(body: SignUpBodyInterface) {
     if (err.status === 409) {
       alert("Пользователь с таким именем уже существует")
     } else {
-      console.log("Ошибка", err)
+      console.error("Ошибка", err)
       alert("Что-то пошло не так")
     }
   })

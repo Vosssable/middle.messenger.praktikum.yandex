@@ -27,11 +27,9 @@ export default class EventBus {
   }
 
   public emit(event: string, ...args: []): void {
-    console.log(this.listeners)
-    if (!this.listeners[event]) {
-      alert(`No event: ${event}`)
-      throw new Error(`No event: ${event}`)
-    }
+      if (!this.listeners[event]) {
+        return
+      }
 
     this.listeners[event].forEach(listener => {
       listener(...args)
