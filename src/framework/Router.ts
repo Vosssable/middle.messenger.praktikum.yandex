@@ -129,13 +129,18 @@ class Router {
       return
     }
 
-    if (!['/', '/auth', '/nothing', '/error'].includes(pathname)) {
+    if (!['/nothing', '/error'].includes(pathname)) {
       checkUserAuth().then(res => {
           if (res) {
             store.set('user', res)
             console.log(store.getState())
-            this.history.pushState({}, "", pathname)
-            this._onRoute(pathname)
+            if (['/', '/auth'].includes(pathname)) {
+              this.history.pushState({}, "", '/chat')
+              this._onRoute('/chat')
+            } else {
+              this.history.pushState({}, "", pathname)
+              this._onRoute(pathname)
+            }
           }
         }
       ).catch(() => {
