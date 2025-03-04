@@ -1,6 +1,7 @@
 import Block from "./Block"
 import isEqual from "../utils/mydash/isEqual"
 import Store from "./Store/Store"
+import { checkUserAuth } from "../utils/controllers/auth/doGetUser"
 
 const render = (query: string, block: Block) => {
   const root = document.querySelector(query)
@@ -122,24 +123,30 @@ class Router {
   }
 
   go(pathname: string) {
-    // проверим то, что чел зашел
-    console.log(store.getState())
-    console.log(store.isEmpty())
-    // если чел не зашел (сторэдж пустой), то вернем его на путь истиный
-    if ((pathname !== "/" && pathname !== "/auth") && store.isEmpty()) {
-      this.history.pushState({}, "", pathname)
-      this._onRoute("/")
-      return
-    }
-
     // на нет и суда нет
     if (!this.getRoute(pathname)) {
       this._onRoute("/nothing")
       return
     }
 
-    this.history.pushState({}, "", pathname)
-    this._onRoute(pathname)
+    if (!['/', '/auth', '/nothing', '/error'].includes(pathname)) {
+      checkUserAuth().then(res => {
+          if (res) {
+            store.set('user', res)
+            console.log(store.getState())
+            this.history.pushState({}, "", pathname)
+            this._onRoute(pathname)
+          }
+        }
+      ).catch(() => {
+        // если чел не зашел, то вернем его на путь истиный
+        this.history.pushState({}, "", '/')
+        this._onRoute('/')
+      })
+    } else {
+      this.history.pushState({}, "", pathname)
+      this._onRoute(pathname)
+    }
   }
 
   back() {

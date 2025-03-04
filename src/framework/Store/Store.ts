@@ -22,5 +22,7 @@ export default class Store extends EventBus {
 
     this.emit(StoreEvents.Updated)
   }
+
+
 }
 

@@ -9,4 +9,8 @@ function doGetUser() {
   })
 }
 
+export function checkUserAuth() {
+  return getUser()
+}
+
 export default doGetUser
