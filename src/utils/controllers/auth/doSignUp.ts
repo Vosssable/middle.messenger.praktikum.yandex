@@ -6,7 +6,7 @@ import doGetUser from "./doGetUser"
 function doSignUp(body: SignUpBodyInterface) {
   signUp(body).then(res => {
     doGetUser()
-    Router.go("/chat")
+    Router.go("/messenger")
     console.log(res)
   }).catch(err => {
     if (err.status === 409) {

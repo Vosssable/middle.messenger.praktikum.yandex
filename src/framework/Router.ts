@@ -1,6 +1,5 @@
 import Block from "./Block"
 import isEqual from "../utils/mydash/isEqual"
-import Store from "./Store/Store"
 import { checkUserAuth } from "../utils/controllers/auth/doGetUser"
 
 const render = (query: string, block: Block) => {
@@ -9,7 +8,7 @@ const render = (query: string, block: Block) => {
     root.replaceWith(block.getContent())
   }
   return root
-}, store = new Store()
+}
 
 interface RoutePropsInterface {
   [key: string]: string
@@ -132,12 +131,10 @@ class Router {
     if (!['/nothing', '/error'].includes(pathname)) {
       checkUserAuth().then(res => {
           if (res) {
-            store.set('user', res)
-            console.log(store.getState())
             // зачем нам логин или ауф если мы уже вошли
-            if (['/', '/auth'].includes(pathname)) {
-              this.history.pushState({}, "", '/chat')
-              this._onRoute('/chat')
+            if (['/', '/sign-up'].includes(pathname)) {
+              this.history.pushState({}, "", '/messenger')
+              this._onRoute('/messenger')
             } else {
               this.history.pushState({}, "", pathname)
               this._onRoute(pathname)

@@ -138,7 +138,12 @@ export default class Block {
       return
     }
 
-    Object.assign(this.props, nextProps)
+    const { props, children, lists } = this._getChildrenPropsAndProps(nextProps)
+
+    Object.assign(this.props, props)
+    Object.assign(this.children, children)
+    Object.assign(this.lists, lists)
+    this._render()
   }
 
   public setLists = (nextList: BlockListInterface): void => {
@@ -210,6 +215,8 @@ export default class Block {
   }
 
   private _makePropsProxy(props: BlockProps): BlockProps {
+    const eventBus = () => this.eventBus()
+
     return new Proxy(props, {
       get(target: BlockProps, prop: string) {
         const value = target[prop]
@@ -218,7 +225,8 @@ export default class Block {
       set(target: BlockProps, prop: string, value: BlockProps) {
         const oldTarget = { ...target }
         target[prop] = value
-        this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target)
+        console.log(target, oldTarget, prop)
+        eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target)
         return true
       },
       deleteProperty() {

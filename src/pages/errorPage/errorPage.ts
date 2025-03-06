@@ -27,7 +27,7 @@ export default class ErrorPage extends Block {
                 <div class="{{ attrs.errorContainerClass }}">
                     <h1 class="{{ attrs.errorCodeClass }}">{{ code }}</h1>
                     <h2 class="{{ attrs.errorMessageClass }}">{{ text }}</h2>
-                    <a href="/chat">{{{ errorMessage }}}</a>
+                    <a href="/messenger">{{{ errorMessage }}}</a>
                 </div>
             </div>
         </main>

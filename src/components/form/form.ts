@@ -78,7 +78,7 @@ export class Form extends Block {
                             case '/':
                                 doSignIn(formData.login as string, formData.password as string)
                             break
-                            case '/auth':
+                            case '/sign-up':
                                 doSignUp(formData as SignUpBodyInterface)
                             break
                         }
@@ -104,10 +104,10 @@ export class Form extends Block {
                         {{{ ${input} }}}                
                         <div class="form__label"> ${placeholder} </div>
                         <span class="form__input-validate"> ${validateText} </span>
-                    </div>`;
+                    </div>`
             }).join('') : this.props['upload_file'],
             buttonsHTML = this.lists.buttons.map((button) => {
-                return `{{{ ${button} }}}`;
+                return `{{{ ${button} }}}`
             }).join('')
         return `
             <form class="{{attrs.formClass}} {{ avatarClass }} {{ class }}">

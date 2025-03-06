@@ -73,7 +73,7 @@ export default class ChatPage extends Block {
             <div>
                 <div class="{{ attrs.chatContainerClass }}">
                     <div class="{{ attrs.sidebarClass }}">
-                    <a href="/profile">
+                    <a href="/settings">
                         <div class="{{ attrs.sidebarProfileClass }}">
                             Профиль ›
                         </div>

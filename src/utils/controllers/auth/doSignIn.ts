@@ -6,7 +6,7 @@ function doSignIn(login: string, password: string) {
   signIn(login, password).then(res => {
     if (res === 'OK') {
       doGetUser()
-      Router.go('/chat')
+      Router.go('/messenger')
     } else {
       console.log('Непредвиденный ответ с сервера, срочно звони в Яндекс)))')
       alert('Ошибка! Смотри логи!')

@@ -1,11 +1,11 @@
 import "./style.pcss"
-import ProfilePage from "./pages/profilePage/profilePage"
 import LoginPage from "./pages/loginPage/loginPage"
 import RegisterPage from "./pages/registerPage/registerPage"
 import ChatPage from "./pages/chatPage/chatPage"
 import Router from "./framework/Router"
 import Error404Page from "./pages/Error404Page"
 import Error500Page from "./pages/Error500Page"
+import MainProfilePage from "./pages/profilePage/mainProfilePage"
 
 export default class App {
   public currentPage: string
@@ -14,11 +14,11 @@ export default class App {
 
   onRenderFunc() {
     this.Router.use("/", LoginPage)
-    this.Router.use("/auth", RegisterPage)
-    this.Router.use("/profile", ProfilePage)
+    this.Router.use("/sign-up", RegisterPage)
+    this.Router.use("/settings", MainProfilePage)
     this.Router.use("/nothing", Error404Page)
     this.Router.use("/error", Error500Page)
-    this.Router.use("/chat", ChatPage)
+    this.Router.use("/messenger", ChatPage)
     this.Router.go(window.location.pathname)
     // if (this.currentPage === 'loginPage') {
     //     const loginPage = new LoginPage();
@@ -26,7 +26,7 @@ export default class App {
     //     this.reloadPage()
     // }
     //         else if (this.currentPage === 'profilePage') {
-    //         const profilePage = new ProfilePage({
+    //         const profilePage = new ProfileBlock({
     //             name: ProfileAttrs.name, inputs: ProfileAttrs.inputs, buttons: ProfileBtns, disabled: true,
     //             onClick: (event: Event, action: string): void => {
     //                 event.preventDefault()
@@ -36,14 +36,14 @@ export default class App {
     //         this.mainApp.replaceWith(profilePage.getContent())
     //         this.reloadPage()
     //     } else if (this.currentPage === 'profileChangeUserData') {
-    //         const profilePage = new ProfilePage({
+    //         const profilePage = new ProfileBlock({
     //             inputs: ProfileAttrs.inputs, change: ProfileEditBtn
     //         })
     //         this.mainApp.replaceWith(profilePage.getContent())
     //         document.getElementsByClassName('profile-avatar__change')[0].classList.add('display-none')
     //         this.reloadPage()
     //     } else if (this.currentPage === 'profileChangeAvatar') {
-    //         const profilePage = new ProfilePage({
+    //         const profilePage = new ProfileBlock({
     //             name: ProfileAttrs.name,
     //             inputs: ProfileAttrs.inputs,
     //             buttons: ProfileBtns,
@@ -57,7 +57,7 @@ export default class App {
     //         document.getElementById('profile')?.classList.add('overlay')
     //         this.reloadPage()
     //     } else if (this.currentPage === 'profileChangePassword') {
-    //         const profilePage = new ProfilePage({
+    //         const profilePage = new ProfileBlock({
     //             inputs: ProfileEditPasswordAttrs, change: ProfileEditBtn, password: true
     //         })
     //         this.mainApp.replaceWith(profilePage.getContent())

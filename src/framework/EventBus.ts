@@ -26,13 +26,13 @@ export default class EventBus {
     )
   }
 
-  public emit(event: string, ...args: []): void {
+  public emit(event: string, ...args: unknown[]): void {
       if (!this.listeners[event]) {
         return
       }
 
     this.listeners[event].forEach(listener => {
-      listener(...args)
+      listener(...(args as []))
     })
   }
 
