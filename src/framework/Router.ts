@@ -1,6 +1,9 @@
 import Block from "./Block"
 import isEqual from "../utils/mydash/isEqual"
 import { checkUserAuth } from "../utils/controllers/auth/doGetUser"
+import Store from "./Store/Store"
+
+const store = Store.getInstance()
 
 const render = (query: string, block: Block) => {
   const root = document.querySelector(query)
@@ -55,8 +58,8 @@ class Route<BlockClass extends typeof Block> {
       render(this._props.rootQuery, this._block)
       return
     }
-
-    this._block.show()
+    this._block = new this._blockClass()
+    render(this._props.rootQuery, this._block)
   }
 }
 
@@ -128,9 +131,18 @@ class Router {
       return
     }
 
-    if (!['/nothing', '/error'].includes(pathname)) {
-      checkUserAuth().then(res => {
+    if (['/nothing', '/error'].includes(pathname)) {
+      this.history.pushState({}, "", pathname)
+      this._onRoute(pathname)
+      return
+    }
+
+    checkUserAuth().then(res => {
           if (res) {
+            if (typeof res === 'string') {
+              store.set('user', JSON.parse(res))
+            }
+            console.log('store, auth', store)
             // зачем нам логин или ауф если мы уже вошли
             if (['/', '/sign-up'].includes(pathname)) {
               this.history.pushState({}, "", '/messenger')
@@ -143,13 +155,14 @@ class Router {
         }
       ).catch(() => {
         // если чел не зашел, то вернем его на путь истиный
-        this.history.pushState({}, "", '/')
-        this._onRoute('/')
+          if (pathname !== '/sign-up') {
+            this.history.pushState({}, "", '/')
+            this._onRoute('/')
+          } else {
+            this.history.pushState({}, "", '/sign-up')
+            this._onRoute('/sign-up')
+          }
       })
-    } else {
-      this.history.pushState({}, "", pathname)
-      this._onRoute(pathname)
-    }
   }
 
   back() {

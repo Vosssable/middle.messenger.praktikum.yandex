@@ -21,6 +21,7 @@ export interface ButtonsInterface {
     id?: string
     alt?: string
     class?: string
+    type?: string
 }
 
 export interface ErrorsInterface {

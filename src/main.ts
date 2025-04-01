@@ -10,8 +10,10 @@ import "./style.pcss"
 import App from "./App"
 import { getUser, logOut, signIn, signUp } from "./utils/api/auth"
 import doGetUser from "./utils/controllers/auth/doGetUser"
+// import Store from "./framework/Store/Store"
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Store.getInstance()
   const app = new App()
   app.onRenderFunc()
   window.test = signIn

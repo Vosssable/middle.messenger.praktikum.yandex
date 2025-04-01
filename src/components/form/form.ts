@@ -18,7 +18,7 @@ interface FormDataInterface {
     phone?: string
     message?: string
 }
-
+// TODO: Надо ебаную проверку, не могу зарегистриррооваться без логина!!!
 export class Form extends Block {
     constructor(props: FormsInterface) {
         const inputs = [],
@@ -35,10 +35,12 @@ export class Form extends Block {
                     })
                     inputs.push(label['id'])
                 } else if (label['button']) {
+
                     props[label['id']] = new Button({
                         id: label['id'],
                         class: label['class'],
-                        text: label['text']
+                        text: label['text'],
+                        type: label['type'],
                     })
                     buttons.push(label['id'])
                 } else if (label['upload']) {
@@ -59,28 +61,36 @@ export class Form extends Block {
             events: {
                 submit: (event: SubmitEvent) => {
                     event.preventDefault()
-                    if (props.labels) {
-                        const formData: FormDataInterface  = {}
-                        for (const label of props.labels.filter(item => item.id !== 'second_password')) {
-                            if (label['input']) {
-                                const tempElement: HTMLInputElement = <HTMLInputElement>document.getElementById(label['id'])
-                                if (tempElement && tempElement['value']) {
-                                    if (inputsValidation(label['id'], tempElement['value'])) {
-                                        formData[label['id']] = tempElement['value']
+                    if (event.submitter?.classList.contains('special_button')) {
+                        if (document.location.pathname !== '/sign-up') {
+                            this.Router.go('/sign-up')
+                        } else {
+                            this.Router.go('/')
+                        }
+                    } else {
+                        if (props.labels) {
+                            const formData: FormDataInterface  = {}
+                            for (const label of props.labels.filter(item => item.id !== 'second_password')) {
+                                if (label['input']) {
+                                    const tempElement: HTMLInputElement = <HTMLInputElement>document.getElementById(label['id'])
+                                    if (tempElement && tempElement['value']) {
+                                        if (inputsValidation(label['id'], tempElement['value'])) {
+                                            formData[label['id']] = tempElement['value']
+                                        }
+                                    } else {
+                                        alert(`Не заполнено поле ${label['id']}`)
+                                        return
                                     }
-                                } else {
-                                    alert(`Не заполнено поле ${label['id']}`)
-                                    return
                                 }
                             }
-                        }
-                        switch (window.location.pathname) {
-                            case '/':
-                                doSignIn(formData.login as string, formData.password as string)
-                            break
-                            case '/sign-up':
-                                doSignUp(formData as SignUpBodyInterface)
-                            break
+                            switch (window.location.pathname) {
+                                case '/':
+                                    doSignIn(formData.login as string, formData.password as string)
+                                    break
+                                case '/sign-up':
+                                    doSignUp(formData as SignUpBodyInterface)
+                                    break
+                            }
                         }
                     }
                 }
@@ -109,6 +119,7 @@ export class Form extends Block {
             buttonsHTML = this.lists.buttons.map((button) => {
                 return `{{{ ${button} }}}`
             }).join('')
+
         return `
             <form class="{{attrs.formClass}} {{ avatarClass }} {{ class }}">
                 <h1 class="{{attrs.headerClass}}">

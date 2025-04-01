@@ -86,7 +86,6 @@ export class HTTPTransport {
       xhr.onerror = () => reject('Error')
       xhr.ontimeout = () => reject('Timeout')
 
-
       if (isGet || !data) {
         xhr.send()
       } else {
@@ -97,4 +96,3 @@ export class HTTPTransport {
 
 }
 
-console.log(HTTPTransport)

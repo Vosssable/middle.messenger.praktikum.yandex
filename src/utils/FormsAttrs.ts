@@ -88,7 +88,8 @@ const createUserForm: FormsInterface = {
             button: true,
             class: 'primary_button',
             id: 'submit_registration',
-            text: 'Зарегистрироваться'
+            text: 'Зарегистрироваться',
+            type: 'submit'
         },
         {
             button: true,

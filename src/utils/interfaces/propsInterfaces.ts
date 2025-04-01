@@ -48,6 +48,7 @@ export interface ProfilePagePropsInterface extends KeyValueInterface {
     disabled?: boolean
     avatar?: boolean
     onClick?: (event: Event, action: string) => void
+    action?: string
 }
 
 export interface ProfileInputLabelInterface {

@@ -4,12 +4,20 @@ import { HTTPTransport } from "../helpers/fetchRequest"
 const fetch = new HTTPTransport()
 
 export function changeProfile(newValues: ProfileInfoInterface) {
-  fetch.put("/user/profile", {
+  return fetch.put("/user/profile", {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(newValues)
-  }).then(res => console.log(res)).catch(err => console.log(err))
+    body: JSON.stringify({
+      "first_name": "Asdasdafg",
+      "second_name": "Ananas",
+      "display_name": 'asdasdasdasd',
+      "login": "RamblerTest",
+      "avatar": "asdasdasdasd.png",
+      "email": "sdfsadgh@fasg.ru",
+      "phone": "8912354323"
+    })
+  })
 }
 
 export function changePassword(oldPassword: string, newPassword: string) {

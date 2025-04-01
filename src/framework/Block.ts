@@ -89,7 +89,7 @@ export default class Block {
   }
 
   protected componentDidUpdate(oldProps: BlockProps, newProps: BlockProps): boolean {
-    console.log(oldProps, newProps)
+    console.debug(oldProps, newProps)
     return true
   }
 
@@ -137,6 +137,9 @@ export default class Block {
     if (!nextProps) {
       return
     }
+    this.lists = {}
+    this.children = {}
+
 
     const { props, children, lists } = this._getChildrenPropsAndProps(nextProps)
 
@@ -225,7 +228,6 @@ export default class Block {
       set(target: BlockProps, prop: string, value: BlockProps) {
         const oldTarget = { ...target }
         target[prop] = value
-        console.log(target, oldTarget, prop)
         eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target)
         return true
       },
