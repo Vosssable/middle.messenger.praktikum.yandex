@@ -6,15 +6,14 @@ import Router from "./framework/Router"
 import Error404Page from "./pages/Error404Page"
 import Error500Page from "./pages/Error500Page"
 import ProfilePage from "./pages/profilePage/profilePage"
-// import Store from "./framework/Store/Store"
 
 export default class App {
   public currentPage: string
   public mainApp: HTMLElement | null
   public Router = Router
 
+
   onRenderFunc() {
-    // Store.getInstance()
     this.Router.use("/", LoginPage)
     this.Router.use("/sign-up", RegisterPage)
     this.Router.use("/settings", ProfilePage)
@@ -22,6 +21,7 @@ export default class App {
     this.Router.use("/error", Error500Page)
     this.Router.use("/messenger", ChatPage)
     this.Router.go(window.location.pathname)
+
     // if (this.currentPage === 'loginPage') {
     //     const loginPage = new LoginPage();
     //     this.mainApp.replaceWith(loginPage.getContent())

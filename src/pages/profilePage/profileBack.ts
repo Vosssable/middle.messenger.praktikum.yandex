@@ -8,6 +8,7 @@ export default class ProfileBack extends Block {
       },
       events: {
         click: (event: MouseEvent) => {
+          if (document.getElementById('profile_back')?.parentElement?.classList.contains('overlay')) return
           event.preventDefault()
           if (document.getElementById("profile_change")) {
             this.Router.go("/settings")

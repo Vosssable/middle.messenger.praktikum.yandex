@@ -9,6 +9,6 @@ export class IconButton extends Block {
     }
 
     override render() {
-        return `<img src="{{ src }}" alt="{{ alt }}" class="{{ class }}"/>`
+        return `<img src="{{ src }}" alt="{{ alt }}" class="{{ class }}" id="{{ id }}"/>`
     }
 }

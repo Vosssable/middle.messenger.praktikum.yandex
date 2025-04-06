@@ -2,6 +2,7 @@ import merge from "./merge";
 import { Indexed } from "../interfaces/frameworkInterfaces"
 
 function set(object: Indexed | unknown, path: string, value: unknown): Indexed | unknown {
+    console.log('set', object, path, value);
     if (typeof object !== 'object' || object === null) {
         return object;
     }
@@ -12,7 +13,7 @@ function set(object: Indexed | unknown, path: string, value: unknown): Indexed |
 
     const result = path.split('.').reduceRight<Indexed>((acc, key) => ({
         [key]: acc,
-    }), value as any);
+    }), value as unknown as Indexed);
     return merge(object as Indexed, result);
 }
 

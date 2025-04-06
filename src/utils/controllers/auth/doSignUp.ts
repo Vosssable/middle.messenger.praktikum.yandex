@@ -3,7 +3,7 @@ import Router from "../../../framework/Router"
 import { SignUpBodyInterface } from "../../interfaces/apiInterfaces"
 import doGetUser from "./doGetUser"
 
-function doSignUp(body: SignUpBodyInterface) {
+export function doSignUp(body: SignUpBodyInterface) {
   signUp(body).then(res => {
     doGetUser()
     Router.go("/messenger")
@@ -18,4 +18,3 @@ function doSignUp(body: SignUpBodyInterface) {
   })
 }
 
-export default doSignUp

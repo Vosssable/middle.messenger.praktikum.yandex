@@ -142,7 +142,6 @@ class Router {
             if (typeof res === 'string') {
               store.set('user', JSON.parse(res))
             }
-            console.log('store, auth', store)
             // зачем нам логин или ауф если мы уже вошли
             if (['/', '/sign-up'].includes(pathname)) {
               this.history.pushState({}, "", '/messenger')
@@ -153,8 +152,9 @@ class Router {
             }
           }
         }
-      ).catch(() => {
+      ).catch((err) => {
         // если чел не зашел, то вернем его на путь истиный
+      console.log('hui', err)
           if (pathname !== '/sign-up') {
             this.history.pushState({}, "", '/')
             this._onRoute('/')

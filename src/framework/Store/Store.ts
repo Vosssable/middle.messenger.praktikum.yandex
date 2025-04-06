@@ -30,11 +30,13 @@ export default class Store extends EventBus {
     return Object.keys(this.state).length === 0
   }
 
+  public reset(path: string) {
+    this.state[path] = null
+  }
+
   public set(path: string, value: unknown) {
     set(this.state, path, value)
     this.emit(StoreEvents.Updated)
   }
-
-
 }
 

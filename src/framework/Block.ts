@@ -142,7 +142,6 @@ export default class Block {
 
 
     const { props, children, lists } = this._getChildrenPropsAndProps(nextProps)
-
     Object.assign(this.props, props)
     Object.assign(this.children, children)
     Object.assign(this.lists, lists)
@@ -174,7 +173,6 @@ export default class Block {
 
     const fragment = this._createDocumentElement("template")
     fragment.innerHTML = Handlebars.compile(this.render())(propsAndStubs)
-
     Object.values(this.children).forEach(child => {
       const stub = fragment.content.querySelector(`[data-id="${child._id}"]`)
       if (stub) {

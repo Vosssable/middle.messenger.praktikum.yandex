@@ -7,6 +7,7 @@ export default class LoginPage extends Block {
         super({
             loginForm: new Form(loginForm)
         })
+        console.log(this)
     }
     override render() {
         return `

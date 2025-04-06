@@ -39,7 +39,6 @@ export class HTTPTransport {
   put = this.newMethod(METHODS.PUT)
   delete = this.newMethod(METHODS.DELETE)
   patch = this.newMethod(METHODS.PATCH)
-
   request = (url: string, options: Options = {}, timeout = 5000) => {
     const { headers = {}, method, data } = options
 
@@ -93,6 +92,4 @@ export class HTTPTransport {
       }
     })
   }
-
 }
-

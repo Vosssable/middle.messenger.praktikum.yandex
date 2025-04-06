@@ -8,18 +8,39 @@ export default class ChatFooter extends Block {
   constructor() {
     super({
       filePropertiesBtn: new IconButton({
+        id: "chat-footer_icon-btn",
         src: "/fileProperties.svg",
         alt: "Добавить к сообщению",
         class: "file-properties"
       }),
-      footerDropdown: new DropDown({ class: "chat-footer__properties__active", buttons: FooterButtons }),
-      sendMessageBtn: new IconButton({ src: "/arrowRight.svg", alt: "Отправить сообщение", class: "send-message" }),
+      footerDropdown: new DropDown({
+        id: "chat-footer_properties-dropdown",
+        class: "chat-footer__properties__active",
+        buttons: FooterButtons
+      }),
+      sendMessageBtn: new IconButton({
+        src: "/arrowRight.svg",
+        alt: "Отправить сообщение",
+        class: "send-message"
+      }),
       attrs: {
         chatFooterClass: "chat-footer",
         chatFooterPropertiesClass: "chat-footer__properties"
+      },
+      events: {
+        click: (event: MouseEvent) => {
+          const target = event.target as HTMLElement,
+            dropdown = document.getElementById("chat-footer_properties-dropdown") as HTMLElement
+          if (target.id === "chat-footer_icon-btn" || target.classList.contains("chat-footer__properties")) {
+            dropdown.classList.add("display-block")
+          } else {
+
+          }
+        }
       }
     })
   }
+
   override render() {
     return `
      <div class="{{ attrs.chatFooterClass }}">

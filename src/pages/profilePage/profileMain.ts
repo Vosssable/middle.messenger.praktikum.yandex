@@ -2,47 +2,58 @@ import { ProfilePagePropsInterface } from "../../utils/interfaces/propsInterface
 import Block from "../../framework/Block"
 import { ProfileAttrs, ProfileEditBtn, ProfileEditPasswordAttrs } from "../../utils/ProfileAttrs"
 import { ProfileInputLabel } from "../../components/inputs/profileInput/profileInputLabel"
-import inputsValidation from "../../utils/helpers/inputsValidation"
-import { ProfileFormDataInterface } from "./profilePage"
+import ProfilePage from "./profilePage"
 import { ButtonsInterface, InputsInterface, ProfileBtnsInterface } from "../../utils/interfaces/attrsInterfaces"
 import { Button } from "../../components/buttons/button/button"
 import doLogOut from "../../utils/controllers/auth/doLogOut"
 import { doChangeProfile } from "../../utils/controllers/user/doChangeProfile"
-import { ProfileInfoInterface } from "../../utils/interfaces/apiInterfaces"
+import { validateForms } from "../../utils/helpers/validateForms"
+import { doChangePass } from "../../utils/controllers/user/doChangePass"
+import Store from "../../framework/Store/Store"
+import { isEmpty } from "../../utils/mydash/isEmpty"
 
 export default class ProfileMain extends Block {
   constructor(props: ProfilePagePropsInterface) {
+    const userInfo = Store.getInstance().getState().user
+    console.log(userInfo)
     super({
       ...props,
       attrs: {
         profileClass: "profile",
-        profileContainerClass: "profile-container",
-        profileBackClass: "profile-back",
         profileAvatarClass: "profile-avatar",
         profileAvatarChangeClass: "profile-avatar__change",
         profileNameClass: "profile-name"
       },
       events: {
         click: (event: MouseEvent) => {
+          if (document.getElementById("profile-main")?.parentElement?.classList.contains("overlay")) return
           const target = event.target as HTMLElement
-          if (target.id === 'profile_change') {
+          if (target.id === "profile_change") {
             return
           }
           if (target) {
             event.preventDefault()
             switch (target.id) {
               case "change_avatar":
-
+                this.Router.use("/settings", new ProfilePage({ avatar: true }) as unknown as typeof Block)
                 break
               case "change_user_data":
                 this.setProps({
-                  name: props.name, inputs: ProfileAttrs.inputs, change: ProfileEditBtn, disabled: false, action: 'change_user_data'
+                  name: props.name,
+                  inputs: ProfileAttrs.inputs,
+                  change: ProfileEditBtn,
+                  disabled: false,
+                  action: "change_user_data"
                 })
                 setInputs()
                 break
               case "change_password":
                 this.setProps({
-                  name: '', inputs: ProfileEditPasswordAttrs, change: ProfileEditBtn, disabled: false, action: 'change_user_password'
+                  name: "",
+                  inputs: ProfileEditPasswordAttrs,
+                  change: ProfileEditBtn,
+                  disabled: false,
+                  action: "change_user_password"
                 })
                 setInputs()
                 break
@@ -53,40 +64,34 @@ export default class ProfileMain extends Block {
           }
         },
         submit: (event: SubmitEvent) => {
+          if (document.getElementById("profile-main")?.parentElement?.classList.contains("overlay")) return
           event.preventDefault()
-          if (this.props.action === 'change_user_data') {
+          if (this.props.action === "change_user_data") {
             if (props.inputs) {
-              const formData: ProfileFormDataInterface = {}
-              for (const input of props.inputs) {
-                const tempElement = document.getElementById(input["id"]) as HTMLInputElement
-                if (tempElement && tempElement["value"]) {
-                  if (inputsValidation(input["id"], tempElement["value"])) {
-                    formData[input["id"]] = tempElement["value"]
-                    if (document.getElementById(input["id"])?.classList.contains("profile-validation-error")) {
-                      document.getElementById(input["id"])?.classList.remove("profile-validation-error")
-                    }
-                  } else {
-                    if (!document.getElementById(input["id"])?.classList.contains("profile-validation-error")) {
-                      document.getElementById(input["id"])?.classList.add("profile-validation-error")
-                    }
-                  }
-                } else {
-                  if (!document.getElementById(input["id"])?.classList.contains("profile-validation-error")) {
-                    document.getElementById(input["id"])?.classList.add("profile-validation-error")
-                  }
-                  alert(`Не заполнено поле ${input["id"]}`)
-                  return
-                }
+              const newForm = validateForms(props.inputs)
+              if (!newForm) {
+                return
               }
-              doChangeProfile(<ProfileInfoInterface><unknown>formData)
+              doChangeProfile(newForm)
             }
-          } else if (this.props.action === 'change_user_password') {
-            console.log("change_password", props.inputs)
+          } else if (this.props.action === "change_user_password") {
+            const newForm = validateForms(ProfileEditPasswordAttrs)
+            if (!newForm) {
+              return
+            }
+            doChangePass(newForm.old_password as string, newForm.new_password as string)
           }
-
         }
       }
     })
+
+    if (!isEmpty(userInfo.avatar)) {
+      this.props.avatarSrc = "https://ya-praktikum.tech/api/v2/resources/" + userInfo.avatar
+      this.props.profileAvatarImgClass = "profile-avatar"
+    } else {
+      this.props.avatarSrc = "/avatarNoPhoto.svg"
+    }
+
     const setInputs = () => {
       const inputs = <InputsInterface[]>this.lists.inputs,
         buttons = <ProfileBtnsInterface[]>this.lists.buttons,
@@ -107,10 +112,10 @@ export default class ProfileMain extends Block {
           label: button["label"]
         })) : [],
         ProfileChange: change ? new Button({
-          class: 'primary_button',
+          class: "primary-button",
           id: change.id,
           text: change.text
-        }) : ''
+        }) : ""
       })
     }
     setInputs()
@@ -118,13 +123,13 @@ export default class ProfileMain extends Block {
 
   override render() {
     return `
-       <div class="{{ attrs.profileClass }}">
-            
+       <div id="profile-main" class="{{ attrs.profileClass }}">
                 <div class="{{ attrs.profileAvatarClass }}" >
-                    <img src="/avatarNoPhoto.svg" alt="Безаватарочный">
-                    <label class="{{ attrs.profileAvatarChangeClass }}" id="change_avatar">Поменять аватар</label>
+                    <img src="{{ avatarSrc }}" class="{{ profileAvatarImgClass }}" alt="Безаватарочный">
+                    {{#unless action}}
+                      <label class="{{ attrs.profileAvatarChangeClass }}" id="change_avatar">Поменять аватар</label>
+                    {{/unless}}
                 </div>
-                
                 <h2 class="{{ attrs.profileNameClass }}">{{ name }}</h2>
             <form id="profile" class="center">
                 {{{ ProfileInputs }}}

@@ -7,13 +7,6 @@ export interface SignUpBodyInterface {
   phone: string
 }
 
-// first_name: 'Alex',
-//   second_name: 'Alex',
-//   login: 'Alex123456',
-//   email: 'Alex@mail.ru',
-//   password: '1qa@WS3ed',
-//   phone: '89190009191'
-// {"id":3551}
 
 export interface ProfileInfoInterface {
   first_name: string,
@@ -22,4 +15,10 @@ export interface ProfileInfoInterface {
   email: string,
   display_name: string,
   phone: string
+}
+
+export interface GetChatsInterface {
+  offset?: number,
+  limit?: number,
+  title?: string
 }

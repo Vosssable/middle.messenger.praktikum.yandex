@@ -8,33 +8,25 @@ export function changeProfile(newValues: ProfileInfoInterface) {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      "first_name": "Asdasdafg",
-      "second_name": "Ananas",
-      "display_name": 'asdasdasdasd',
-      "login": "RamblerTest",
-      "avatar": "asdasdasdasd.png",
-      "email": "sdfsadgh@fasg.ru",
-      "phone": "8912354323"
-    })
+    data: JSON.stringify({...newValues})
   })
 }
 
 export function changePassword(oldPassword: string, newPassword: string) {
-  fetch.put("/user/password", {
+  return fetch.put("/user/password", {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
+    data: JSON.stringify({
       oldPassword: oldPassword,
       newPassword: newPassword
     })
-  }).then(res => console.log(res)).catch(err => console.log(err))
+  })
 }
 
 export function changeAvatar(file: FormData) {
-  fetch.put("/user/profile/avatar", {
-    body: file
-  }).then(res => console.log(res)).catch(err => console.log(err))
+  return fetch.put("/user/profile/avatar", {
+    data: file
+  })
 }
 

@@ -2,7 +2,7 @@ import { signIn } from "../../api/auth"
 import Router from "../../../framework/Router"
 import doGetUser from "./doGetUser"
 
-function doSignIn(login: string, password: string) {
+export function doSignIn(login: string, password: string) {
   signIn(login, password).then(res => {
     if (res === 'OK') {
       doGetUser()
@@ -16,5 +16,3 @@ function doSignIn(login: string, password: string) {
     alert('Что-то ввели неправильно')
   })
 }
-
-export default doSignIn

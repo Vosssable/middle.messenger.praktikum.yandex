@@ -10,13 +10,14 @@ import "./style.pcss"
 import App from "./App"
 import { getUser, logOut, signIn, signUp } from "./utils/api/auth"
 import doGetUser from "./utils/controllers/auth/doGetUser"
+import { openWebSocket } from "./utils/helpers/webSocket"
 // import Store from "./framework/Store/Store"
 
 document.addEventListener("DOMContentLoaded", () => {
   // Store.getInstance()
   const app = new App()
   app.onRenderFunc()
-  window.test = signIn
+  window.test = openWebSocket
   window.test1 = signUp
   window.test2 = getUser
   window.test3 = logOut

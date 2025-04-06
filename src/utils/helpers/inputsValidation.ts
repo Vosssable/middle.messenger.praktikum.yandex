@@ -47,5 +47,8 @@ export default function inputsValidation(key: string, value: string) {
         case 'display_name':
         case 'message':
             return validateMessage(value)
+        // Не нашел в ТЗ валидацию имени чата, сделал как с сообщением (не равно нулю)
+        case 'chat_name':
+            return validateMessage(value)
     }
 }
