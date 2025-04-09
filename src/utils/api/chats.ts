@@ -26,7 +26,7 @@ export function deleteChat(chatId: number) {
 }
 
 export function getChats(query: GetChatsInterface) {
-  return fetch.delete("/chats", {
+  return fetch.get("/chats", {
     data: JSON.stringify({
       ...query
     }),

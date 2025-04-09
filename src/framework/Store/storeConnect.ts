@@ -13,7 +13,6 @@ export default function connect(Component: typeof Block, mapStateToProps: (state
 
       store.on(StoreEvents.Updated, () => {
         const newState = mapStateToProps(store.getState())
-        console.log('connect', newState)
         if (!isEqual(state, newState)) {
           this.setProps({ ...newState })
         }

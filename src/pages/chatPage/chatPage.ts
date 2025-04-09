@@ -7,18 +7,26 @@ import { hideChatDropdown } from "../../utils/helpers/hideChatDropdown"
 import { Form } from "../../components/form/form"
 import Store from "../../framework/Store/Store"
 import { filterChildren } from "../../utils/helpers/filterChildren"
+import EmptyChat from "./emptyChat"
+import { doGetChats } from "../../utils/controllers/chats/doGetChats"
 
 
 export default class ChatPage extends Block {
+  private intervalId: number
+
   constructor() {
     const store = Store.getInstance()
     store.set("form", {})
+    doGetChats({})
+    //TODO: После переноса проверить, будет ли при переходе на другую страницу интервал проходить
+
     super({
-      bool: true,
+      bool: false,
       chatList: new ChatList(),
       chatHeader: new ChatHeader(),
       currentChat: new CurrentChat(),
       chatFooter: new ChatFooter(),
+      emptyChat: new EmptyChat(),
       attrs: {
         sidebarClass: "sidebar",
         sidebarProfileClass: "sidebar__profile",
@@ -29,6 +37,10 @@ export default class ChatPage extends Block {
       events: {
         click: (event: MouseEvent) => {
           const target = event.target as HTMLElement
+          if (target.classList.contains('chat-list__item')) {
+            return
+          }
+
           if (target.id === "chat_page") {
             if (target.children[1].classList.contains("overlay")) {
               this.setProps({ ...filterChildren(this.children) })
@@ -43,7 +55,6 @@ export default class ChatPage extends Block {
           if (target.id === "go_to_profile") {
             event.preventDefault()
             this.Router.go("/settings")
-            console.log("go")
           }
         }
       }
@@ -65,6 +76,23 @@ export default class ChatPage extends Block {
     })
   }
 
+  // Запускаем при подключении компонента
+  componentDidMount() {
+    this.intervalId = window.setInterval(() => {
+      doGetChats({})
+    }, 5000)
+    console.log('Проверка айди интервала',this.intervalId)
+  }
+
+  // Делаем UnMount
+  componentWillBeUnMounted() {
+    console.error('TYT КОНЕЦ ИНТЕРВАЛА', this.intervalId)
+    Store.getInstance().reset("chats")
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
+
   override render() {
     console.log("rendered", this)
     return `
@@ -83,10 +111,9 @@ export default class ChatPage extends Block {
                         {{{ chatHeader }}}
                         {{{ currentChat }}}
                         {{{ chatFooter }}}  
+                    {{else}}
+                        {{{ emptyChat }}}
                     {{/if}}
-                    {{#else}}
-                    
-                    {{/else}}
                     </div>
                 </div>
             </div>

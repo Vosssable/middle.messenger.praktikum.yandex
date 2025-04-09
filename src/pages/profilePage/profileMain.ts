@@ -15,7 +15,6 @@ import { isEmpty } from "../../utils/mydash/isEmpty"
 export default class ProfileMain extends Block {
   constructor(props: ProfilePagePropsInterface) {
     const userInfo = Store.getInstance().getState().user
-    console.log(userInfo)
     super({
       ...props,
       attrs: {

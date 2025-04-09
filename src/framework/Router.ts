@@ -44,7 +44,7 @@ class Route<BlockClass extends typeof Block> {
 
   leave() {
     if (this._block) {
-      this._block.hide()
+      this._block.dispatchComponentWillBeUnMounted()
     }
   }
 
@@ -53,6 +53,7 @@ class Route<BlockClass extends typeof Block> {
   }
 
   render() {
+    console.log('RENDERING', this._block)
     if (!this._block) {
       this._block = new this._blockClass()
       render(this._props.rootQuery, this._block)
@@ -105,64 +106,31 @@ class Router {
       }
     }
 
-    this._onRoute(window.location.pathname)
+    this.checkAuthenticated(window.location.pathname)
   }
 
   _onRoute(pathname: string) {
+    console.log('onRoute', pathname, this.history)
+
     const route = this.getRoute(pathname)
 
     if (!route) {
+      this._onRoute("/nothing")
       return
     }
 
-    // Проверим редирект, а то при дебаге что-то нехорошо получилось
-    if (document.location.pathname !== pathname) {
-      document.location.pathname = pathname
+    // Проверим переход, а то при дебаге что-то нехорошо получилось
+    if (this._currentRoute) {
+      this._currentRoute.leave()
     }
 
+    console.log('route', route)
     this._currentRoute = route
     route.render()
   }
 
   go(pathname: string) {
-    // на нет и суда нет
-    if (!this.getRoute(pathname)) {
-      this._onRoute("/nothing")
-      return
-    }
-
-    if (['/nothing', '/error'].includes(pathname)) {
-      this.history.pushState({}, "", pathname)
-      this._onRoute(pathname)
-      return
-    }
-
-    checkUserAuth().then(res => {
-          if (res) {
-            if (typeof res === 'string') {
-              store.set('user', JSON.parse(res))
-            }
-            // зачем нам логин или ауф если мы уже вошли
-            if (['/', '/sign-up'].includes(pathname)) {
-              this.history.pushState({}, "", '/messenger')
-              this._onRoute('/messenger')
-            } else {
-              this.history.pushState({}, "", pathname)
-              this._onRoute(pathname)
-            }
-          }
-        }
-      ).catch((err) => {
-        // если чел не зашел, то вернем его на путь истиный
-      console.log('hui', err)
-          if (pathname !== '/sign-up') {
-            this.history.pushState({}, "", '/')
-            this._onRoute('/')
-          } else {
-            this.history.pushState({}, "", '/sign-up')
-            this._onRoute('/sign-up')
-          }
-      })
+    this.checkAuthenticated(pathname)
   }
 
   back() {
@@ -175,6 +143,34 @@ class Router {
 
   getRoute(pathname: string) {
     return this.routes.find(route => route.match(pathname))
+  }
+
+  checkAuthenticated(pathname: string) {
+    checkUserAuth().then(res => {
+        if (res) {
+          if (typeof res === 'string') {
+            store.set('user', JSON.parse(res))
+          }
+          // зачем нам логин или ауф если мы уже вошли
+          if (['/', '/sign-up'].includes(pathname)) {
+            this.history.pushState({}, "", '/messenger')
+            this._onRoute('/messenger')
+          } else {
+            this.history.pushState({}, "", pathname)
+            this._onRoute(pathname)
+          }
+        }
+      }
+    ).catch(() => {
+      // если чел не зашел, то вернем его на путь истиный (таков путь)
+      if (pathname !== '/sign-up') {
+        this.history.pushState({}, "", '/')
+        this._onRoute('/')
+      } else {
+        this.history.pushState({}, "", '/sign-up')
+        this._onRoute('/sign-up')
+      }
+    })
   }
 }
 

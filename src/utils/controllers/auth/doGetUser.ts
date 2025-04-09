@@ -5,7 +5,6 @@ function doGetUser() {
   getUser().then(res => {
     const store = Store.getInstance()
     store.set('user', res)
-    console.log('doGetUser', store)
   })
 }
 

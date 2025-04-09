@@ -8,13 +8,11 @@ import "./pages/profilePage/profilePage.pcss"
 import "./pages/errorPage/errorPage.pcss"
 import "./style.pcss"
 import App from "./App"
-import { getUser, logOut, signIn, signUp } from "./utils/api/auth"
+import { getUser, logOut, signUp } from "./utils/api/auth"
 import doGetUser from "./utils/controllers/auth/doGetUser"
 import { openWebSocket } from "./utils/helpers/webSocket"
-// import Store from "./framework/Store/Store"
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Store.getInstance()
   const app = new App()
   app.onRenderFunc()
   window.test = openWebSocket

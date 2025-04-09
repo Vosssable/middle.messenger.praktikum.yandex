@@ -8,7 +8,7 @@ export function doSignIn(login: string, password: string) {
       doGetUser()
       Router.go('/messenger')
     } else {
-      console.log('Непредвиденный ответ с сервера, срочно звони в Яндекс)))')
+      console.error('Непредвиденный ответ с сервера, срочно звони в Яндекс)))')
       alert('Ошибка! Смотри логи!')
     }
   }).catch(err => {

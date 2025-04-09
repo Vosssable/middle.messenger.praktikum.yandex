@@ -5,8 +5,10 @@ export function hideChatDropdown() {
   ]
 
   for (const dropdown of dropdowns) {
-    if (dropdown.classList.contains("display-block")) {
-      dropdown.classList.remove("display-block")
+    if (dropdown) {
+      if (dropdown.classList.contains("display-block")) {
+        dropdown.classList.remove("display-block")
+      }
     }
   }
 }

@@ -11,5 +11,6 @@ export function filterChildren(oldChildren: Indexed) {
       newChildren[child] = oldChildren[child]
     }
     return newChildren
-  }
+  } else return oldChildren
+
 }

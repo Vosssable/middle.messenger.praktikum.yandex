@@ -2,7 +2,6 @@ import merge from "./merge";
 import { Indexed } from "../interfaces/frameworkInterfaces"
 
 function set(object: Indexed | unknown, path: string, value: unknown): Indexed | unknown {
-    console.log('set', object, path, value);
     if (typeof object !== 'object' || object === null) {
         return object;
     }

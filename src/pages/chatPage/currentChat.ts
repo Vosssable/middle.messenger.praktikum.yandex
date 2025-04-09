@@ -16,7 +16,7 @@ export default class CurrentChat extends Block {
   }
   override render() {
     return `
-    <div class="{{ attrs.messagesClass }}">
+     <div class="{{ attrs.messagesClass }}">
          <div class="{{ attrs.messagesDateClass }}"> 19 июня</div>
          <div class="{{ attrs.messageClass }} {{ attrs.receivedClass }}">Привет! Смотри, тут всплыл интересный кусок лунной космической истории — НАСА
              в какой-то момент попросила Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все

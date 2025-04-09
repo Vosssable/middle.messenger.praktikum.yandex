@@ -7,7 +7,6 @@ export function doSignUp(body: SignUpBodyInterface) {
   signUp(body).then(res => {
     doGetUser()
     Router.go("/messenger")
-    console.log(res)
   }).catch(err => {
     if (err.status === 409) {
       alert("Пользователь с таким именем уже существует")

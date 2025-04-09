@@ -18,6 +18,8 @@ function isArrayOrObject(value: unknown): value is [] | Indexed {
 function isEqual(lhs: Indexed | string, rhs: Indexed | string): boolean {
   if (typeof rhs === "string" || typeof lhs === "string") {
     return rhs === lhs
+  } else if (!lhs || !rhs) {
+    return false
   } else {
     if (Object.keys(lhs).length !== Object.keys(rhs).length) {
       return false

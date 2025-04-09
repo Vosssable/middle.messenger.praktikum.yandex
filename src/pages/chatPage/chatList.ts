@@ -1,46 +1,92 @@
 import Block from "../../framework/Block"
-import { ChatPageAttrsInterface, ChatsInterface } from "../../utils/interfaces/attrsInterfaces"
-import { ChatPageAttrs } from "../../utils/ChatPageAttrs"
 import { IconButton } from "../../components/buttons/iconButton/iconButton"
 import { Chat } from "../../components/chat/chat"
+import { ChatListResponseInterface } from "../../utils/interfaces/responseInterfaces"
+import { Indexed } from "../../utils/interfaces/frameworkInterfaces"
+import Store from "../../framework/Store/Store"
+import { isEmpty } from "../../utils/mydash/isEmpty"
+import changeClassList from "../../utils/helpers/changeClassList"
 
 export default class ChatList extends Block {
   constructor() {
-    const props: ChatPageAttrsInterface = {
-        chats: ChatPageAttrs.chats,
-        currentAvatar: ChatPageAttrs.currentAvatar,
-        currentChatName: ChatPageAttrs.currentChatName
-      },
-      chats: ChatsInterface[] = props.chats
-
-    for (const chat of chats) {
-      props[chat.chatName] = new Chat({
-        avatar: chat["avatar"],
-        chatName: chat["chatName"],
-        lastMessage: chat["lastMessage"],
-        lastMessageDatetime: chat["lastMessageDatetime"],
-        newMessageCount: chat["newMessageCount"],
-        class: chat["class"]
-      })
-    }
+    // const props: ChatPageAttrsInterface = {
+    //     chats: ChatPageAttrs.chats,
+    //     currentAvatar: ChatPageAttrs.currentAvatar,
+    //     currentChatName: ChatPageAttrs.currentChatName
+    //   },
+    //   chats: ChatsInterface[] = props.chats
+    const store = Store.getInstance()
+    // for (const chat of props.chats) {
+    //   props['chat_' + chat.id] = new Chat({
+    //     avatar: chat["avatar"],
+    //     chatName: chat["chatName"],
+    //     lastMessage: chat["lastMessage"],
+    //     lastMessageDatetime: chat["lastMessageDatetime"],
+    //     newMessageCount: chat["newMessageCount"],
+    //     class: chat["class"],
+    //     chatId: chat["chatId"]
+    //   })
+    // }
     super({
-      ...props,
+      // ...props,
       searchIconBtn: new IconButton({ src: "/search.svg", alt: "Поиск чата", class: "" }),
       attrs: {
         searchChatClass: "search-chat",
-        chatsClass: "chats",
+        chatsClass: "chats"
+      }
+    })
 
+    const addChats = (chats: ChatListResponseInterface[]) => {
+      if (chats) {
+        const chatList = {} as Indexed,
+          chatKeys = []
+        for (const chat of chats) {
+          chatList["chat_" + chat.id] = new Chat({
+              avatar: chat.avatar || "",
+              chatName: chat.title || "",
+              lastMessage: chat.last_message?.content || "",
+              lastMessageDatetime: chat.last_message?.time || "",
+              newMessageCount: chat.unread_count || 0,
+              chatId: chat.id
+            })
+          chatKeys.push("chat_" + chat.id)
+        }
+        this.setProps({
+           ...chatList, chatKeys: chatKeys
+        })
+        this.render()
+        const currentChat = store.getState().currentChat as string
+        if (currentChat) {
+          changeClassList('current-select', document.getElementById('chat_item_'+currentChat) as HTMLElement)
+        }
+      }
+    }
+
+    store.on("chatListUpdated", () => {
+      const chats = store.getState().chats
+      if (chats) {
+        addChats(chats)
       }
     })
 
   }
+
   override render() {
-    const chats: ChatsInterface[] = <ChatsInterface[]>this.lists["chats"]
+    const chatList = !isEmpty(this.lists["chatKeys"]) ? this.lists["chatKeys"] : []
     let chatsHTML = ``
 
-    for (const chat in chats) {
-      chatsHTML += `{{{ ${chats[chat]["chatName"]} }}}`
+    if (!isEmpty(chatList)) {
+      chatsHTML = chatList.map((chat) => {
+        return `{{{ ${chat} }}}`
+      }).join("")
     }
+
+
+
+    // for (const chat in chats) {
+    //   chatsHTML += `{{{ ${chats[chat]} }}}`.join("")
+    // }
+
     return `
     <div>
       <div class="{{ attrs.searchChatClass }}">
@@ -51,7 +97,7 @@ export default class ChatList extends Block {
         </label>
       </div>
       <div class="{{ attrs.chatsClass }}">
-        ${chatsHTML}
+      ${chatsHTML}
       </div>
     </div>
     `

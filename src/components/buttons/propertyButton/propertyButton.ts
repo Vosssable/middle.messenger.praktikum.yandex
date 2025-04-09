@@ -1,9 +1,8 @@
 import Block from "../../../framework/Block"
 import { ButtonsInterface } from "../../../utils/interfaces/attrsInterfaces"
-import ChatPage from "../../../pages/chatPage/chatPage"
-import { Form } from "../../form/form"
 import { createNewChat } from "../../../utils/FormsAttrs"
 import Store from "../../../framework/Store/Store"
+import { doDeleteChat } from "../../../utils/controllers/chats/doDeleteChat"
 
 export class PropertyButton extends Block {
   constructor(props: ButtonsInterface) {
@@ -25,14 +24,18 @@ export class PropertyButton extends Block {
               target = target.parentElement?.parentElement as HTMLElement
             } else return
           }
-          console.log(target.id)
           switch (target.id) {
-            case "add_user":
+            case "add_chat":
               store.set('form', {...createNewChat, formClass: 'chat-form__change'})
-              console.log(store.getState())
+              break
+            case "delete_chat":
+              doDeleteChat(store.getState().currentChat)
+              break
+            case "add_user":
               break
             case "delete_user":
               break
+
           }
         }
       }

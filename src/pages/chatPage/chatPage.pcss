@@ -36,6 +36,10 @@
     align-items: center;
 }
 
+#chat_page {
+    width: inherit;
+}
+
 .search-chat input {
     width: 280px;
     padding: 0 10px;
@@ -298,4 +302,23 @@
 .chat-footer img.send-message:hover {
     transform: scale(0.95);
     cursor: pointer;
+}
+
+.empty-chat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chat-window:has(> .empty-chat) {
+    align-self: anchor-center;
+}
+
+.empty-chat > .dropdown__properties-element {
+    width: 200px;
+    justify-content: space-evenly;
+}
+
+.empty-chat > h3 {
+    text-align: center;
 }

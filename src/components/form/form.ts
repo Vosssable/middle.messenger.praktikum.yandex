@@ -76,7 +76,6 @@ export class Form extends Block {
           text.innerText = files[0].name
           label.classList.add("gray")
           label.classList.remove("upload_file")
-          console.log(target.parentElement)
 
           const validationText = document.getElementById('validate_file')
 
@@ -98,7 +97,6 @@ export class Form extends Block {
             const target = event.target as HTMLFormElement,
               formData = new FormData(target),
               file = formData.get("avatar") as File
-            console.log(formData, formData.get("avatar"), file)
 
             if (!file.name) {
               if (document.getElementById('validate_file')) return
@@ -173,10 +171,8 @@ export class Form extends Block {
                     </div>`
       }).join("") : this.props["upload_file"],
       buttonsHTML = this.lists.buttons.map((button) => {
-        console.log(button)
         return `{{{ ${button} }}}`
       }).join("")
-      console.log(this)
     return `
             <form id="form" class="{{ attrs.formClass }} {{ formClass }} {{ class }}">
                 <h1 class="{{ attrs.headerClass }}">

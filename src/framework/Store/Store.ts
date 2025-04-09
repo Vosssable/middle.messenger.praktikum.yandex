@@ -3,7 +3,9 @@ import set from "../../utils/mydash/set"
 import { Indexed } from "../../utils/interfaces/frameworkInterfaces"
 
 export enum StoreEvents {
-  Updated = "updated"
+  Updated = "updated",
+  ChatListUpdated = "chatListUpdated",
+  CurrentChat = "currentChat"
 }
 
 export default class Store extends EventBus {
@@ -35,8 +37,13 @@ export default class Store extends EventBus {
   }
 
   public set(path: string, value: unknown) {
-    set(this.state, path, value)
-    this.emit(StoreEvents.Updated)
+    if (path === 'chats') {
+      set(this.state, path, value)
+      this.emit(StoreEvents.ChatListUpdated)
+    } else {
+      set(this.state, path, value)
+      this.emit(StoreEvents.Updated)
+    }
   }
 }
 
