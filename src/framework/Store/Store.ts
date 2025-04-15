@@ -5,7 +5,7 @@ import { Indexed } from "../../utils/interfaces/frameworkInterfaces"
 export enum StoreEvents {
   Updated = "updated",
   ChatListUpdated = "chatListUpdated",
-  CurrentChat = "currentChat"
+  CurrentChatUpdated = "currentChatUpdated"
 }
 
 export default class Store extends EventBus {
@@ -40,6 +40,9 @@ export default class Store extends EventBus {
     if (path === 'chats') {
       set(this.state, path, value)
       this.emit(StoreEvents.ChatListUpdated)
+    } else if (path === 'currentChat') {
+      set(this.state, path, value)
+      this.emit(StoreEvents.CurrentChatUpdated)
     } else {
       set(this.state, path, value)
       this.emit(StoreEvents.Updated)

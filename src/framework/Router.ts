@@ -53,14 +53,22 @@ class Route<BlockClass extends typeof Block> {
   }
 
   render() {
-    console.log('RENDERING', this._block)
-    if (!this._block) {
-      this._block = new this._blockClass()
+    // console.log('RENDERING', this._block)
+    // if (!this._block) {
+    //   this._block = new this._blockClass()
+    //   render(this._props.rootQuery, this._block)
+    //   return
+    // }
+    // this._block = new this._blockClass()
+    // render(this._props.rootQuery, this._block)
+
+
+      console.log('RENDERING', this._block)
+
+      if (!this._block)
+        this._block = new this._blockClass()
+
       render(this._props.rootQuery, this._block)
-      return
-    }
-    this._block = new this._blockClass()
-    render(this._props.rootQuery, this._block)
   }
 }
 

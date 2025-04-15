@@ -1,5 +1,5 @@
 import { HTTPTransport } from "../helpers/fetchRequest"
-import { GetChatsInterface } from "../interfaces/apiInterfaces"
+import { AddOrDeleteUsersInterface, GetChatsInterface } from "../interfaces/apiInterfaces"
 
 const fetch = new HTTPTransport()
 
@@ -30,6 +30,36 @@ export function getChats(query: GetChatsInterface) {
     data: JSON.stringify({
       ...query
     }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+}
+
+export function addUsersToChat(query: AddOrDeleteUsersInterface) {
+  return fetch.put("/chat/users", {
+    data: JSON.stringify({
+      ...query
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+}
+
+export function deleteUsersFromChat(query: AddOrDeleteUsersInterface) {
+  return fetch.delete("/chat/users", {
+    data: JSON.stringify({
+      ...query
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+}
+
+export function getInfoForChat(chatId: number) {
+  return fetch.post(`/chats/token/${chatId}`, {
     headers: {
       "Content-Type": "application/json"
     }

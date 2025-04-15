@@ -2,9 +2,13 @@ import Block from "../../framework/Block"
 import { IconButton } from "../../components/buttons/iconButton/iconButton"
 import { DropDown } from "../../components/dropdown/dropdown"
 import { HeaderButtons } from "../../utils/ChatPageAttrs"
+import { isEmpty } from "../../utils/mydash/isEmpty"
+import Store from "../../framework/Store/Store"
 
 export default class ChatHeader extends Block {
   constructor() {
+    const store = Store.getInstance().getState()
+
     super({
       userPropertiesBtn: new IconButton({
         src: "/userProperties.svg",

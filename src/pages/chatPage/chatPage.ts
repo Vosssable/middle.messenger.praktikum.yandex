@@ -9,6 +9,7 @@ import Store from "../../framework/Store/Store"
 import { filterChildren } from "../../utils/helpers/filterChildren"
 import EmptyChat from "./emptyChat"
 import { doGetChats } from "../../utils/controllers/chats/doGetChats"
+import { doGetInfoForChat } from "../../utils/controllers/chats/doGetInfoForChat"
 
 
 export default class ChatPage extends Block {
@@ -18,14 +19,10 @@ export default class ChatPage extends Block {
     const store = Store.getInstance()
     store.set("form", {})
     doGetChats({})
-    //TODO: После переноса проверить, будет ли при переходе на другую страницу интервал проходить
 
     super({
-      bool: false,
+      isCurrentChat: false,
       chatList: new ChatList(),
-      chatHeader: new ChatHeader(),
-      currentChat: new CurrentChat(),
-      chatFooter: new ChatFooter(),
       emptyChat: new EmptyChat(),
       attrs: {
         sidebarClass: "sidebar",
@@ -38,12 +35,13 @@ export default class ChatPage extends Block {
         click: (event: MouseEvent) => {
           const target = event.target as HTMLElement
           if (target.classList.contains('chat-list__item')) {
+            console.log('clicked')
             return
           }
 
           if (target.id === "chat_page") {
             if (target.children[1].classList.contains("overlay")) {
-              this.setProps({ ...filterChildren(this.children) })
+              this.setProps({ ...filterChildren(this.children, "form") })
             }
           }
 
@@ -62,6 +60,7 @@ export default class ChatPage extends Block {
 
     store.on("updated", () => {
       const formAttrs = store.getState().form
+
       if (formAttrs) {
         this.setProps({
           ...this.children,
@@ -71,7 +70,28 @@ export default class ChatPage extends Block {
         tmpl.children[1].classList.add("overlay")
         tmpl.children[1].classList.add("no-cursor")
       } else {
-        this.setProps({ ...filterChildren(this.children) })
+        this.setProps({ ...filterChildren(this.children, 'form') })
+      }
+    })
+
+    store.on("currentChatUpdated", async () => {
+      const currentChat = store.getState().currentChat
+
+      if (currentChat) {
+        doGetInfoForChat(currentChat).then((value) => {
+          console.log('ANSWER', value)
+          if (value) {
+            this.setProps({
+              ...this.children,
+              isCurrentChat: true,
+              currentChat: new CurrentChat(),
+              chatHeader: new ChatHeader(),
+              chatFooter: new ChatFooter(),
+            })
+          }
+        })
+      } else {
+        this.setProps({ ...filterChildren(this.children, "currentChat") })
       }
     })
   }
@@ -107,7 +127,7 @@ export default class ChatPage extends Block {
                    {{{ chatList }}}
                     </div>
                     <div class="{{ attrs.chatWindowClass }}">
-                    {{#if bool}}
+                    {{#if isCurrentChat}}
                         {{{ chatHeader }}}
                         {{{ currentChat }}}
                         {{{ chatFooter }}}  

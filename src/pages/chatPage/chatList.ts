@@ -28,7 +28,6 @@ export default class ChatList extends Block {
     //   })
     // }
     super({
-      // ...props,
       searchIconBtn: new IconButton({ src: "/search.svg", alt: "Поиск чата", class: "" }),
       attrs: {
         searchChatClass: "search-chat",

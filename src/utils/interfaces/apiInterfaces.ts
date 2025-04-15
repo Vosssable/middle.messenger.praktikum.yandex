@@ -22,3 +22,8 @@ export interface GetChatsInterface {
   limit?: number,
   title?: string
 }
+
+export interface AddOrDeleteUsersInterface {
+  users: number[],
+  chatId: number  
+}

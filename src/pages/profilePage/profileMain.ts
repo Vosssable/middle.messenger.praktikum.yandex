@@ -11,6 +11,7 @@ import { validateForms } from "../../utils/helpers/validateForms"
 import { doChangePass } from "../../utils/controllers/user/doChangePass"
 import Store from "../../framework/Store/Store"
 import { isEmpty } from "../../utils/mydash/isEmpty"
+import uploadResources from "../../utils/helpers/uploadResources"
 
 export default class ProfileMain extends Block {
   constructor(props: ProfilePagePropsInterface) {
@@ -85,7 +86,7 @@ export default class ProfileMain extends Block {
     })
 
     if (!isEmpty(userInfo.avatar)) {
-      this.props.avatarSrc = "https://ya-praktikum.tech/api/v2/resources/" + userInfo.avatar
+      this.props.avatarSrc = uploadResources(userInfo.avatar)
       this.props.profileAvatarImgClass = "profile-avatar"
     } else {
       this.props.avatarSrc = "/avatarNoPhoto.svg"
