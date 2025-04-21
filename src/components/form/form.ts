@@ -8,6 +8,10 @@ import { doSignUp } from "../../utils/controllers/auth/doSignUp"
 import { SignUpBodyInterface } from "../../utils/interfaces/apiInterfaces"
 import { doChangeAvatar } from "../../utils/controllers/user/doChangeAvatar"
 import { doCreateChat } from "../../utils/controllers/chats/doCreateChat"
+import { doAddUsersToChat } from "../../utils/controllers/chats/doAddUsersToChat"
+import store from "../../framework/Store/Store"
+import { doDeleteUsersFromChat } from "../../utils/controllers/chats/doDeleteUsersFromChat"
+
 
 interface FormDataInterface {
   [key: string]: unknown;
@@ -77,11 +81,11 @@ export class Form extends Block {
           label.classList.add("gray")
           label.classList.remove("upload_file")
 
-          const validationText = document.getElementById('validate_file')
+          const validationText = document.getElementById("validate_file")
 
           if (validationText) {
             validationText.parentElement?.removeChild(validationText)
-            document.getElementById('change_file')?.classList.remove('margin-20')
+            document.getElementById("change_file")?.classList.remove("margin-20")
           }
         },
         submit: (event: SubmitEvent) => {
@@ -99,14 +103,14 @@ export class Form extends Block {
               file = formData.get("avatar") as File
 
             if (!file.name) {
-              if (document.getElementById('validate_file')) return
-              const validateText = document.createElement('span')
-              validateText.innerText = 'Нужно выбрать файл'
-              validateText.classList.add('danger')
-              validateText.classList.add('text')
-              validateText.classList.add('validate__file-text')
-              validateText.id = 'validate_file'
-              document.getElementById('change_file')?.classList.add('margin-20')
+              if (document.getElementById("validate_file")) return
+              const validateText = document.createElement("span")
+              validateText.innerText = "Нужно выбрать файл"
+              validateText.classList.add("danger")
+              validateText.classList.add("text")
+              validateText.classList.add("validate__file-text")
+              validateText.id = "validate_file"
+              document.getElementById("change_file")?.classList.add("margin-20")
               document.getElementById("form")?.appendChild(validateText)
               return
             }
@@ -138,12 +142,21 @@ export class Form extends Block {
                   break
                 case "/messenger":
                   const labels = props.labels as FormLabelsInterface[]
-                  if (labels.filter((label: FormLabelsInterface | {})=> {return label.hasOwnProperty('input')}).length === 1) {
+                  if (labels.filter((label: FormLabelsInterface | {}) => {
+                    return label.hasOwnProperty("input")
+                  }).length === 1) {
                     const formAttr = props.labels[0]
-                    if (formAttr.id === 'chat_name') {
-                      doCreateChat(formData['chat_name'] as string)
+                    console.log("here", formAttr)
+                    if (formAttr.id === "chat_name") {
+                      doCreateChat(formData["chat_name"] as string)
+                    } else if (formAttr.id === "add_user_input") {
+                      const users = [formData.add_user_input] as unknown as []
+                      doAddUsersToChat(users, store.getInstance().getState().currentChat)
+                    } else if (formAttr.id === "delete_user_input") {
+                      const users = [formData.delete_user_input] as unknown as []
+                      doDeleteUsersFromChat(users, store.getInstance().getState().currentChat)
                     }
-                  } else alert('Что-то не так, такого не должно было случиться')
+                  } else alert("Что-то не так, такого не должно было случиться")
               }
             }
           }

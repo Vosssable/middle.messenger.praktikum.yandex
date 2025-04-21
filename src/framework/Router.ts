@@ -53,22 +53,12 @@ class Route<BlockClass extends typeof Block> {
   }
 
   render() {
-    // console.log('RENDERING', this._block)
-    // if (!this._block) {
-    //   this._block = new this._blockClass()
-    //   render(this._props.rootQuery, this._block)
-    //   return
-    // }
-    // this._block = new this._blockClass()
-    // render(this._props.rootQuery, this._block)
+    console.log("RENDERING", this._block)
 
+    if (!this._block)
+      this._block = new this._blockClass()
 
-      console.log('RENDERING', this._block)
-
-      if (!this._block)
-        this._block = new this._blockClass()
-
-      render(this._props.rootQuery, this._block)
+    render(this._props.rootQuery, this._block)
   }
 }
 
@@ -118,7 +108,7 @@ class Router {
   }
 
   _onRoute(pathname: string) {
-    console.log('onRoute', pathname, this.history)
+    console.log("onRoute", pathname, this.history)
 
     const route = this.getRoute(pathname)
 
@@ -132,7 +122,7 @@ class Router {
       this._currentRoute.leave()
     }
 
-    console.log('route', route)
+    console.log("route", route)
     this._currentRoute = route
     route.render()
   }
@@ -156,27 +146,34 @@ class Router {
   checkAuthenticated(pathname: string) {
     checkUserAuth().then(res => {
         if (res) {
-          if (typeof res === 'string') {
-            store.set('user', JSON.parse(res))
+          if (typeof res === "string") {
+            store.set("user", JSON.parse(res))
           }
           // зачем нам логин или ауф если мы уже вошли
-          if (['/', '/sign-up'].includes(pathname)) {
-            this.history.pushState({}, "", '/messenger')
-            this._onRoute('/messenger')
-          } else {
+          if (["/", "/sign-up"].includes(pathname)) {
+            this.history.pushState({}, "", "/messenger")
+            this._onRoute("/messenger")
+          } else if (pathname !== "/settings") {
             this.history.pushState({}, "", pathname)
             this._onRoute(pathname)
+          } else {
+            if (window.location.pathname === "/settings" && pathname === "/settings") {
+              this._onRoute(pathname)
+            } else {
+              this.history.pushState({}, "", pathname)
+              this._onRoute(pathname)
+            }
           }
         }
       }
     ).catch(() => {
       // если чел не зашел, то вернем его на путь истиный (таков путь)
-      if (pathname !== '/sign-up') {
-        this.history.pushState({}, "", '/')
-        this._onRoute('/')
+      if (pathname !== "/sign-up") {
+        this.history.pushState({}, "", "/")
+        this._onRoute("/")
       } else {
-        this.history.pushState({}, "", '/sign-up')
-        this._onRoute('/sign-up')
+        this.history.pushState({}, "", "/sign-up")
+        this._onRoute("/sign-up")
       }
     })
   }

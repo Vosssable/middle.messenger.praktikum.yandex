@@ -37,7 +37,7 @@ export function getChats(query: GetChatsInterface) {
 }
 
 export function addUsersToChat(query: AddOrDeleteUsersInterface) {
-  return fetch.put("/chat/users", {
+  return fetch.put("/chats/users", {
     data: JSON.stringify({
       ...query
     }),
@@ -48,7 +48,7 @@ export function addUsersToChat(query: AddOrDeleteUsersInterface) {
 }
 
 export function deleteUsersFromChat(query: AddOrDeleteUsersInterface) {
-  return fetch.delete("/chat/users", {
+  return fetch.delete("/chats/users", {
     data: JSON.stringify({
       ...query
     }),

@@ -10,6 +10,8 @@ import { filterChildren } from "../../utils/helpers/filterChildren"
 import EmptyChat from "./emptyChat"
 import { doGetChats } from "../../utils/controllers/chats/doGetChats"
 import { doGetInfoForChat } from "../../utils/controllers/chats/doGetInfoForChat"
+import { ChatListResponseInterface } from "../../utils/interfaces/responseInterfaces"
+import { getSocket, useSocket } from "../../utils/helpers/webSocket"
 
 
 export default class ChatPage extends Block {
@@ -34,8 +36,8 @@ export default class ChatPage extends Block {
       events: {
         click: (event: MouseEvent) => {
           const target = event.target as HTMLElement
-          if (target.classList.contains('chat-list__item')) {
-            console.log('clicked')
+          if (target.classList.contains("chat-list__item")) {
+            console.log("clicked")
             return
           }
 
@@ -52,6 +54,7 @@ export default class ChatPage extends Block {
 
           if (target.id === "go_to_profile") {
             event.preventDefault()
+            store.reset('currentChat')
             this.Router.go("/settings")
           }
         }
@@ -70,7 +73,33 @@ export default class ChatPage extends Block {
         tmpl.children[1].classList.add("overlay")
         tmpl.children[1].classList.add("no-cursor")
       } else {
-        this.setProps({ ...filterChildren(this.children, 'form') })
+        this.setProps({ ...filterChildren(this.children, "form") })
+      }
+    })
+
+    store.on('chatListUpdated', () => {
+      const currentChat = store.getState().currentChat,
+        chatList = store.getState().chatList
+
+      if (currentChat) {
+        if (Array.isArray(chatList) && chatList.length > 0) {
+          if (chatList.find((item: ChatListResponseInterface) =>
+            item.id === currentChat.id
+          )) {
+            console.log("chatListUpdated", currentChat, chatList.find((item: ChatListResponseInterface) =>
+              item.id === currentChat.id
+            ))
+            this.setProps({
+              ...this.children,
+              isCurrentChat: false
+            })
+          }
+        } else {
+          this.setProps({
+            ...this.children,
+            isCurrentChat: false
+          })
+        }
       }
     })
 
@@ -79,19 +108,39 @@ export default class ChatPage extends Block {
 
       if (currentChat) {
         doGetInfoForChat(currentChat).then((value) => {
-          console.log('ANSWER', value)
+          console.log("ANSWER", value)
           if (value) {
+            const chatInfoResponse: { token: string, chatId: string } = value as { token: string, chatId: string }
+            const currentChatInfo = (chatId: number) => {
+              console.log("currentChatInfo", chatId)
+              return store.getState().chats.filter((chatItem: ChatListResponseInterface) => {
+                return chatItem["id"] === chatId
+              })
+            }
+            const chatInfoForRender: ChatListResponseInterface = currentChatInfo(currentChat)[0],
+              ownUserId: number = store.getState().user.id
+            console.log(chatInfoForRender, store.getState().user)
+
+            if (getSocket()) {
+              getSocket().close(1000, 'Закрыли чат')
+            }
+
+            useSocket(ownUserId, chatInfoForRender.id, chatInfoResponse.token)
+
             this.setProps({
               ...this.children,
               isCurrentChat: true,
-              currentChat: new CurrentChat(),
-              chatHeader: new ChatHeader(),
-              chatFooter: new ChatFooter(),
+              currentChat: new CurrentChat({ownUserId: ownUserId}),
+              chatHeader: new ChatHeader({
+                currentChatName: chatInfoForRender.title,
+                currentAvatar: chatInfoForRender.avatar
+              }),
+              chatFooter: new ChatFooter()
             })
           }
         })
       } else {
-        this.setProps({ ...filterChildren(this.children, "currentChat") })
+        this.setProps({ ...filterChildren(this.children, "currentChat"), isCurrentChat: false })
       }
     })
   }
@@ -100,21 +149,18 @@ export default class ChatPage extends Block {
   componentDidMount() {
     this.intervalId = window.setInterval(() => {
       doGetChats({})
-    }, 5000)
-    console.log('Проверка айди интервала',this.intervalId)
+    }, 10000)
   }
 
   // Делаем UnMount
   componentWillBeUnMounted() {
-    console.error('TYT КОНЕЦ ИНТЕРВАЛА', this.intervalId)
     Store.getInstance().reset("chats")
     if (this.intervalId) {
-      clearInterval(this.intervalId);
+      clearInterval(this.intervalId)
     }
   }
 
   override render() {
-    console.log("rendered", this)
     return `
         <main id="app">
             <div id="chat_page">

@@ -1,6 +1,7 @@
 import { Indexed } from "../interfaces/frameworkInterfaces"
 
 export function filterChildren(oldChildren: Indexed, value: 'form' | 'currentChat') {
+  console.log('filterChiildren',oldChildren, value)
   if (oldChildren.hasOwnProperty(value)) {
     const children = Object.keys(oldChildren),
       newChildren = {} as Indexed

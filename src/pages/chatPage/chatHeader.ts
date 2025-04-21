@@ -2,14 +2,15 @@ import Block from "../../framework/Block"
 import { IconButton } from "../../components/buttons/iconButton/iconButton"
 import { DropDown } from "../../components/dropdown/dropdown"
 import { HeaderButtons } from "../../utils/ChatPageAttrs"
-import { isEmpty } from "../../utils/mydash/isEmpty"
 import Store from "../../framework/Store/Store"
+import uploadResources from "../../utils/helpers/uploadResources"
 
 export default class ChatHeader extends Block {
-  constructor() {
+  constructor(props: {currentChatName: string, currentAvatar: string}) {
     const store = Store.getInstance().getState()
 
     super({
+      ...props,
       userPropertiesBtn: new IconButton({
         src: "/userProperties.svg",
         alt: "Настройки пользователя",
@@ -46,12 +47,17 @@ export default class ChatHeader extends Block {
   }
 
   override render() {
+    let avatarHtml = ``
+    if (!this.props.currentAvatar) {
+      avatarHtml = `<img class="chat-header__avatar" src="/avatarNoPhoto.svg" alt="Chat Photo">`
+    } else {
+      avatarHtml = `<img class="chat-header__avatar" src="${uploadResources(this.props.currentAvatar as string)}" alt="Chat Photo">`
+    }
+    console.log(this)
     return `
     <div class="{{ attrs.chatHeaderClass }}">
         <div class="{{ attrs.chatHeaderInfoClass }}">
-            <div class="{{ attrs.chatHeaderAvatarClass }}">
-                {{ currentAvatar }}
-            </div>
+              ${avatarHtml}
             <div class="{{ attrs.chatHeaderNameClass }}">
                 {{ currentChatName }}
             </div>

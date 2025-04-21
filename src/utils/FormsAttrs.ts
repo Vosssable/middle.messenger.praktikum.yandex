@@ -124,9 +124,10 @@ const addUserForm: FormsInterface = {
     labels: [
         {
             input: true,
-            id: 'input_login',
+            id: 'add_user_input',
             placeholder: 'Логин',
             type: 'text',
+            validateText: 'Вы не ввели пользователя'
         },
         {
             button: true,
@@ -142,9 +143,10 @@ const deleteUserForm: FormsInterface = {
     labels: [
         {
             input: true,
-            id: 'input_login',
+            id: 'delete_user_input',
             placeholder: 'Логин',
             type: 'text',
+            validateText: 'Вы не ввели пользователя'
         },
         {
             button: true,

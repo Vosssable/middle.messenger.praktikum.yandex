@@ -11,7 +11,6 @@ export default class ProfileBack extends Block {
           if (document.getElementById('profile_back')?.parentElement?.classList.contains('overlay')) return
           event.preventDefault()
           if (document.getElementById("profile_change")) {
-            this.Router.go("/settings")
             return
           }
           this.Router.go("/messenger")

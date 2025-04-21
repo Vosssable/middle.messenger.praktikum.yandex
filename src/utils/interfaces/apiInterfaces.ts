@@ -24,6 +24,6 @@ export interface GetChatsInterface {
 }
 
 export interface AddOrDeleteUsersInterface {
-  users: number[],
+  users: [],
   chatId: number  
 }

@@ -34,6 +34,13 @@ export default class Store extends EventBus {
 
   public reset(path: string) {
     this.state[path] = null
+    if (path === 'chats') {
+      this.emit(StoreEvents.ChatListUpdated)
+    } else if (path === 'currentChat') {
+      this.emit(StoreEvents.CurrentChatUpdated)
+    } else {
+      this.emit(StoreEvents.Updated)
+    }
   }
 
   public set(path: string, value: unknown) {

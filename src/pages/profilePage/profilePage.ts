@@ -7,6 +7,8 @@ import Store from "../../framework/Store/Store"
 import ProfileBack from "./profileBack"
 import { Form } from "../../components/form/form"
 import { loadFileForm } from "../../utils/FormsAttrs"
+import changeClassList from "../../utils/helpers/changeClassList"
+import { BlockProps } from "../../utils/interfaces/frameworkInterfaces"
 
 export interface ProfileFormDataInterface {
   [key: string]: unknown
@@ -28,6 +30,7 @@ export default class ProfilePage extends Block {
   constructor(props?: ProfilePagePropsInterface) {
     const userInfo = Store.getInstance().getState().user
     ProfileAttrs.name = userInfo.first_name
+
     for (const input of ProfileAttrs.inputs) {
       if (userInfo[input.id]) {
         input.value = userInfo[input.id].length > 0 ? userInfo[input.id] : '-'
@@ -51,23 +54,22 @@ export default class ProfilePage extends Block {
       events: {
         click: (event: MouseEvent) => {
           if (document.getElementById('form')?.classList.contains('display-none')) return
-          const target = event.target as HTMLElement
 
+          const target = event.target as HTMLElement
           if (target.parentElement?.id === 'app') {
-            this.Router.go("/settings")
+            changeClassList('remove', document.getElementsByClassName('change-avatar')[0].parentElement as HTMLElement, true)
           }
         }
       }
     })
+
     if (props?.avatar) {
-      const tmpl = document.getElementsByClassName('change-avatar')[0].parentElement as HTMLElement
-      tmpl.children[0].classList.remove('display-none')
-      tmpl.children[1].classList.add('overlay')
-      tmpl.children[1].classList.add('no-cursor')
+      changeClassList('add', document.getElementsByClassName('change-avatar')[0].parentElement as HTMLElement, true)
     }
   }
 
   override render() {
+    console.log('RENDER PROFILE PAGE')
 
     return `
             <main id="app">

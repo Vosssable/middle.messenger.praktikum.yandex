@@ -2,10 +2,13 @@ import Block from "../../framework/Block"
 import { IconButton } from "../../components/buttons/iconButton/iconButton"
 import { DropDown } from "../../components/dropdown/dropdown"
 import { FooterButtons } from "../../utils/ChatPageAttrs"
+import { getSocket } from "../../utils/helpers/webSocket"
 
 
 export default class ChatFooter extends Block {
   constructor() {
+    const socket = getSocket()
+    console.log('Socket in chatFooter', socket)
     super({
       filePropertiesBtn: new IconButton({
         id: "chat-footer_icon-btn",
@@ -19,6 +22,7 @@ export default class ChatFooter extends Block {
         buttons: FooterButtons
       }),
       sendMessageBtn: new IconButton({
+        id: 'send_message',
         src: "/arrowRight.svg",
         alt: "Отправить сообщение",
         class: "send-message"
@@ -48,7 +52,7 @@ export default class ChatFooter extends Block {
              {{{ filePropertiesBtn }}}
          </button>
          {{{ footerDropdown }}}
-         <input type="text" placeholder="Напишите сообщение..." id="message" name="message">
+         <input type="text" placeholder="Напишите сообщение..." id="input_message" name="message">
          {{{ sendMessageBtn }}}
      </div>
     `

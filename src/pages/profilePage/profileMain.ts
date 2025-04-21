@@ -1,21 +1,22 @@
 import { ProfilePagePropsInterface } from "../../utils/interfaces/propsInterfaces"
-import Block from "../../framework/Block"
-import { ProfileAttrs, ProfileEditBtn, ProfileEditPasswordAttrs } from "../../utils/ProfileAttrs"
+import { ProfileAttrs, ProfileBtns, ProfileEditBtn, ProfileEditPasswordAttrs } from "../../utils/ProfileAttrs"
 import { ProfileInputLabel } from "../../components/inputs/profileInput/profileInputLabel"
-import ProfilePage from "./profilePage"
 import { ButtonsInterface, InputsInterface, ProfileBtnsInterface } from "../../utils/interfaces/attrsInterfaces"
 import { Button } from "../../components/buttons/button/button"
-import doLogOut from "../../utils/controllers/auth/doLogOut"
 import { doChangeProfile } from "../../utils/controllers/user/doChangeProfile"
 import { validateForms } from "../../utils/helpers/validateForms"
 import { doChangePass } from "../../utils/controllers/user/doChangePass"
-import Store from "../../framework/Store/Store"
 import { isEmpty } from "../../utils/mydash/isEmpty"
+import Block from "../../framework/Block"
+import Store from "../../framework/Store/Store"
+import ProfilePage from "./profilePage"
+import doLogOut from "../../utils/controllers/auth/doLogOut"
 import uploadResources from "../../utils/helpers/uploadResources"
 
 export default class ProfileMain extends Block {
   constructor(props: ProfilePagePropsInterface) {
     const userInfo = Store.getInstance().getState().user
+
     super({
       ...props,
       attrs: {
@@ -73,6 +74,10 @@ export default class ProfileMain extends Block {
                 return
               }
               doChangeProfile(newForm)
+              this.setProps({
+                name: ProfileAttrs.name, inputs: ProfileAttrs.inputs, buttons: ProfileBtns, disabled: true, action: undefined
+              })
+              setInputs()
             }
           } else if (this.props.action === "change_user_password") {
             const newForm = validateForms(ProfileEditPasswordAttrs)
@@ -80,6 +85,10 @@ export default class ProfileMain extends Block {
               return
             }
             doChangePass(newForm.old_password as string, newForm.new_password as string)
+            this.setProps({
+              name: ProfileAttrs.name, inputs: ProfileAttrs.inputs, buttons: ProfileBtns, disabled: true, action: undefined
+            })
+            setInputs()
           }
         }
       }
@@ -97,6 +106,7 @@ export default class ProfileMain extends Block {
         buttons = <ProfileBtnsInterface[]>this.lists.buttons,
         change = <ButtonsInterface>this.props.change
 
+      console.log('SET INPUTS', inputs, buttons, change)
       this.setProps({
         ProfileInputs: inputs ? inputs.map(input => new ProfileInputLabel({
           value: input["value"],
@@ -111,7 +121,7 @@ export default class ProfileMain extends Block {
           labelClass: button["labelClass"],
           label: button["label"]
         })) : [],
-        ProfileChange: change ? new Button({
+        ProfileChange: change && this.props.action ? new Button({
           class: "primary-button",
           id: change.id,
           text: change.text
@@ -122,6 +132,7 @@ export default class ProfileMain extends Block {
   }
 
   override render() {
+
     return `
        <div id="profile-main" class="{{ attrs.profileClass }}">
                 <div class="{{ attrs.profileAvatarClass }}" >

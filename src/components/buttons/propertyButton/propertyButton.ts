@@ -1,6 +1,6 @@
 import Block from "../../../framework/Block"
 import { ButtonsInterface } from "../../../utils/interfaces/attrsInterfaces"
-import { createNewChat } from "../../../utils/FormsAttrs"
+import { addUserForm, createNewChat, deleteUserForm } from "../../../utils/FormsAttrs"
 import Store from "../../../framework/Store/Store"
 import { doDeleteChat } from "../../../utils/controllers/chats/doDeleteChat"
 
@@ -30,10 +30,13 @@ export class PropertyButton extends Block {
               break
             case "delete_chat":
               doDeleteChat(store.getState().currentChat)
+              store.getState().currentChat = ''
               break
             case "add_user":
+              store.set('form', {...addUserForm, formClass: 'chat-form__change'})
               break
             case "delete_user":
+              store.set('form', {...deleteUserForm, formClass: 'chat-form__change'})
               break
 
           }

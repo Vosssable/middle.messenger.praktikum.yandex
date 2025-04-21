@@ -78,7 +78,6 @@ export default class Block {
 
   private _componentWillBeUnMounted(): void {
     this.componentWillBeUnMounted()
-    console.log('unmounted')
     Object.values(this.children).forEach(child => {
       child.componentWillBeUnMounted()
     })
