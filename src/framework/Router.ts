@@ -53,8 +53,6 @@ class Route<BlockClass extends typeof Block> {
   }
 
   render() {
-    console.log("RENDERING", this._block)
-
     if (!this._block)
       this._block = new this._blockClass()
 
@@ -108,7 +106,6 @@ class Router {
   }
 
   _onRoute(pathname: string) {
-    console.log("onRoute", pathname, this.history)
 
     const route = this.getRoute(pathname)
 
@@ -122,7 +119,6 @@ class Router {
       this._currentRoute.leave()
     }
 
-    console.log("route", route)
     this._currentRoute = route
     route.render()
   }

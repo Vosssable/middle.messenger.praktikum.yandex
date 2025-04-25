@@ -11,7 +11,7 @@ export function doGetChats(query: GetChatsInterface) {
     if (typeof res === "string") {
       if (!isEqual(store.getState().chats, JSON.parse(res))) {
         store.set("chats", JSON.parse(res) as ChatListResponseInterface[])
-      } else console.error(`глянул чаты, ничего нового`)
+      }
     }
   }).catch(err => {
     if (err === 'Timeout'){

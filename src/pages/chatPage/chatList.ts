@@ -9,24 +9,8 @@ import changeClassList from "../../utils/helpers/changeClassList"
 
 export default class ChatList extends Block {
   constructor() {
-    // const props: ChatPageAttrsInterface = {
-    //     chats: ChatPageAttrs.chats,
-    //     currentAvatar: ChatPageAttrs.currentAvatar,
-    //     currentChatName: ChatPageAttrs.currentChatName
-    //   },
-    //   chats: ChatsInterface[] = props.chats
     const store = Store.getInstance()
-    // for (const chat of props.chats) {
-    //   props['chat_' + chat.id] = new Chat({
-    //     avatar: chat["avatar"],
-    //     chatName: chat["chatName"],
-    //     lastMessage: chat["lastMessage"],
-    //     lastMessageDatetime: chat["lastMessageDatetime"],
-    //     newMessageCount: chat["newMessageCount"],
-    //     class: chat["class"],
-    //     chatId: chat["chatId"]
-    //   })
-    // }
+
     super({
       searchIconBtn: new IconButton({ src: "/search.svg", alt: "Поиск чата", class: "" }),
       attrs: {
@@ -79,12 +63,6 @@ export default class ChatList extends Block {
         return `{{{ ${chat} }}}`
       }).join("")
     }
-
-
-
-    // for (const chat in chats) {
-    //   chatsHTML += `{{{ ${chats[chat]} }}}`.join("")
-    // }
 
     return `
     <div>

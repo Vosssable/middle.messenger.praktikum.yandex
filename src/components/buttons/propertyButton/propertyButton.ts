@@ -38,7 +38,6 @@ export class PropertyButton extends Block {
             case "delete_user":
               store.set('form', {...deleteUserForm, formClass: 'chat-form__change'})
               break
-
           }
         }
       }

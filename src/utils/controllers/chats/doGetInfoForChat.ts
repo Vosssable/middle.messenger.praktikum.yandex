@@ -13,7 +13,6 @@ export async function doGetInfoForChat(chatId: number): Promise<boolean | unknow
           if (token && userId) {
             return { token: token, userId: userId }
           } else {
-            alert("Нет токена или айди")
             return false
           }
         }

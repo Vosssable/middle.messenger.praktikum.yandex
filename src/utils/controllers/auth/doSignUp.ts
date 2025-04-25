@@ -4,7 +4,7 @@ import { SignUpBodyInterface } from "../../interfaces/apiInterfaces"
 import doGetUser from "./doGetUser"
 
 export function doSignUp(body: SignUpBodyInterface) {
-  signUp(body).then(_ => {
+  signUp(body).then(() => {
     doGetUser()
     Router.go("/messenger")
   }).catch(err => {

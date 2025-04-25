@@ -1,6 +1,5 @@
 import Block from "../../framework/Block"
 import { getSocket } from "../../utils/helpers/webSocket"
-import isArray = Handlebars.Utils.isArray
 
 interface ChatListInterface {
   user_id: number
@@ -12,7 +11,6 @@ interface ChatListInterface {
 export default class CurrentChat extends Block {
   constructor(props: {ownUserId: number}) {
     const socket = getSocket()
-    console.log("Socket in currentChat", socket.readyState)
 
     super({
       ownUserId: props.ownUserId,
@@ -27,13 +25,11 @@ export default class CurrentChat extends Block {
     })
 
     socket.addEventListener("message", event => {
-      console.log("Получены данные", event.data)
       const newData = JSON.parse(event.data)
       if (Array.isArray(newData)) {
         this.setProps({chatList: newData})
       } else if (newData.type === 'message') {
         this.lists.chatList = [newData, ...this.lists.chatList.reverse()]
-        console.log('тут это, одно сообщение...', this.lists.chatList)
         this.setProps({chatList: this.lists.chatList})
       }
     })
@@ -69,9 +65,7 @@ export default class CurrentChat extends Block {
 
     const chatList = this.lists.chatList as ChatListInterface[],
       ownUserId = this.props.ownUserId as number
-    console.log(ownUserId, chatList)
     const htmlOutput = chatList ? renderChatMessages(chatList, ownUserId) : ''
-    console.log(htmlOutput)
 
     return `
      <div class="{{ attrs.messagesClass }}">

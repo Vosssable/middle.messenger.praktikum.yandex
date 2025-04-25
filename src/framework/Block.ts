@@ -3,7 +3,6 @@ import EventBus, { EventCallback } from "./EventBus"
 import { BlockListInterface, BlockProps } from "../utils/interfaces/frameworkInterfaces"
 import Router from "./Router"
 
-
 export default class Block {
   static EVENTS = {
     INIT: "init",

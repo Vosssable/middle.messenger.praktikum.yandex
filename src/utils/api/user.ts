@@ -29,4 +29,3 @@ export function changeAvatar(file: FormData) {
     data: file
   })
 }
-

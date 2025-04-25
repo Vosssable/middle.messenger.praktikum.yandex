@@ -8,6 +8,6 @@ export default function doLogOut() {
     }
   }).catch((err) => {
     alert('Что-то пошло не так, попробуй снова')
-    console.log(err)
+    console.error(err)
   })
 }

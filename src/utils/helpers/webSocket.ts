@@ -1,6 +1,4 @@
-  let socket: WebSocket;
-
-
+let socket: WebSocket;
 
 export function useSocket(ownUserId: number, chatId: number, token: string) {
   socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${ownUserId}/${chatId}/${token}`)
@@ -15,7 +13,6 @@ export function useSocket(ownUserId: number, chatId: number, token: string) {
   }
 
   socket.addEventListener("close", event => {
-    console.log("close", event)
     if (event.wasClean) {
       console.log("Соединение закрыто чисто")
     } else {
@@ -28,7 +25,7 @@ export function useSocket(ownUserId: number, chatId: number, token: string) {
   })
 
   socket.addEventListener("error", event => {
-    console.log("Ошибка", event)
+    console.error("Ошибка WebSocket", event)
   })
 }
 

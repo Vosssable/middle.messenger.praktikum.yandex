@@ -3,7 +3,7 @@ import Store from "../../../framework/Store/Store"
 
 export function doAddUsersToChat(users: [], chatId: number) {
   addUsersToChat({ users: users, chatId: chatId })
-    .then(_ => {
+    .then(() => {
       const store = Store.getInstance()
       store.reset("form")
     })

@@ -5,7 +5,7 @@ import router from "../../../framework/Router"
 
 export function doChangeProfile(newValues: ProfileFormDataInterface) {
   changeProfile(newValues as unknown as ProfileInfoInterface)
-    .then(_ => router.go("/settings"))
+    .then(() => router.go("/settings"))
     .catch(err => {
       alert("Непредвиденная ошибка, звони в Яндекс))")
       console.error(err)
