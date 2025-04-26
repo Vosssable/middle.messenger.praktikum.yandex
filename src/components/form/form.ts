@@ -11,6 +11,7 @@ import { doCreateChat } from "../../utils/controllers/chats/doCreateChat"
 import { doAddUsersToChat } from "../../utils/controllers/chats/doAddUsersToChat"
 import store from "../../framework/Store/Store"
 import { doDeleteUsersFromChat } from "../../utils/controllers/chats/doDeleteUsersFromChat"
+import { doChangeChatAvatar } from "../../utils/controllers/chats/doChangeChatAvatar"
 
 interface FormDataInterface {
   [key: string]: unknown;
@@ -96,6 +97,7 @@ export class Form extends Block {
               this.Router.go("/")
             }
           } else if (event.submitter?.id === "change_file") {
+            console.log(event)
             const target = event.target as HTMLFormElement,
               formData = new FormData(target),
               file = formData.get("avatar") as File
@@ -113,7 +115,12 @@ export class Form extends Block {
               return
             }
 
-            doChangeAvatar(formData)
+            if (target.classList.contains("chat")) {
+              doChangeChatAvatar(store.getInstance().getState().currentChat as number, formData)
+            } else {
+              doChangeAvatar(formData)
+            }
+
 
           } else {
             if (props.labels) {

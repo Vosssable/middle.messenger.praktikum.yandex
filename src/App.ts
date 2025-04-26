@@ -10,7 +10,6 @@ import router from "./framework/Router"
 export default class App {
   private Router = router
 
-
   public onRenderFunc() {
     this.Router.use("/", LoginPage)
     this.Router.use("/sign-up", RegisterPage)

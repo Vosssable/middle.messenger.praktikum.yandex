@@ -65,3 +65,13 @@ export function getInfoForChat(chatId: number) {
     }
   })
 }
+
+export function changeChatAvatar(chatId: number, file: FormData) {
+  console.log(file)
+  return fetch.put("/chats/avatar", {
+    data: JSON.stringify({
+      chatId: chatId,
+      avatar: file
+    })
+  })
+}
