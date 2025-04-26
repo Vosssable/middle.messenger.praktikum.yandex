@@ -125,7 +125,7 @@ const addUserForm: FormsInterface = {
         {
             input: true,
             id: 'add_user_input',
-            placeholder: 'Логин',
+            placeholder: 'Введите ID',
             type: 'text',
             validateText: 'Вы не ввели пользователя'
         },
@@ -144,7 +144,7 @@ const deleteUserForm: FormsInterface = {
         {
             input: true,
             id: 'delete_user_input',
-            placeholder: 'Логин',
+            placeholder: 'Введите ID',
             type: 'text',
             validateText: 'Вы не ввели пользователя'
         },

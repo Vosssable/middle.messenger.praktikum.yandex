@@ -3,9 +3,12 @@ import { IconButton } from "../../components/buttons/iconButton/iconButton"
 import { DropDown } from "../../components/dropdown/dropdown"
 import { HeaderButtons } from "../../utils/ChatPageAttrs"
 import uploadResources from "../../utils/helpers/uploadResources"
+import { loadFileForm } from "../../utils/FormsAttrs"
+import Store from "../../framework/Store/Store"
 
 export default class ChatHeader extends Block {
   constructor(props: {currentChatName: string, currentAvatar: string}) {
+    const store = Store.getInstance()
 
     super({
       ...props,
@@ -37,6 +40,9 @@ export default class ChatHeader extends Block {
           if (target.id === "chat-header_icon-btn" || target.classList.contains("chat-header__properties")) {
             dropdown.classList.add("display-block")
           }
+          if (target.id === "chat_avatar") {
+            store.set('form', {...loadFileForm, formClass: 'change-avatar chat'})
+          }
         }
       }
     })
@@ -45,9 +51,9 @@ export default class ChatHeader extends Block {
   override render() {
     let avatarHtml = ``
     if (!this.props.currentAvatar) {
-      avatarHtml = `<img class="chat-header__avatar" src="/avatarNoPhoto.svg" alt="Chat Photo">`
+      avatarHtml = `<img class="chat-header__avatar" src="/avatarNoPhoto.svg" alt="Chat Photo" id="chat_avatar">`
     } else {
-      avatarHtml = `<img class="chat-header__avatar" src="${uploadResources(this.props.currentAvatar as string)}" alt="Chat Photo">`
+      avatarHtml = `<img class="chat-header__avatar" src="${uploadResources(this.props.currentAvatar as string)}" alt="Chat Photo" id="chat_avatar">`
     }
     return `
     <div class="{{ attrs.chatHeaderClass }}">
