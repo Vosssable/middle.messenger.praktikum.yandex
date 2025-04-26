@@ -26,8 +26,11 @@ export interface PropertyButtonPropsInterface {
 }
 
 export interface DropDownPropsInterface {
+    [key: string]: unknown;
+
     class: string
     buttons: ButtonsInterface[]
+    id?: string
 }
 
 export interface FormInputPropsInterface {
@@ -39,7 +42,7 @@ export interface FormInputPropsInterface {
 
 export interface ProfilePagePropsInterface extends KeyValueInterface {
     name?: string
-    inputs: InputsInterface[]
+    inputs?: InputsInterface[]
     buttons?: ProfileBtnsInterface[]
     change?: ProfileEditBtnInterface
     labels?: FormLabelsInterface[]
@@ -48,6 +51,7 @@ export interface ProfilePagePropsInterface extends KeyValueInterface {
     disabled?: boolean
     avatar?: boolean
     onClick?: (event: Event, action: string) => void
+    action?: string
 }
 
 export interface ProfileInputLabelInterface {

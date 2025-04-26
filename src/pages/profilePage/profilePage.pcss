@@ -14,7 +14,6 @@
 }
 
 .profile-back {
-    cursor: pointer;
     width: 50px;
     border-right: 1px solid #EAEAEA;
     background-color: var(--background-white-2);
@@ -24,11 +23,18 @@
     align-items: center;
 }
 
+.profile-back:hover {
+    cursor: pointer;
+    background-color: rgb(250 227 227 / 37%);
+}
+
 .profile-back:focus {
+    cursor: pointer;
     background-color: rgb(172 160 160 / 38%);
 }
 
 .profile-back:active {
+    cursor: pointer;
     background-color: rgb(172 160 160 / 23%);
 }
 
@@ -75,24 +81,17 @@
 }
 
 
-.profile-avatar img {
+.profile-avatar img:not(.profile-avatar) {
     width: 40px;
     height: 40px;
 }
 
+.profile-avatar img:is(.profile-avatar) {
+    position: static;
+}
+
 .profile-name {
-    margin-bottom: 50px;
+    margin: 50px 0;
     font-weight: 600;
     font-size: 16px;
 }
-
-.change-avatar {
-    position: absolute;
-    z-index: 100;
-    position-area: center;
-}
-
-.change-avatar .primary_button {
-    margin: 40px 0;
-}
-

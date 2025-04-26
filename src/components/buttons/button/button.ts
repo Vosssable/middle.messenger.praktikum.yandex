@@ -9,9 +9,8 @@ export class Button extends Block {
     }
 
     override render() {
-        return `<button class="{{ class }}" id="{{ id }}">
+        return `<button class="{{ class }}" id="{{ id }}" type="{{ type }}">
                {{ text }}
             </button>`
     }
 }
-

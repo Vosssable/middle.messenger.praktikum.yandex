@@ -55,14 +55,14 @@ const ProfileBtns: ProfileBtnsInterface[] = [
     },
     {
         label: 'Выйти',
-        id: 'sign_out',
+        id: 'log_out',
         inputClass: 'profile-button',
         labelClass: 'danger'
     }
 ]
 
 const ProfileEditBtn: ProfileEditBtnInterface = {
-    id: 'change',
+    id: 'profile_change',
     text: 'Сохранить'
 }
 

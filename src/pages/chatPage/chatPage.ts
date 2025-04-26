@@ -1,126 +1,182 @@
-import Block from '../../framework/Block'
-import {IconButton} from "../../components/buttons/iconButton/iconButton";
-import {DropDown} from "../../components/dropdown/dropdown";
-import {FooterButtons, HeaderButtons} from "../../utils/ChatPageAttrs";
-import {Chat} from "../../components/chat/chat";
-import {ChatPageAttrsInterface, ChatsInterface} from "../../utils/interfaces/attrsInterfaces";
-
+import Block from "../../framework/Block"
+import ChatList from "./chatList"
+import CurrentChat from "./currentChat"
+import ChatFooter from "./chatFooter"
+import ChatHeader from "./chatHeader"
+import { hideChatDropdown } from "../../utils/helpers/hideChatDropdown"
+import { Form } from "../../components/form/form"
+import Store from "../../framework/Store/Store"
+import { filterChildren } from "../../utils/helpers/filterChildren"
+import EmptyChat from "./emptyChat"
+import { doGetChats } from "../../utils/controllers/chats/doGetChats"
+import { doGetInfoForChat } from "../../utils/controllers/chats/doGetInfoForChat"
+import { ChatListResponseInterface } from "../../utils/interfaces/responseInterfaces"
+import { getSocket, useSocket } from "../../utils/helpers/webSocket"
+import { FormsInterface } from "../../utils/interfaces/attrsInterfaces"
+import { ProfileInfoInterface } from "../../utils/interfaces/apiInterfaces"
 
 export default class ChatPage extends Block {
-    constructor(props: ChatPageAttrsInterface) {
-        const chats: ChatsInterface[] = props.chats;
-        for (const chat of chats) {
-                props[chat.chatName] = new Chat({
-                    avatar: chat['avatar'],
-                    chatName: chat['chatName'],
-                    lastMessage: chat['lastMessage'],
-                    lastMessageDatetime: chat['lastMessageDatetime'],
-                    newMessageCount: chat['newMessageCount'],
-                    class: chat['class']
-                })
-        }
-        super({
-            ...props,
-            searchIconBtn: new IconButton({src:'/search.svg', alt:'Поиск чата', class:''}),
-            userPropertiesBtn: new IconButton({src:'/userProperties.svg', alt:'Настройки пользователя', class:''}),
-            filePropertiesBtn: new IconButton({src:'/fileProperties.svg', alt:'Добавить к сообщению', class:'file-properties'}),
-            sendMessageBtn: new IconButton({src:'/arrowRight.svg', alt:'Отправить сообщение', class:'send-message'}),
-            headerDropdown: new DropDown({class:"chat-header__properties__active", buttons: HeaderButtons}),
-            footerDropdown: new DropDown({class:"chat-footer__properties__active", buttons: FooterButtons}),
-            attrs: {
-                sidebarClass: 'sidebar',
-                sidebarProfileClass: 'sidebar__profile',
-                searchChatClass: 'search-chat',
-                chatContainerClass: 'chat_container',
-                chatsClass: 'chats',
-                messagesClass: 'messages',
-                messagesDateClass: 'messages_date',
-                messageTimeClass: 'message_time',
-                messageClass: 'message',
-                receivedClass: 'received',
-                sentClass: 'sent',
-                profileNameClass: 'profile-name',
-                chatWindowClass: 'chat-window',
-                chatHeaderClass: 'chat-header',
-                chatHeaderNameClass: 'chat-header__name',
-                chatHeaderInfoClass: 'chat-header__info',
-                chatHeaderAvatarClass: 'chat-header__avatar',
-                chatHeaderPropertiesClass: 'chat-header__properties',
-                chatFooterClass: 'chat-footer',
-                chatFooterPropertiesClass: 'chat-footer__properties',
+  private intervalId: number|undefined
+
+  constructor() {
+    const store = Store.getInstance()
+    store.set("form", {})
+
+    super({
+      isCurrentChat: false,
+      chatList: new ChatList(),
+      emptyChat: new EmptyChat(),
+      attrs: {
+        sidebarClass: "sidebar",
+        sidebarProfileClass: "sidebar__profile",
+        chatContainerClass: "chat_container",
+        profileNameClass: "profile-name",
+        chatWindowClass: "chat-window"
+      },
+      events: {
+        click: (event: MouseEvent) => {
+          const target = event.target as HTMLElement
+          if (target.classList.contains("chat-list__item")) {
+            return
+          }
+
+          if (target.id === "chat_page") {
+            if (target.children[1].classList.contains("overlay")) {
+              this.setProps({ ...filterChildren(this.children, "form") })
             }
-        });
-    }
+          }
 
-    override render() {
-        const chats: ChatsInterface[] = <ChatsInterface[]>this.lists['chats']
-        let chatsHTML = ``
+          if ((target.id !== "chat-header_icon-btn" && !target.classList.contains("chat-header__properties")) &&
+            (target.id !== "chat-footer_icon-btn" && !target.classList.contains("chat-footer__properties"))) {
+            hideChatDropdown()
+          }
 
-        for (const chat in chats) {
-            chatsHTML += `{{{ ${chats[chat]['chatName']} }}}`
+          if (target.id === "go_to_profile") {
+            event.preventDefault()
+            store.reset('currentChat')
+            this.Router.go("/settings")
+          }
         }
-        return `
+      }
+    })
+
+    store.on("updated", () => {
+      const formAttrs = store.getState().form
+
+      if (formAttrs) {
+        this.setProps({
+          ...this.children,
+          form: new Form(store.getState().form as FormsInterface)
+        })
+        const tmpl = document.getElementById("form")?.parentElement as HTMLElement
+        tmpl.children[1].classList.add("overlay")
+        tmpl.children[1].classList.add("no-cursor")
+      } else {
+        this.setProps({ ...filterChildren(this.children, "form") })
+      }
+    })
+
+    store.on('chatListUpdated', () => {
+      const currentChat = store.getState().currentChat as ChatListResponseInterface,
+        chatList = store.getState().chats
+      if (currentChat) {
+        if (Array.isArray(chatList) && chatList.length > 0) {
+          if (chatList.find((item: ChatListResponseInterface) =>
+            item.id === currentChat.id
+          )) {
+            this.setProps({
+              ...this.children,
+              isCurrentChat: false
+            })
+          }
+        } else {
+          this.setProps({
+            ...this.children,
+            isCurrentChat: false
+          })
+        }
+      }
+    })
+
+    store.on("currentChatUpdated", async () => {
+      const currentChat = store.getState().currentChat as number
+      if (currentChat) {
+        doGetInfoForChat(currentChat).then((value) => {
+          if (value) {
+            const chatInfoResponse: { token: string, chatId: string } = value as { token: string, chatId: string }
+            const currentChatInfo = (chatId: number) => {
+              const chats = store.getState().chats as ChatListResponseInterface[]
+
+              return chats.filter((chatItem: ChatListResponseInterface) => {
+                return chatItem["id"] === chatId
+              })
+            }
+            const chatInfoForRender: ChatListResponseInterface = currentChatInfo(currentChat)[0],
+              ownUserId: number = (store.getState().user as ProfileInfoInterface).id
+
+            if (getSocket()) {
+              getSocket().close(1000, 'Закрыли чат')
+            }
+
+            useSocket(ownUserId, chatInfoForRender.id, chatInfoResponse.token)
+
+            this.setProps({
+              ...this.children,
+              isCurrentChat: true,
+              currentChat: new CurrentChat({ownUserId: ownUserId}),
+              chatHeader: new ChatHeader({
+                currentChatName: chatInfoForRender.title,
+                currentAvatar: chatInfoForRender.avatar
+              }),
+              chatFooter: new ChatFooter()
+            })
+          }
+        })
+      } else {
+        this.setProps({ ...filterChildren(this.children, "currentChat"), isCurrentChat: false })
+      }
+    })
+  }
+
+  // Делаем UnMount
+  componentWillBeUnMounted() {
+    Store.getInstance().reset("chats")
+    if (this.intervalId) {
+      clearInterval(this.intervalId)
+      this.intervalId = undefined
+    }
+  }
+
+  override render() {
+    doGetChats({})
+    if (!this.intervalId) {
+      this.intervalId = window.setInterval(() => {
+        doGetChats({})
+      }, 10000)
+    }
+    return `
         <main id="app">
-            <div>
+            <div id="chat_page">
+                {{{ form }}}
                 <div class="{{ attrs.chatContainerClass }}">
                     <div class="{{ attrs.sidebarClass }}">
                         <div class="{{ attrs.sidebarProfileClass }}">
-                            Профиль ›
+                            <div id="go_to_profile">Профиль ›</div>
                         </div>
-                        <div class="{{ attrs.searchChatClass }}">
-                            <input id="search-chat__input" type="text" placeholder="Поиск" name="chat">
-                            <label for="search-chat__input">
-                                {{{ searchIconBtn }}}
-                                Поиск
-                            </label>
-                        </div>
-                        <div class="{{ attrs.chatsClass }}">
-                            ${chatsHTML}
-                        </div>
+                   {{{ chatList }}}
                     </div>
                     <div class="{{ attrs.chatWindowClass }}">
-                        <div class="{{ attrs.chatHeaderClass }}">
-                            <div class="{{ attrs.chatHeaderInfoClass }}">
-                                <div class="{{ attrs.chatHeaderAvatarClass }}">
-                                    {{ currentAvatar }}
-                                </div>
-                                <div class="{{ attrs.chatHeaderNameClass }}">
-                                    {{ currentChatName }}
-                                </div>
-                            </div>
-                            <button class="{{ attrs.chatHeaderPropertiesClass }}">
-                                {{{ userPropertiesBtn }}}
-                            </button>
-                            {{{ headerDropdown }}}
-                        </div>
-                        <div class="{{ attrs.messagesClass }}">
-                            <div class="{{ attrs.messagesDateClass }}"> 19 июня</div>
-                            <div class="{{ attrs.messageClass }} {{ attrs.receivedClass }}">Привет! Смотри, тут всплыл интересный кусок лунной космической истории — НАСА
-                                в какой-то момент попросила Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все
-                                знаем что астронавты летали с моделью 500 EL — и к слову говоря, все тушки этих камер все еще
-                                находятся на поверхности Луны, так как астронавты с собой забрали только кассеты с пленкой.
-            
-                                Хассельблад в итоге адаптировал SWC для космоса, но что-то пошло не так и на ракету они так никогда
-                                и не попали. Всего их было произведено 25 штук, одну из них недавно продали на аукционе за 45000
-                                евро.
-                                <span class="{{ attrs.messageTimeClass }} {{ attrs.receivedClass }}">12:20</span>
-                            </div>
-                            <div class="{{ attrs.messageClass }} {{ attrs.sentClass }}">Круто!
-                                <span class="{{ attrs.messageTimeClass }} {{ attrs.sentClass }}">
-                                <img src="/received.svg" alt="Сообщение просмотрено"> 12:00</span></div>
-                        </div>
-                        <div class="{{ attrs.chatFooterClass }}">
-                            <button class="{{ attrs.chatFooterPropertiesClass }}">
-                                {{{ filePropertiesBtn }}}
-                            </button>
-                            {{{ footerDropdown }}}
-                            <input type="text" placeholder="Напишите сообщение..." id="message" name="message">
-                            {{{ sendMessageBtn }}}
-                        </div>
+                    {{#if isCurrentChat}}
+                        {{{ chatHeader }}}
+                        {{{ currentChat }}}
+                        {{{ chatFooter }}}  
+                    {{else}}
+                        {{{ emptyChat }}}
+                    {{/if}}
                     </div>
                 </div>
             </div>
         </main>
         `
-    }
+  }
 }
