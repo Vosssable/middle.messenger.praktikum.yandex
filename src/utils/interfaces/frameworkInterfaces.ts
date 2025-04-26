@@ -15,6 +15,6 @@ export interface BlockListInterface {
   [key: string]: ProfileBtnsInterface[] | InputsInterface[] | ButtonsInterface[] | FormLabelsInterface[];
 }
 
-export type Indexed<T = any> = {
+export type Indexed<T = unknown> = {
   [key in string]: T
 }

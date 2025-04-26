@@ -12,15 +12,15 @@ import { doGetChats } from "../../utils/controllers/chats/doGetChats"
 import { doGetInfoForChat } from "../../utils/controllers/chats/doGetInfoForChat"
 import { ChatListResponseInterface } from "../../utils/interfaces/responseInterfaces"
 import { getSocket, useSocket } from "../../utils/helpers/webSocket"
-
+import { FormsInterface } from "../../utils/interfaces/attrsInterfaces"
+import { ProfileInfoInterface } from "../../utils/interfaces/apiInterfaces"
 
 export default class ChatPage extends Block {
-  private intervalId: number
+  private intervalId: number|undefined
 
   constructor() {
     const store = Store.getInstance()
     store.set("form", {})
-    doGetChats({})
 
     super({
       isCurrentChat: false,
@@ -37,7 +37,6 @@ export default class ChatPage extends Block {
         click: (event: MouseEvent) => {
           const target = event.target as HTMLElement
           if (target.classList.contains("chat-list__item")) {
-            console.log("clicked")
             return
           }
 
@@ -67,7 +66,7 @@ export default class ChatPage extends Block {
       if (formAttrs) {
         this.setProps({
           ...this.children,
-          form: new Form(store.getState().form)
+          form: new Form(store.getState().form as FormsInterface)
         })
         const tmpl = document.getElementById("form")?.parentElement as HTMLElement
         tmpl.children[1].classList.add("overlay")
@@ -78,17 +77,13 @@ export default class ChatPage extends Block {
     })
 
     store.on('chatListUpdated', () => {
-      const currentChat = store.getState().currentChat,
-        chatList = store.getState().chatList
-
+      const currentChat = store.getState().currentChat as ChatListResponseInterface,
+        chatList = store.getState().chats
       if (currentChat) {
         if (Array.isArray(chatList) && chatList.length > 0) {
           if (chatList.find((item: ChatListResponseInterface) =>
             item.id === currentChat.id
           )) {
-            console.log("chatListUpdated", currentChat, chatList.find((item: ChatListResponseInterface) =>
-              item.id === currentChat.id
-            ))
             this.setProps({
               ...this.children,
               isCurrentChat: false
@@ -104,22 +99,20 @@ export default class ChatPage extends Block {
     })
 
     store.on("currentChatUpdated", async () => {
-      const currentChat = store.getState().currentChat
-
+      const currentChat = store.getState().currentChat as number
       if (currentChat) {
         doGetInfoForChat(currentChat).then((value) => {
-          console.log("ANSWER", value)
           if (value) {
             const chatInfoResponse: { token: string, chatId: string } = value as { token: string, chatId: string }
             const currentChatInfo = (chatId: number) => {
-              console.log("currentChatInfo", chatId)
-              return store.getState().chats.filter((chatItem: ChatListResponseInterface) => {
+              const chats = store.getState().chats as ChatListResponseInterface[]
+
+              return chats.filter((chatItem: ChatListResponseInterface) => {
                 return chatItem["id"] === chatId
               })
             }
             const chatInfoForRender: ChatListResponseInterface = currentChatInfo(currentChat)[0],
-              ownUserId: number = store.getState().user.id
-            console.log(chatInfoForRender, store.getState().user)
+              ownUserId: number = (store.getState().user as ProfileInfoInterface).id
 
             if (getSocket()) {
               getSocket().close(1000, 'Закрыли чат')
@@ -145,22 +138,22 @@ export default class ChatPage extends Block {
     })
   }
 
-  // Запускаем при подключении компонента
-  componentDidMount() {
-    this.intervalId = window.setInterval(() => {
-      doGetChats({})
-    }, 10000)
-  }
-
   // Делаем UnMount
   componentWillBeUnMounted() {
     Store.getInstance().reset("chats")
     if (this.intervalId) {
       clearInterval(this.intervalId)
+      this.intervalId = undefined
     }
   }
 
   override render() {
+    doGetChats({})
+    if (!this.intervalId) {
+      this.intervalId = window.setInterval(() => {
+        doGetChats({})
+      }, 10000)
+    }
     return `
         <main id="app">
             <div id="chat_page">

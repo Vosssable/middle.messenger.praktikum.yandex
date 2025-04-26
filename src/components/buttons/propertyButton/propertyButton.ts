@@ -29,7 +29,7 @@ export class PropertyButton extends Block {
               store.set('form', {...createNewChat, formClass: 'chat-form__change'})
               break
             case "delete_chat":
-              doDeleteChat(store.getState().currentChat)
+              doDeleteChat(store.getState().currentChat as number)
               store.getState().currentChat = ''
               break
             case "add_user":

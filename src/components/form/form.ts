@@ -12,7 +12,6 @@ import { doAddUsersToChat } from "../../utils/controllers/chats/doAddUsersToChat
 import store from "../../framework/Store/Store"
 import { doDeleteUsersFromChat } from "../../utils/controllers/chats/doDeleteUsersFromChat"
 
-
 interface FormDataInterface {
   [key: string]: unknown;
 
@@ -69,7 +68,6 @@ export class Form extends Block {
         change: (event: InputEvent) => {
           const target = event.target as HTMLInputElement,
             files = target.files
-          // if (target.id !== 'upload_file') return
 
           if (!files) {
             return
@@ -140,23 +138,23 @@ export class Form extends Block {
                 case "/sign-up":
                   doSignUp(formData as SignUpBodyInterface)
                   break
-                case "/messenger":
+                case "/messenger": {
                   const labels = props.labels as FormLabelsInterface[]
-                  if (labels.filter((label: FormLabelsInterface | {}) => {
-                    return label.hasOwnProperty("input")
+                  if (labels.filter((label: FormLabelsInterface | object) => {
+                    return Object.prototype.hasOwnProperty.call(label, 'input')
                   }).length === 1) {
                     const formAttr = props.labels[0]
-                    console.log("here", formAttr)
                     if (formAttr.id === "chat_name") {
                       doCreateChat(formData["chat_name"] as string)
                     } else if (formAttr.id === "add_user_input") {
                       const users = [formData.add_user_input] as unknown as []
-                      doAddUsersToChat(users, store.getInstance().getState().currentChat)
+                      doAddUsersToChat(users, store.getInstance().getState().currentChat as number)
                     } else if (formAttr.id === "delete_user_input") {
                       const users = [formData.delete_user_input] as unknown as []
-                      doDeleteUsersFromChat(users, store.getInstance().getState().currentChat)
+                      doDeleteUsersFromChat(users, store.getInstance().getState().currentChat as number)
                     }
                   } else alert("Что-то не так, такого не должно было случиться")
+              }
               }
             }
           }

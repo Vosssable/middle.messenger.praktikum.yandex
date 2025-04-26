@@ -15,7 +15,21 @@ import uploadResources from "../../utils/helpers/uploadResources"
 
 export default class ProfileMain extends Block {
   constructor(props: ProfilePagePropsInterface) {
-    const userInfo = Store.getInstance().getState().user
+    const store = Store.getInstance(),
+      userInfo = store.getState().user as {[key: string]: string}
+
+    function changeInputsValue() {
+      ProfileAttrs.name = userInfo.first_name
+      for (const input of ProfileAttrs.inputs) {
+        if (userInfo[input.id]) {
+          input.value = userInfo[input.id].length > 0 ? userInfo[input.id] : "-"
+        }
+      }
+    }
+
+    changeInputsValue()
+    props.name = ProfileAttrs.name
+    props.inputs = ProfileAttrs.inputs
 
     super({
       ...props,
@@ -40,7 +54,7 @@ export default class ProfileMain extends Block {
                 break
               case "change_user_data":
                 this.setProps({
-                  name: props.name,
+                  name: ProfileAttrs.name,
                   inputs: ProfileAttrs.inputs,
                   change: ProfileEditBtn,
                   disabled: false,
@@ -74,10 +88,6 @@ export default class ProfileMain extends Block {
                 return
               }
               doChangeProfile(newForm)
-              this.setProps({
-                name: ProfileAttrs.name, inputs: ProfileAttrs.inputs, buttons: ProfileBtns, disabled: true, action: undefined
-              })
-              setInputs()
             }
           } else if (this.props.action === "change_user_password") {
             const newForm = validateForms(ProfileEditPasswordAttrs)
@@ -85,10 +95,6 @@ export default class ProfileMain extends Block {
               return
             }
             doChangePass(newForm.old_password as string, newForm.new_password as string)
-            this.setProps({
-              name: ProfileAttrs.name, inputs: ProfileAttrs.inputs, buttons: ProfileBtns, disabled: true, action: undefined
-            })
-            setInputs()
           }
         }
       }
@@ -101,12 +107,24 @@ export default class ProfileMain extends Block {
       this.props.avatarSrc = "/avatarNoPhoto.svg"
     }
 
+    store.on("updated", () => {
+      changeInputsValue()
+      this.setProps({
+        name: ProfileAttrs.name,
+        inputs: ProfileAttrs.inputs,
+        buttons: ProfileBtns,
+        disabled: true,
+        action: undefined,
+        avatarSrc: uploadResources(userInfo.avatar)
+      })
+      setInputs()
+    })
+
     const setInputs = () => {
       const inputs = <InputsInterface[]>this.lists.inputs,
         buttons = <ProfileBtnsInterface[]>this.lists.buttons,
         change = <ButtonsInterface>this.props.change
 
-      console.log('SET INPUTS', inputs, buttons, change)
       this.setProps({
         ProfileInputs: inputs ? inputs.map(input => new ProfileInputLabel({
           value: input["value"],

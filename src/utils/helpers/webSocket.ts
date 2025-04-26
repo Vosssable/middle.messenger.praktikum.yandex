@@ -14,11 +14,11 @@ export function useSocket(ownUserId: number, chatId: number, token: string) {
 
   socket.addEventListener("close", event => {
     if (event.wasClean) {
-      console.log("Соединение закрыто чисто")
+      console.debug("Соединение закрыто чисто")
     } else {
-      console.log("Обрыв соединения")
+      console.debug("Обрыв соединения")
     }
-    console.log(`Код: ${event.code} | Причина: ${event}`)
+    console.debug(`Код: ${event.code} | Причина: ${event}`)
     if (event.code === 1006) {
       useSocket(ownUserId, chatId, token)
     }

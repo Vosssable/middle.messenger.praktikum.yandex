@@ -1,8 +1,7 @@
 import { Indexed } from "../interfaces/frameworkInterfaces"
 
 export function filterChildren(oldChildren: Indexed, value: 'form' | 'currentChat') {
-  console.log('filterChiildren',oldChildren, value)
-  if (oldChildren.hasOwnProperty(value)) {
+  if (Object.prototype.hasOwnProperty.call(oldChildren, value)) {
     const children = Object.keys(oldChildren),
       newChildren = {} as Indexed
 
@@ -13,5 +12,4 @@ export function filterChildren(oldChildren: Indexed, value: 'form' | 'currentCha
     }
     return newChildren
   } else return oldChildren
-
 }

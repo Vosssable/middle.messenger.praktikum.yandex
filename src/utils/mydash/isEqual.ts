@@ -28,7 +28,7 @@ function isEqual(lhs: Indexed | string, rhs: Indexed | string): boolean {
     for (const [key, value] of Object.entries(lhs)) {
       const rightValue = rhs[key]
       if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
-        if (isEqual(value, rightValue)) {
+        if (isEqual(value as Indexed, rightValue as Indexed)) {
           continue
         }
         return false

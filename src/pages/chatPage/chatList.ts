@@ -6,6 +6,7 @@ import { Indexed } from "../../utils/interfaces/frameworkInterfaces"
 import Store from "../../framework/Store/Store"
 import { isEmpty } from "../../utils/mydash/isEmpty"
 import changeClassList from "../../utils/helpers/changeClassList"
+import { formatDateToLocal } from "../../utils/helpers/formatDateToLocal"
 
 export default class ChatList extends Block {
   constructor() {
@@ -28,7 +29,7 @@ export default class ChatList extends Block {
               avatar: chat.avatar || "",
               chatName: chat.title || "",
               lastMessage: chat.last_message?.content || "",
-              lastMessageDatetime: chat.last_message?.time || "",
+              lastMessageDatetime: chat.last_message?.time ? formatDateToLocal(chat.last_message?.time) : "",
               newMessageCount: chat.unread_count || 0,
               chatId: chat.id
             })
@@ -48,7 +49,7 @@ export default class ChatList extends Block {
     store.on("chatListUpdated", () => {
       const chats = store.getState().chats
       if (chats) {
-        addChats(chats)
+        addChats(chats as ChatListResponseInterface[])
       }
     })
 

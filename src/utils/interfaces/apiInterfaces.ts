@@ -14,7 +14,8 @@ export interface ProfileInfoInterface {
   login: string,
   email: string,
   display_name: string,
-  phone: string
+  phone: string,
+  id: number,
 }
 
 export interface GetChatsInterface {

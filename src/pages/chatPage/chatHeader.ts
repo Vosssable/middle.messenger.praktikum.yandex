@@ -2,12 +2,10 @@ import Block from "../../framework/Block"
 import { IconButton } from "../../components/buttons/iconButton/iconButton"
 import { DropDown } from "../../components/dropdown/dropdown"
 import { HeaderButtons } from "../../utils/ChatPageAttrs"
-import Store from "../../framework/Store/Store"
 import uploadResources from "../../utils/helpers/uploadResources"
 
 export default class ChatHeader extends Block {
   constructor(props: {currentChatName: string, currentAvatar: string}) {
-    const store = Store.getInstance().getState()
 
     super({
       ...props,
@@ -38,8 +36,6 @@ export default class ChatHeader extends Block {
 
           if (target.id === "chat-header_icon-btn" || target.classList.contains("chat-header__properties")) {
             dropdown.classList.add("display-block")
-          } else {
-
           }
         }
       }
@@ -53,7 +49,6 @@ export default class ChatHeader extends Block {
     } else {
       avatarHtml = `<img class="chat-header__avatar" src="${uploadResources(this.props.currentAvatar as string)}" alt="Chat Photo">`
     }
-    console.log(this)
     return `
     <div class="{{ attrs.chatHeaderClass }}">
         <div class="{{ attrs.chatHeaderInfoClass }}">

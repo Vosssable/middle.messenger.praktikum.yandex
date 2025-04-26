@@ -19,7 +19,7 @@ function cloneDeep<T extends Indexed>(obj: T) {
         }
 
         if (item instanceof Array) {
-            let copy: ReturnType<typeof _cloneDeep>[] = []
+            const copy: ReturnType<typeof _cloneDeep>[] = []
 
             item.forEach((_, i) => (copy[i] = _cloneDeep(item[i])))
 
@@ -27,7 +27,7 @@ function cloneDeep<T extends Indexed>(obj: T) {
         }
 
         if (item instanceof Set) {
-            let copy = new Set()
+            const copy = new Set()
 
             item.forEach(v => copy.add(_cloneDeep(v)))
 
@@ -35,7 +35,7 @@ function cloneDeep<T extends Indexed>(obj: T) {
         }
 
         if (item instanceof Map) {
-            let copy = new Map()
+            const copy = new Map()
 
             item.forEach((v, k) => copy.set(k, _cloneDeep(v)))
 
@@ -43,15 +43,15 @@ function cloneDeep<T extends Indexed>(obj: T) {
         }
 
         if (item instanceof Object) {
-            let copy: Indexed = {}
+            const copy: Indexed = {}
 
             // Handle:
             // * Object.symbol
-            Object.getOwnPropertySymbols(item).forEach(s => (copy[s.toString()] = _cloneDeep(item[s.toString()])))
+            Object.getOwnPropertySymbols(item).forEach(s => (copy[s.toString()] = _cloneDeep(item[s.toString()] as T)))
 
             // Handle:
             // * Object.name (other)
-            Object.keys(item).forEach(k => (copy[k] = _cloneDeep(item[k])))
+            Object.keys(item).forEach(k => (copy[k] = _cloneDeep(item[k] as T)))
 
             return copy
         }

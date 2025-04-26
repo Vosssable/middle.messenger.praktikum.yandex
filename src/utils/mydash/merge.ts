@@ -1,18 +1,18 @@
-import { Indexed } from "../interfaces/frameworkInterfaces"
+import { Indexed } from "../interfaces/frameworkInterfaces";
 
 function merge(firstObj: Indexed, secondObj: Indexed): Indexed {
-    for (let key in secondObj) {
-        if (!secondObj.hasOwnProperty(key)) {
+    for (const key in secondObj) {
+        if (secondObj?.[key] === undefined) {
             continue
         }
 
         try {
-            if (secondObj[key].constructor === Object) {
+            if (secondObj[key] && secondObj[key].constructor === Object) {
                 secondObj[key] = merge(firstObj[key] as Indexed, secondObj[key] as Indexed)
             } else {
                 firstObj[key] = secondObj[key]
             }
-        } catch (e) {
+        } catch {
             firstObj[key] = secondObj[key]
         }
     }
