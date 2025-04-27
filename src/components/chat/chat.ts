@@ -36,7 +36,7 @@ export class Chat extends Block {
         return `
             <div class="chat-list__item" id="chat_item_{{ chatId }}">
               <div class="{{ attrs.chatClass }} no-cursor">
-                <div class="{{ attrs.chatAvatarClass }}">{{ avatar }}</div>
+                <div class="{{ attrs.chatAvatarClass }}"><img class="{{attrs.chatAvatarClass}}" src="{{ avatar }}" alt="Photo"></div>
                 <div class="{{ attrs.chatInfoClass }}">
                     <div class="{{ attrs.chatNameClass }}">{{ chatName }}</div>
                     <div class="{{ attrs.chatLastMessageClass }}">{{ lastMessage }}</div>

@@ -2,8 +2,8 @@ import { changeChatAvatar } from "../../api/chats"
 import Store from "../../../framework/Store/Store"
 import { doGetChats } from "./doGetChats"
 
-export function doChangeChatAvatar(chatId: number, file: FormData) {
-  changeChatAvatar(chatId, file)
+export function doChangeChatAvatar(data: FormData) {
+  changeChatAvatar(data)
     .then(res => {
       if (res && typeof res === "string") {
         doGetChats({})

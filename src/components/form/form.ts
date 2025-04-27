@@ -116,7 +116,8 @@ export class Form extends Block {
             }
 
             if (target.classList.contains("chat")) {
-              doChangeChatAvatar(store.getInstance().getState().currentChat as number, formData)
+              formData.append('chatId', store.getInstance().getState().currentChat as string)
+              doChangeChatAvatar(formData)
             } else {
               doChangeAvatar(formData)
             }

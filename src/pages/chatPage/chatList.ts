@@ -7,6 +7,7 @@ import Store from "../../framework/Store/Store"
 import { isEmpty } from "../../utils/mydash/isEmpty"
 import changeClassList from "../../utils/helpers/changeClassList"
 import { formatDateToLocal } from "../../utils/helpers/formatDateToLocal"
+import uploadResources from "../../utils/helpers/uploadResources"
 
 export default class ChatList extends Block {
   constructor() {
@@ -26,7 +27,7 @@ export default class ChatList extends Block {
           chatKeys = []
         for (const chat of chats) {
           chatList["chat_" + chat.id] = new Chat({
-              avatar: chat.avatar || "",
+              avatar: chat.avatar ? uploadResources(chat.avatar) : "",
               chatName: chat.title || "",
               lastMessage: chat.last_message?.content || "",
               lastMessageDatetime: chat.last_message?.time ? formatDateToLocal(chat.last_message?.time) : "",
