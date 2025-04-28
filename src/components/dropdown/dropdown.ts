@@ -1,25 +1,31 @@
-import Block from '../../framework/Block'
-import {PropertyButton} from "../buttons/propertyButton/propertyButton";
-import {DropDownPropsInterface} from "../../utils/interfaces/propsInterfaces";
-import {ButtonsInterface} from "../../utils/interfaces/attrsInterfaces";
+import Block from "../../framework/Block"
+import { PropertyButton } from "../buttons/propertyButton/propertyButton"
+import { DropDownPropsInterface } from "../../utils/interfaces/propsInterfaces"
 
 export class DropDown extends Block {
-    constructor(props: DropDownPropsInterface) {
-        super({
-            ...props
-        })
+  constructor(props: DropDownPropsInterface) {
+    for (const button of props.buttons) {
+      if (button.id) {
+          props[button.id] = new PropertyButton({
+            src: button.src,
+            text: button.text,
+            id: button.id,
+            alt: button.text
+          })
+      }
     }
+    super({
+      ...props,
+    })
+  }
 
-    override render() {
-        let bodyHtml: string = ``
-        const list: ButtonsInterface[] = this.lists['buttons']
-        for (const el of list) {
-            bodyHtml += new PropertyButton({
-                src: el['src'],
-                text: el['text'],
-                id: el['id']
-            }).getContent().outerHTML
-        }
-        return `<div class="{{ class }}">${bodyHtml}</div>`
-    }
+  override render() {
+    const buttonsHtml = this.lists.buttons.map((button) => {
+        return `{{{ ${button.id} }}}`
+      }).join("")
+
+    return `<div class="{{ class }}" id="{{ id }}">
+           ${buttonsHtml}
+        </div>`
+  }
 }

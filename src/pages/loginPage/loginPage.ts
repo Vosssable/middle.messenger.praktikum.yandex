@@ -11,11 +11,9 @@ export default class LoginPage extends Block {
     override render() {
         return `
         <main id="app">
-            <div>
                 <div class="app">
                     {{{ loginForm }}}
                 </div>
-            </div>
         </main>
         `
     }

@@ -7,6 +7,7 @@ export interface ChatsInterface {
         lastMessageDatetime?: string
         class?: string
         newMessageCount?: number
+        chatId?: number
 }
 
 export interface ChatPageAttrsInterface extends KeyValueInterface {
@@ -21,6 +22,7 @@ export interface ButtonsInterface {
     id?: string
     alt?: string
     class?: string
+    type?: string
 }
 
 export interface ErrorsInterface {

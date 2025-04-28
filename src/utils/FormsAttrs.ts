@@ -19,14 +19,14 @@ const loginForm: FormsInterface = {
         },
         {
             button: true,
-            class: 'primary_button',
+            class: 'primary-button',
             id: 'submit_login',
             text: 'Авторизироваться',
             type: 'submit'
         },
         {
             button: true,
-            class: 'special_button',
+            class: 'special-button',
             id: 'no_account_button',
             text: 'Нет аккаунта?'
         }]
@@ -86,13 +86,14 @@ const createUserForm: FormsInterface = {
         },
         {
             button: true,
-            class: 'primary_button',
+            class: 'primary-button',
             id: 'submit_registration',
-            text: 'Зарегистрироваться'
+            text: 'Зарегистрироваться',
+            type: 'submit'
         },
         {
             button: true,
-            class: 'special_button',
+            class: 'special-button',
             id: 'sign_in',
             text: 'Войти'
         }
@@ -111,7 +112,7 @@ const loadFileForm: FormsInterface = {
         },
         {
             button: true,
-            class: 'primary_button',
+            class: 'primary-button',
             id: 'change_file',
             text: 'Поменять',
         }
@@ -123,14 +124,15 @@ const addUserForm: FormsInterface = {
     labels: [
         {
             input: true,
-            id: 'input_login',
-            placeholder: 'Логин',
+            id: 'add_user_input',
+            placeholder: 'Введите ID',
             type: 'text',
+            validateText: 'Вы не ввели пользователя'
         },
         {
             button: true,
-            class: 'primary_button',
-            id: 'add_user',
+            class: 'primary-button',
+            id: 'add_user_form',
             text: 'Добавить'
         }
     ]
@@ -141,19 +143,38 @@ const deleteUserForm: FormsInterface = {
     labels: [
         {
             input: true,
-            id: 'input_login',
-            placeholder: 'Логин',
+            id: 'delete_user_input',
+            placeholder: 'Введите ID',
             type: 'text',
+            validateText: 'Вы не ввели пользователя'
         },
         {
             button: true,
-            class: 'primary_button',
-            id: 'delete_user',
+            class: 'primary-button',
+            id: 'delete_user_form',
             text: 'Удалить'
         }
     ]
 }
 
+const createNewChat: FormsInterface = {
+    title: 'Введите название чата',
+    labels: [
+        {
+            input: true,
+            placeholder: 'Название чата',
+            class: 'upload_file',
+            id: 'chat_name',
+            value: '',
+            validateText: 'Назовите хоть как-нибудь :('
+        },
+        {
+            button: true,
+            class: 'primary-button',
+            id: 'create_chat',
+            text: 'Создать',
+        }
+    ]
+}
 
-
-export {loginForm, createUserForm, loadFileForm, addUserForm, deleteUserForm}
+export {loginForm, createUserForm, loadFileForm, addUserForm, deleteUserForm, createNewChat}
