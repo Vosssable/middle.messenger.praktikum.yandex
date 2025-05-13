@@ -34,6 +34,7 @@ export class HTTPTransport {
     }
   }
 
+  queryStringify = queryStringify
   get = this.newMethod(METHODS.GET)
   post = this.newMethod(METHODS.POST)
   put = this.newMethod(METHODS.PUT)
