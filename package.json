@@ -17,7 +17,7 @@
     "eslint": "eslint \"**/*.{js,ts}\"",
     "eslint:fix": "eslint \"**/*.{js,ts}\" --fix",
     "test": "jest",
-    "pre-commit": "npm-run-all test lint"
+    "precommit": "npm-run-all test lint"
   },
   "devDependencies": {
     "@eslint/js": "^9.20.0",
